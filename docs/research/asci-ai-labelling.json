@@ -1,0 +1,403 @@
+{
+  "research_date": "12 November 2026",
+  "research_scope": {
+    "primary_sources_checked": [
+      "ASCI Guidelines for Responsible Labelling of Synthetically Generated Content in Advertising, September 2026, official ASCI publication.",
+      "CCPA Guidelines for Prevention of Misleading Advertisements and Endorsements for Misleading Advertisements, 2022, official Gazette notification.",
+      "EU AI Act, Regulation (EU) 2024/1689, Article 50, official EUR-Lex consolidated text."
+    ],
+    "effective_date": {
+      "date": "29 December 2026",
+      "status": "Verified wording, date not fixed by the document.",
+      "explanation": "The official ASCI press release is dated 29 September 2026 and says the guidelines take effect three months after publication. Counting from 29 September gives 29 December 2026. However, the guideline webpage also carries a signature date of 17 September 2026. The exact effective date should therefore be confirmed with ASCI before being treated as legally certain.",
+      "source": "Official ASCI press release and guideline webpage.",
+      "source_text": "These Guidelines shall come into effect on the expiration of 3 months from the date of their publication. (Signed: Chairman, Board of Governors, ASCI, September 17th 2026)",
+      "verified": "Checked against the ASCI guideline PDF on 12 Nov 2026."
+    }
+  },
+  "1_mandatory_labelling_cases": {
+    "general_test": {
+      "clause": "ASCI Clause 2 - Mandatory Labelling Required",
+      "paraphrase": "Labelling is mandatory when synthetically generated content materially influences consumer decisions and its absence could mislead consumers.",
+      "assessment_questions": [
+        "Is synthetic content central to the advertisement's persuasive messaging?",
+        "Does it materially influence purchase decisions?",
+        "Could its absence create a misleading impression about product claims, performance or benefits?"
+      ]
+    },
+    "definition_of_sgc": {
+      "paraphrase": "Audio, visual or audiovisual content created, modified or materially altered using computer resources to appear real or authentic, portraying an individual or event in a way likely to be believed as real.",
+      "important_distinction": "The definition focuses on realistic synthetic representations, not every instance of AI assistance."
+    },
+    "cases": [
+      {
+        "clause": "ASCI Clause 2A",
+        "case": "Synthetic influencers and ambassadors",
+        "paraphrase": "Advertisements using artificially generated influencers or ambassadors require disclosure of their synthetic nature."
+      },
+      {
+        "clause": "ASCI Clause 2B",
+        "case": "Digitally replicated real people",
+        "paraphrase": "Using a real person's replicated face or voice for personalised messaging requires disclosure, even when that person has given consent."
+      },
+      {
+        "clause": "ASCI Clause 2C",
+        "case": "Fabricated events and settings",
+        "paraphrase": "Synthetic events, settings or situations require disclosure when they could affect consumers' understanding of product performance or the advertised service."
+      },
+      {
+        "clause": "ASCI Clause 2D",
+        "case": "Products that do not exist",
+        "paraphrase": "Demonstrating a product that does not currently exist, such as an unbuilt housing complex, requires disclosure."
+      },
+      {
+        "clause": "ASCI Clause 2E",
+        "case": "Synthetic sound effects representing core features",
+        "paraphrase": "Artificially generated sound effects require disclosure when they are highly relevant to the product's core features, such as audio quality in a headset advertisement."
+      },
+      {
+        "clause": "ASCI Clause 2F",
+        "case": "Paid or sponsored AI product recommendations",
+        "paraphrase": "An AI-generated product recommendation influenced by payment or sponsorship must specifically identify the commercial relationship using Sponsored by [Brand]."
+      }
+    ],
+    "additional_prohibited_cases": [
+      {
+        "clause": "ASCI Clause 1A",
+        "case": "Fabricated endorsements or testimonials",
+        "paraphrase": "AI must not falsely represent that a real person used, experienced, approved or recommended a product."
+      },
+      {
+        "clause": "ASCI Clause 1B",
+        "case": "Misleading product results",
+        "paraphrase": "Synthetic representations must not exaggerate product results or features in ways that create misleading expectations."
+      },
+      {
+        "clause": "ASCI Clause 1C",
+        "case": "Non-existent locations",
+        "paraphrase": "Advertisements must not portray non-existent locations or facilities as real."
+      },
+      {
+        "clause": "ASCI Clause 1D",
+        "case": "Unauthorised intellectual property or likeness",
+        "paraphrase": "Unauthorised copyrighted work, deepfakes and use of a person's likeness without consent are prohibited."
+      }
+    ],
+    "important_rule": "Adding an AI label does not make prohibited or misleading content acceptable.",
+    "source": "ASCI official Guidelines, published on its Code Guidelines page and September 2026 press release."
+  },
+  "2_acceptable_labels_and_presentation": {
+    "approved_examples": [
+      "Audio/Video created using AI",
+      "Audio/Video enhanced using AI"
+    ],
+    "acceptable_alternatives": "ASCI permits platform-provided labels or alternative labels that accurately inform consumers about the synthetic content.",
+    "sponsored_recommendations": {
+      "required_wording": "Sponsored by [Brand]",
+      "requirement": "The commercial sponsorship must be clearly identified."
+    },
+    "placement": {
+      "sgc_specific_rule": "The September 2026 guideline does not prescribe an exact position for the AI label.",
+      "general_requirement": "The label must accurately inform consumers about the nature of the synthetic content.",
+      "additional_reference": "ASCI says its disclaimer guidelines should be followed wherever applicable."
+    },
+    "size_and_visibility": {
+      "sgc_specific_font_size": "Not specified.",
+      "sgc_specific_pixel_size": "Not specified.",
+      "sgc_specific_minimum_display_duration": "Not specified.",
+      "general_disclaimer_guidance": [
+        "Disclaimers should be clear, prominent and legible.",
+        "They should contrast with the background.",
+        "The font should be the same as the claim or a readable sans-serif font.",
+        "The language should match the claim's language.",
+        "A voiceover disclaimer should be displayed in sync with the voiceover."
+      ],
+      "technical_caveat": "ASCI's separate disclaimer guidance includes video text-height and display-duration specifications. However, it applies to disclaimers supporting, limiting or explaining product claims. The SGC guideline does not expressly establish those numerical specifications as universal AI-label requirements. Do not hard-code them as mandatory AI-label sizes without further confirmation."
+    },
+    "source": "ASCI Clause 4, Disclosure Labels and Execution; ASCI Guidelines for Disclaimers."
+  },
+  "3_exemptions": {
+    "general_test": "No label is required when synthetic content has no material impact on a consumer's ability to make an informed choice.",
+    "cases": [
+      {
+        "clause": "ASCI Clause 3A",
+        "category": "Minor enhancements",
+        "paraphrase": "Routine colour correction, light adjustment, noise reduction, standard blemish removal, minor lighting changes, formatting and copy refinement that do not alter the substance or core claims of the advertisement."
+      },
+      {
+        "clause": "ASCI Clause 3B",
+        "category": "Background and ambient elements",
+        "paraphrase": "Decorative backgrounds, abstract skylines, ambient music, jingles and background sounds unrelated to the product's actual capabilities or promise."
+      },
+      {
+        "clause": "ASCI Clause 3C",
+        "category": "Fantastical elements",
+        "paraphrase": "Obviously unrealistic effects that audiences recognise as fantasy rather than reality."
+      },
+      {
+        "clause": "ASCI Clause 3D",
+        "category": "Administrative and text uses",
+        "paraphrase": "Generating or improving advertising copy, creating audio descriptions and preparing documents in good faith without creating false records."
+      },
+      {
+        "clause": "ASCI Clause 3E",
+        "category": "Accessibility",
+        "paraphrase": "Subtitles, closed captions, translations and accurate audio descriptions created to improve accessibility."
+      }
+    ],
+    "important_limitation": "These are exemptions from SGC labelling, not exemptions from the ASCI Code. Misleading claims and harmful representations remain prohibited.",
+    "source": "ASCI Clause 3, No Labelling Required."
+  },
+  "4_checkable_rules_for_inkloom": [
+    {
+      "rule_id": "SGC-01",
+      "category": "messaging",
+      "severity_suggestion": "major",
+      "detect": "A synthetically generated influencer or ambassador appears in an advertisement without an AI disclosure label.",
+      "why": "ASCI Clause 2A.",
+      "expected_check": "Identify synthetic human-like spokespersons and check whether the advertisement contains an appropriate AI disclosure.",
+      "confidence": "medium",
+      "limitations": "Image analysis can identify likely synthetic avatars, but cannot reliably establish whether a person is real or digitally generated in every case."
+    },
+    {
+      "rule_id": "SGC-02",
+      "category": "messaging",
+      "severity_suggestion": "major",
+      "detect": "A real person's digitally replicated face or voice is used for personalised advertising without an AI disclosure.",
+      "why": "ASCI Clause 2B.",
+      "expected_check": "Look for descriptions of digital replicas, AI voice replication and personalised messages. Check for disclosure.",
+      "confidence": "medium",
+      "limitations": "Consent and whether a likeness is genuinely replicated require supporting records or human confirmation."
+    },
+    {
+      "rule_id": "SGC-03",
+      "category": "visual",
+      "severity_suggestion": "major",
+      "detect": "A realistic synthetic event, location or situation is depicted as genuine and could affect understanding of product performance or service delivery, without disclosure.",
+      "why": "ASCI Clause 2C.",
+      "expected_check": "Analyse image descriptions and advertisement text for realistic fabricated events or environments. Check for an AI label.",
+      "confidence": "medium",
+      "limitations": "Determining whether a scene is fabricated and materially influences a purchasing decision requires contextual judgement."
+    },
+    {
+      "rule_id": "SGC-04",
+      "category": "claim",
+      "severity_suggestion": "major",
+      "detect": "A synthetic demonstration presents a product that does not currently exist without disclosure.",
+      "why": "ASCI Clause 2D.",
+      "expected_check": "Compare product demonstrations with the approved product catalogue and product availability facts.",
+      "confidence": "high",
+      "limitations": "High confidence is possible when the approved knowledge base explicitly records that the product does not exist. Otherwise, human verification is needed."
+    },
+    {
+      "rule_id": "SGC-05",
+      "category": "visual",
+      "severity_suggestion": "major",
+      "detect": "AI-generated sound effects are used to demonstrate a product's core features without disclosure.",
+      "why": "ASCI Clause 2E.",
+      "expected_check": "Inspect audio descriptions, production metadata or supplied transcripts for synthetic sounds associated with core product capabilities.",
+      "confidence": "low",
+      "limitations": "Requires audio analysis and product-feature context. Audio input is outside the current INKLOOM MVP scope."
+    },
+    {
+      "rule_id": "SGC-06",
+      "category": "messaging",
+      "severity_suggestion": "major",
+      "detect": "An AI-generated sponsored product recommendation does not clearly identify the sponsor using Sponsored by [Brand].",
+      "why": "ASCI Clause 2F.",
+      "expected_check": "Compare recommendation text against sponsorship metadata and check for the required sponsorship disclosure.",
+      "confidence": "high",
+      "limitations": "High confidence requires a reliable sponsorship flag or approved sponsorship record. Text alone cannot establish whether a recommendation was paid."
+    },
+    {
+      "rule_id": "SGC-07",
+      "category": "claim",
+      "severity_suggestion": "critical",
+      "detect": "A synthetic spokesperson makes a first-person testimonial or claims to have personally used or experienced a product without genuine supporting evidence.",
+      "why": "ASCI Clause 1A; CCPA Guidelines 2022, Section 13.",
+      "expected_check": "Identify testimonial language, synthetic spokesperson descriptions and endorsement claims. Compare them with approved testimonial records.",
+      "confidence": "medium",
+      "limitations": "The tool cannot establish genuine personal experience or permission from text and image analysis alone."
+    },
+    {
+      "rule_id": "SGC-08",
+      "category": "claim",
+      "severity_suggestion": "critical",
+      "detect": "A synthetic before-and-after image or product demonstration exaggerates results or performance beyond approved evidence.",
+      "why": "ASCI Clause 1B; CCPA Section 4(1)(b) and Section 12.",
+      "expected_check": "Compare numerical claims and depicted results with approved facts, evidence and product-performance records.",
+      "confidence": "medium",
+      "limitations": "A visual difference can be detected, but proving that the result is misleading requires evidence about actual product performance."
+    },
+    {
+      "rule_id": "SGC-09",
+      "category": "factual",
+      "severity_suggestion": "critical",
+      "detect": "A synthetic image presents a non-existent location, building or facility as an existing real-world feature.",
+      "why": "ASCI Clause 1C; CCPA Section 12(d).",
+      "expected_check": "Compare locations and facilities described in the advertisement with approved business facts and asset records.",
+      "confidence": "medium",
+      "limitations": "High confidence requires an authoritative approved record identifying the location or facility as non-existent."
+    },
+    {
+      "rule_id": "SGC-10",
+      "category": "confidentiality",
+      "severity_suggestion": "critical",
+      "detect": "A deepfake or synthetic depiction uses a person's likeness without authorisation, or uses copyrighted material without permission.",
+      "why": "ASCI Clause 1D; CCPA Section 12(c).",
+      "expected_check": "Compare detected assets and likeness references against an approved rights and permissions register.",
+      "confidence": "low",
+      "limitations": "Image analysis cannot independently establish copyright ownership, identity rights or consent. A rights register and human verification are necessary."
+    },
+    {
+      "rule_id": "SGC-11",
+      "category": "messaging",
+      "severity_suggestion": "major",
+      "detect": "An advertisement contains a known synthetic representation but has no clear disclosure, or uses wording that does not explain the synthetic nature of the content.",
+      "why": "ASCI Clause 4; CCPA Section 11(2).",
+      "expected_check": "Search extracted advertisement text and OCR results for accepted disclosure wording. Where applicable, inspect label visibility, contrast and placement.",
+      "confidence": "high",
+      "limitations": "Detecting missing wording is straightforward when the source is known to contain SGC. Assessing actual consumer visibility requires image-level analysis and, for video, frame and duration analysis."
+    },
+    {
+      "rule_id": "SGC-12",
+      "category": "claim",
+      "severity_suggestion": "major",
+      "detect": "An endorsement has a known material commercial connection but does not disclose that relationship.",
+      "why": "CCPA Guidelines 2022, Sections 13 and 14.",
+      "expected_check": "Compare endorser and campaign metadata with the advertisement's sponsorship or material-connection disclosure.",
+      "confidence": "high",
+      "limitations": "High confidence requires campaign metadata identifying the commercial relationship. The relationship cannot reliably be inferred from the advertisement alone."
+    }
+  ],
+  "5_additional_requirements_from_other_frameworks": {
+    "ccpa_2022": {
+      "relevance": "Applies to advertisements regardless of form, format or medium. It does not create a specific AI-generated-content labelling requirement, but strengthens the rules for misleading representations and endorsements.",
+      "important_sections": [
+        {
+          "section": "4(1)(a)-(b)",
+          "requirement": "Advertisements must be truthful and must not exaggerate product accuracy, scientific validity, practical usefulness, capability or performance."
+        },
+        {
+          "section": "4(1)(d)",
+          "requirement": "Advertisements must not present disputed claims as universally accepted when significant informed or scientific disagreement exists."
+        },
+        {
+          "section": "11(1)",
+          "requirement": "Disclaimers must not contradict material claims, conceal material information or attempt to correct misleading claims."
+        },
+        {
+          "section": "11(2)",
+          "requirement": "Disclaimers must use the same language as the claim, the same font as the claim, have prominent and visible placement, synchronise with relevant voiceovers and remain clear and legible."
+        },
+        {
+          "section": "12(a)",
+          "requirement": "Objectively ascertainable descriptions, claims and comparisons must be capable of substantiation."
+        },
+        {
+          "section": "12(d)",
+          "requirement": "Statements and visual presentations must not mislead directly or indirectly through omission, ambiguity or exaggeration."
+        },
+        {
+          "section": "13",
+          "requirement": "Endorsements must reflect genuine, reasonably current opinions based on adequate information or experience."
+        },
+        {
+          "section": "14",
+          "requirement": "Material connections between an endorser and advertiser must be disclosed when the audience would not reasonably expect them."
+        }
+      ],
+      "tool_implication": "Add checks for unsupported claims, fabricated testimonials, misleading visual representations, hidden material information and undisclosed sponsorship.",
+      "primary_source_status": "Confirmed from the official Gazette notification dated 9 June 2022."
+    },
+    "eu_ai_act_article_50": {
+      "relevance": "Relevant where the applicable territorial scope of the EU AI Act is met, including certain AI outputs used in the EU. It adds broader transparency obligations beyond ASCI's advertising-specific approach.",
+      "important_paragraphs": [
+        {
+          "paragraph": "50(1)",
+          "requirement": "People must be informed when interacting directly with an AI system, unless this is obvious in the circumstances."
+        },
+        {
+          "paragraph": "50(2)",
+          "requirement": "Providers of AI systems generating synthetic audio, image, video or text must ensure outputs are marked in machine-readable form and detectable as artificially generated or manipulated, subject to the stated exceptions."
+        },
+        {
+          "paragraph": "50(4), first subparagraph",
+          "requirement": "Deployers must disclose when AI-generated or manipulated image, audio or video constitutes a deepfake."
+        },
+        {
+          "paragraph": "50(4), second subparagraph",
+          "requirement": "AI-generated or manipulated text published to inform the public about matters of public interest must be disclosed, subject to exceptions including human review or editorial control with an accountable publisher."
+        },
+        {
+          "paragraph": "50(5)",
+          "requirement": "Required information must be provided clearly and distinguishably, no later than the first interaction or exposure, and must meet applicable accessibility requirements."
+        }
+      ],
+      "important_exceptions": [
+        "Standard editing or assistive functions that do not substantially alter input data or its semantics are excluded from the Article 50(2) marking obligation.",
+        "Evidently artistic, creative, satirical, fictional or analogous deepfake works may use an appropriate disclosure that does not hamper their display or enjoyment.",
+        "Certain public-interest text obligations do not apply where human review or editorial control has taken place and a natural or legal person holds editorial responsibility."
+      ],
+      "tool_implication": "Consider machine-readable provenance checks, deepfake disclosure checks, first-exposure visibility checks and accessibility checks for EU-facing advertisements.",
+      "primary_source_status": "Confirmed from the official EUR-Lex consolidated text of Regulation (EU) 2024/1689, Article 50."
+    }
+  },
+  "6_source_gaps_and_implementation_cautions": [
+    {
+      "issue": "Exact ASCI effective date",
+      "status": "Not fully confirmed.",
+      "detail": "The ASCI guideline says three months after publication. The official press release is dated 29 September, while the guideline webpage carries a 17 September signature date. 29 December is the calculation from the press release date, not an expressly printed effective date."
+    },
+    {
+      "issue": "Exact AI-label placement and size",
+      "status": "Not specified in the SGC guideline.",
+      "detail": "Do not invent mandatory pixel dimensions, font ratios, screen positions or display durations for AI labels."
+    },
+    {
+      "issue": "AI-label disclaimer requirements",
+      "status": "Partially confirmed.",
+      "detail": "ASCI refers to its disclaimer guidelines where applicable. It does not explicitly state that every technical specification for product-claim disclaimers automatically applies to SGC labels."
+    },
+    {
+      "issue": "Automatic identification of synthetic content",
+      "status": "Technically uncertain.",
+      "detail": "An image or text model cannot reliably establish whether every realistic image or person is synthetic. Metadata, provenance information and human confirmation improve accuracy."
+    },
+    {
+      "issue": "Consent and copyright",
+      "status": "Cannot be confirmed from content alone.",
+      "detail": "These checks need approved rights, permissions and consent records."
+    },
+    {
+      "issue": "Sound-effect checking",
+      "status": "Outside current MVP input scope.",
+      "detail": "The existing INKLOOM proposal excludes audio and video from the MVP. Sound-effect checks would require a later audio-processing capability or manually supplied audio descriptions."
+    },
+    {
+      "issue": "ASCI assessment criteria",
+      "status": "Confirmed, but context-dependent.",
+      "detail": "The guideline provides assessment questions and examples rather than a complete mechanical test for every possible advertisement. Borderline cases should be routed to human review."
+    }
+  ],
+  "7_recommended_implementation_principle": {
+    "principle": "Separate mandatory labelling, prohibited content and no-labelling-required cases.",
+    "implementation": [
+      "First identify whether the content falls within the SGC definition.",
+      "Apply the relevant ASCI consumer-impact assessment.",
+      "Check whether a disclosure is required.",
+      "Separately check prohibited synthetic representations. An AI label must never clear prohibited content.",
+      "Apply the CCPA truthfulness, substantiation and endorsement checks independently.",
+      "Apply EU AI Act checks only when the relevant territorial and operational conditions are met.",
+      "Use high confidence for deterministic checks supported by reliable records, medium for contextual AI judgements and low where external evidence or human verification is required.",
+      "Never describe an unsupported claim as false merely because no approved evidence was found."
+    ],
+    "alignment_with_inkloom": "This approach fits INKLOOM AI's evidence-linked findings, deterministic rule engine, approved-facts register, Confidential Guard and human approval workflow."
+  },
+  "source_check": {
+    "date": "2026-11-12",
+    "asci": "All clause contents match the official guideline PDF. Examples are lettered A-F (references corrected).",
+    "ccpa": "Sections 3(a), 4(1)(a)(b)(d), 11(1)(a)-(c), 11(2)(a)-(e), 12(a)(c)(d), 13(1), 14 match the Gazette notification of 9 June 2022.",
+    "not_in_ccpa_guidelines": "The Rs 10 lakh penalty is not in these guidelines; it comes from the Consumer Protection Act 2019 (cited in the proposal via a secondary source)."
+  }
+}
