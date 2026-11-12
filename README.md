@@ -16,7 +16,7 @@ npm run dev
 |---|---|
 | `npm run test` | unit (Vitest) |
 | `npm run test:int` | integration (needs `npx supabase start`) |
-| `supabase/tests/rls_test.sql` | security (RLS + approval gate): paste into Supabase SQL editor; expect "ALL 19 RLS TESTS PASSED" |
+| `supabase/tests/rls_test.sql`, `rls_gate_test.sql` | security (RLS + approval gate): paste into Supabase SQL editor; expect "ALL 19 RLS TESTS PASSED" / "ALL 7 GATE TESTS PASSED" |
 | `npx playwright install chromium` then `npm run test:e2e` | end-to-end + accessibility |
 
 AI assistance is disclosed in [`AI_USE_LOG.md`](AI_USE_LOG.md); libraries in [`LICENSES.md`](LICENSES.md).
