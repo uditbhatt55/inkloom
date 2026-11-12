@@ -4,9 +4,11 @@ import { buildBrandPack, type Knowledge } from "@/lib/ai/brandpack";
 import { buildMessages, PROMPT_VERSION } from "@/lib/ai/prompt";
 import type { AiReviewer } from "@/lib/ai/reviewer";
 import { findLeaks, maskForAi, type InternalTerm } from "@/lib/guard/guard";
-import { contrastFinding } from "@/lib/rules/contrast";
+import { contrastFinding, contrastRatio } from "@/lib/rules/contrast";
 import { checkExpiredFacts } from "@/lib/rules/facts";
+import { checkRulePack } from "@/lib/rules/rulepack";
 import { checkTerms } from "@/lib/rules/terms";
+import { checkAltText, checkFonts, checkPalette, checkReadability, type ImageColour, type ImageRef } from "@/lib/rules/visual";
 import { computeScore, type ScoreResult } from "@/lib/score/score";
 import { mergeFindings, validateAiFindings, type Rejected } from "@/lib/validator/validator";
 import type { Confidence } from "@/lib/audit/types";
@@ -18,7 +20,27 @@ export type AiMode = "real" | "simulated" | "skipped" | "failed";
 export type AuditInput = {
   content: string; channel: string; audience: "public" | "internal"; today: string; knowledge: Knowledge;
   colours?: ContrastCheck[]; ai: AiReviewer | null; timeoutMs?: number;
+  /** what the parser found besides text (src/lib/parsers): fonts, images with alt text, dominant colours */
+  parsed?: { fonts: string[]; images: ImageRef[]; colours: ImageColour[] };
+  /** Flesch–Kincaid target for this channel; default 12 */
+  maxReadingGrade?: number;
 };
+
+/**
+ * Decision D4: with no colours typed on the upload form, check the lowest-contrast pair among the image's
+ * three most common colours, at medium confidence (it may not be a text/background pair).
+ */
+function extractedContrast(colours: ImageColour[]): ContrastCheck | null {
+  const top = colours.slice(0, 3);
+  let worst: ContrastCheck | null = null, worstRatio = Infinity;
+  for (let i = 0; i < top.length; i++) {
+    for (let j = i + 1; j < top.length; j++) {
+      const r = contrastRatio(top[i].hex, top[j].hex);
+      if (r < worstRatio) { worstRatio = r; worst = { fg: top[j].hex, bg: top[i].hex, label: "Image (extracted colours)", confidence: "medium" }; }
+    }
+  }
+  return worst;
+}
 export type AuditResult = {
   findings: Finding[]; score: ScoreResult; aiMode: AiMode; model: string | null; promptVersion: string;
   rejected: Rejected[]; warnings: string[];
@@ -44,8 +66,18 @@ export async function runAudit(input: AuditInput): Promise<AuditResult> {
     ...(input.audience === "public" ? findLeaks(content, internalTerms) : []),
     ...checkTerms(content, knowledge.terms),
     ...checkExpiredFacts(content, knowledge.facts.map((f) => ({ code: f.code, statement: f.statement, validUntil: f.validUntil })), today),
+    ...checkRulePack(content, undefined, new Set(knowledge.disabledPackRules ?? [])),
+    ...checkReadability(content, input.maxReadingGrade),
   ];
-  for (const c of input.colours ?? []) {
+  const assets = knowledge.assets ?? [];
+  const parsed = input.parsed;
+  if (parsed) {
+    ruleFindings.push(...checkAltText(parsed.images));
+    ruleFindings.push(...checkFonts(parsed.fonts, assets.filter((a) => a.type === "font").map((a) => ({ name: a.fontName || a.name }))));
+    ruleFindings.push(...checkPalette(parsed.colours, assets.filter((a) => a.type === "color" && a.hex).map((a) => ({ name: a.name, hex: a.hex! }))));
+  }
+  const contrastChecks = input.colours?.length ? input.colours : parsed?.colours.length ? [extractedContrast(parsed.colours)].filter((c): c is ContrastCheck => !!c) : [];
+  for (const c of contrastChecks) {
     try {
       const f = contrastFinding(c);
       if (f) ruleFindings.push(f);
