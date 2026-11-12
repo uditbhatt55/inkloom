@@ -10,6 +10,7 @@ Exact versions are in `package-lock.json`. Added as each phase uses them.
 | @supabase/supabase-js, @supabase/ssr | database, auth | MIT |
 | zod | schema validation | MIT |
 | Vitest | unit/integration tests | MIT |
+| yaml | Vale terminology YAML import | ISC |
 | Playwright, @axe-core/playwright | E2E + accessibility tests | Apache-2.0 / MPL-2.0 |
 
 | unpdf (pdf.js) | PDF text | MIT (pdf.js: Apache-2.0) |
