@@ -102,7 +102,7 @@ Rule: **needs our code → Claude. Writing, data, research, images, isolated mod
 ```
 Next.js App Router (Vercel) — all model calls server-side
  src/lib/
-   parsers/    text · PDF (unpdf) · DOCX (mammoth) · image (sharp, node-vibrant) · HTML (sanitised, SSRF-safe fetch)
+   parsers/    text · PDF (unpdf) · DOCX (mammoth) · image (sharp: size + dominant colours, decision D8) · HTML (sanitised, SSRF-safe fetch)
    rules/      terms, casing, contrast (SC 1.4.3), palette ΔE (culori), fonts, alt text, readability, expired facts
    guard/      Confidential Guard: codenames/internal facts (case+spacing-insensitive) + email/phone masking
    ai/         Azure Foundry client, structured output, 1 retry → rule-only fallback; demo stub

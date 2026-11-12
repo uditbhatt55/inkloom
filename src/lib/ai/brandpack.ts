@@ -5,6 +5,10 @@ export type Knowledge = {
   clauses: { code: string; category: string; text: string; status: string }[];
   facts: { code: string; statement: string; validFrom: string | null; validUntil: string | null; visibility: "public" | "internal" }[];
   terms: Term[];
+  /** brand_assets rows: palette colours and approved fonts feed the visual checks (never sent to the model) */
+  assets?: { type: "color" | "font" | "logo"; name: string; hex: string | null; fontName: string | null }[];
+  /** rule-pack codes (PACK-*) this organisation has switched off */
+  disabledPackRules?: string[];
 };
 
 /**
