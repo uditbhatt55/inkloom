@@ -9,3 +9,4 @@ Every AI-produced file or change that lands in this repo. Required for the hacka
 | 2026-11-12 | ChatGPT Deep Research | Azure model prices, quota, capabilities | `docs/research/azure-models.md` | Claude re-did the arithmetic; quota checked live in Foundry |
 | 2026-11-12 | ChatGPT | Usability-test kit | `docs/usability/kit.md` | Claude reviewed; added Tasks 6–7 |
 | 2026-11-12 | Claude (Claude Code) | P0 scaffold: create-next-app, shadcn init, Vitest/Playwright config, CI workflow, `.env.example` | repo root | Udit |
+| 2026-11-12 | Claude (Claude Code) | P1: Supabase schema, RLS policies, approval-gate trigger, append-only log, private RLS helpers, 19 RLS tests, generated DB types | `supabase/migrations/*`, `supabase/tests/rls_test.sql`, `src/lib/database.types.ts` | Udit; tests run on Supabase (all pass), security advisor clean |
