@@ -1,4 +1,5 @@
 // Generated from the Supabase schema (Supabase MCP generate_typescript_types). Regenerate after each migration.
+// Migration 20261112000300 (rule_code, source, label, requested_by, warnings, save_audit) was added by hand; regenerate to confirm.
 export type Json =
   | string
   | number
@@ -27,9 +28,9 @@ export type Database = {
         Relationships: Rel[]
       }
       audit_runs: {
-        Row: { ai_available: boolean; created_at: string; id: string; mode: string; model: string | null; org_id: string; prompt_ver: string | null; score: number | null; version_id: string }
-        Insert: { ai_available?: boolean; created_at?: string; id?: string; mode: string; model?: string | null; org_id: string; prompt_ver?: string | null; score?: number | null; version_id: string }
-        Update: { ai_available?: boolean; created_at?: string; id?: string; mode?: string; model?: string | null; org_id?: string; prompt_ver?: string | null; score?: number | null; version_id?: string }
+        Row: { ai_available: boolean; created_at: string; id: string; mode: string; model: string | null; org_id: string; prompt_ver: string | null; requested_by: string | null; score: number | null; version_id: string; warnings: string[] }
+        Insert: { ai_available?: boolean; created_at?: string; id?: string; mode: string; model?: string | null; org_id: string; prompt_ver?: string | null; requested_by?: string | null; score?: number | null; version_id: string; warnings?: string[] }
+        Update: { ai_available?: boolean; created_at?: string; id?: string; mode?: string; model?: string | null; org_id?: string; prompt_ver?: string | null; requested_by?: string | null; score?: number | null; version_id?: string; warnings?: string[] }
         Relationships: Rel[]
       }
       brand_assets: {
@@ -69,9 +70,9 @@ export type Database = {
         Relationships: Rel[]
       }
       findings: {
-        Row: { category: E["finding_category"]; clause_id: string | null; confidence: E["confidence"]; decided_by: string | null; end_offset: number | null; explanation: string; fact_id: string | null; id: string; org_id: string; quote: string; reason: string | null; run_id: string; severity: E["severity"]; start_offset: number | null; status: E["finding_status"]; suggestion: string | null; term_id: string | null }
-        Insert: { category: E["finding_category"]; clause_id?: string | null; confidence: E["confidence"]; decided_by?: string | null; end_offset?: number | null; explanation: string; fact_id?: string | null; id?: string; org_id: string; quote: string; reason?: string | null; run_id: string; severity: E["severity"]; start_offset?: number | null; status?: E["finding_status"]; suggestion?: string | null; term_id?: string | null }
-        Update: { category?: E["finding_category"]; clause_id?: string | null; confidence?: E["confidence"]; decided_by?: string | null; end_offset?: number | null; explanation?: string; fact_id?: string | null; id?: string; org_id?: string; quote?: string; reason?: string | null; run_id?: string; severity?: E["severity"]; start_offset?: number | null; status?: E["finding_status"]; suggestion?: string | null; term_id?: string | null }
+        Row: { category: E["finding_category"]; clause_id: string | null; confidence: E["confidence"]; decided_by: string | null; end_offset: number | null; explanation: string; fact_id: string | null; id: string; label: string | null; org_id: string; quote: string; reason: string | null; rule_code: string | null; run_id: string; source: string; severity: E["severity"]; start_offset: number | null; status: E["finding_status"]; suggestion: string | null; term_id: string | null }
+        Insert: { category: E["finding_category"]; clause_id?: string | null; confidence: E["confidence"]; decided_by?: string | null; end_offset?: number | null; explanation: string; fact_id?: string | null; id?: string; label?: string | null; org_id: string; quote: string; reason?: string | null; rule_code?: string | null; run_id: string; source?: string; severity: E["severity"]; start_offset?: number | null; status?: E["finding_status"]; suggestion?: string | null; term_id?: string | null }
+        Update: { category?: E["finding_category"]; clause_id?: string | null; confidence?: E["confidence"]; decided_by?: string | null; end_offset?: number | null; explanation?: string; fact_id?: string | null; id?: string; label?: string | null; org_id?: string; quote?: string; reason?: string | null; rule_code?: string | null; run_id?: string; source?: string; severity?: E["severity"]; start_offset?: number | null; status?: E["finding_status"]; suggestion?: string | null; term_id?: string | null }
         Relationships: Rel[]
       }
       guideline_clauses: {
@@ -100,7 +101,9 @@ export type Database = {
       }
     }
     Views: { [_ in never]: never }
-    Functions: { [_ in never]: never }
+    Functions: {
+      save_audit: { Args: { p: Json }; Returns: string }
+    }
     Enums: {
       confidence: "high" | "medium" | "low"
       decision_kind: "approve" | "reject" | "request_changes" | "waive"

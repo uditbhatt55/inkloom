@@ -19,6 +19,7 @@ Exact versions are in `package-lock.json`. Added as each phase uses them.
 | node-html-parser | HTML text and alt text | MIT |
 | sharp (libvips) | image size and dominant colours | Apache-2.0 (libvips: LGPL-3.0, dynamically linked) |
 | culori | CIEDE2000 colour distance | MIT |
+| @electric-sql/pglite (dev) | in-process Postgres for DB tests | Apache-2.0 |
 
 ## Third-party rule data
 

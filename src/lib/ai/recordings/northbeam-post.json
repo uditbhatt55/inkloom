@@ -1,0 +1,17 @@
+{
+  "content": "Northbeam Sync delivers 99.99% uptime, guaranteed. NB Sync keeps your files safe. Honestly it's the bomb!",
+  "response": {
+    "findings": [
+      {
+        "quote": "99.99% uptime, guaranteed", "start": 3, "end": 10, "category": "claim", "severity": "critical", "confidence": "high",
+        "ruleId": "FACT-07",
+        "explanation": "The approved SLA is 99.9% monthly uptime and CLAIM-02 forbids describing service levels as guaranteed.",
+        "suggestion": "99.9% monthly uptime, backed by our SLA"
+      },
+      {
+        "quote": "it's the bomb", "start": 100, "end": 113, "category": "tone", "severity": "minor", "confidence": "high",
+        "ruleId": "TONE-01", "explanation": "Slang in a professional channel.", "suggestion": "it works very well"
+      }
+    ]
+  }
+}
