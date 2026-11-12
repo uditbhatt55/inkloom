@@ -1,8 +1,8 @@
 import { parseDocument } from "yaml";
 import type { Term } from "./terms";
 
-/** Import one Vale rule file; codes are unique within the returned term list. */
-export function importVale(yaml: string): { terms: Term[]; warnings: string[] } {
+/** Callers importing multiple files must include the file name in prefix, e.g. "VALE-Style.Terms". */
+export function importVale(yaml: string, { prefix = "VALE" }: { prefix?: string } = {}): { terms: Term[]; warnings: string[] } {
   const terms: Term[] = [];
   const warnings: string[] = [];
   let rule: unknown;
@@ -27,17 +27,28 @@ export function importVale(yaml: string): { terms: Term[]; warnings: string[] } 
   }
 
   const add = (term: string, kind: Term["kind"], replacement: string | null) => {
-    terms.push({ code: `VALE-${String(terms.length + 1).padStart(3, "0")}`, term, kind, replacement });
+    terms.push({ code: `${prefix}-${String(terms.length + 1).padStart(3, "0")}`, term, kind, replacement });
   };
   const usable = (value: unknown): value is string => typeof value === "string" && value.trim().length > 0;
+  const isRegex = (pattern: string): boolean => {
+    // shortcut: Vale regex patterns are skipped, add regex support when a real rule set needs it
+    if (!/[.*+?^${}()|[\]\\]/.test(pattern)) return false;
+    warnings.push(`Vale rule "${name}": skipped regex pattern "${pattern}". Regex is not supported yet.`);
+    return true;
+  };
+  const preferredTerms = new Set<string>();
 
   if (type === "substitution") {
     const swap: unknown = rule.get("swap");
     if (swap instanceof Map) {
       for (const [banned, preferred] of swap) {
         if (usable(banned) && usable(preferred)) {
+          if (isRegex(banned)) continue;
           add(banned, "banned", preferred);
-          add(preferred, "preferred", null);
+          if (!preferredTerms.has(preferred)) {
+            add(preferred, "preferred", null);
+            preferredTerms.add(preferred);
+          }
         } else {
           warnings.push(`Vale rule "${name}": skipped an unusable substitution.`);
         }
@@ -47,7 +58,9 @@ export function importVale(yaml: string): { terms: Term[]; warnings: string[] } 
     const tokens: unknown = rule.get("tokens");
     if (Array.isArray(tokens)) {
       for (const token of tokens) {
-        if (usable(token)) add(token, "banned", null);
+        if (usable(token)) {
+          if (!isRegex(token)) add(token, "banned", null);
+        }
         else warnings.push(`Vale rule "${name}": skipped an unusable token.`);
       }
     }
