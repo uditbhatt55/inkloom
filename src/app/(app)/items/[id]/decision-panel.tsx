@@ -295,7 +295,7 @@ export function DecisionPanel({
                   <div className="flex items-center justify-between font-medium">
                     <span className="capitalize">{d.decision.replace("_", " ")}</span>
                     <time className="text-[10px] text-muted-foreground" dateTime={d.created_at}>
-                      {new Date(d.created_at).toLocaleDateString()}
+                      {new Date(d.created_at).toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" })}
                     </time>
                   </div>
                   {d.reason && <p className="text-muted-foreground">{d.reason}</p>}

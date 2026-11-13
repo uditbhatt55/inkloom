@@ -254,6 +254,7 @@ export default async function ItemPage({
                 comments={comments ?? []}
                 canComment={canComment}
                 currentUserId={viewer.userId}
+                itemAuthorId={item.owner_id}
               />
             </div>
 

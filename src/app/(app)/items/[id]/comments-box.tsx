@@ -25,6 +25,7 @@ export function CommentsBox({
   comments,
   canComment,
   currentUserId,
+  itemAuthorId,
 }: {
   itemId: string;
   orgId: string;
@@ -32,6 +33,7 @@ export function CommentsBox({
   comments: CommentRow[];
   canComment: boolean;
   currentUserId: string;
+  itemAuthorId: string;
 }) {
   const router = useRouter();
   const [body, setBody] = useState("");
@@ -85,15 +87,17 @@ export function CommentsBox({
           <div className="space-y-3">
             {comments.map((c) => {
               const isMe = c.author_id === currentUserId;
-              const dateStr = new Date(c.created_at).toLocaleString(undefined, {
+              // fixed locale and time zone so server and browser render the same text (no hydration mismatch)
+              const dateStr = new Date(c.created_at).toLocaleString("en-IN", {
                 dateStyle: "medium",
                 timeStyle: "short",
+                timeZone: "Asia/Kolkata",
               });
               return (
                 <div key={c.id} className="rounded-lg border bg-muted/40 p-3 text-xs space-y-1.5">
                   <div className="flex items-center justify-between text-muted-foreground">
                     <span className="font-medium text-foreground">
-                      {isMe ? "You" : "Reviewer"}
+                      {isMe ? "You" : c.author_id === itemAuthorId ? "Author" : "Team member"}
                     </span>
                     <time dateTime={c.created_at}>{dateStr}</time>
                   </div>
