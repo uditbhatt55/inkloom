@@ -14,7 +14,9 @@ function regexFor(r: PackRule): RegExp {
   const key = `${r.code}\u0000${r.pattern}`;
   let re = compiled.get(key);
   if (!re) {
-    re = new RegExp(r.pattern, r.ignoreCase ? "giu" : "gu");
+    // the unicode flag is only needed for \p{…} classes; without it case-insensitive matching is several times faster
+    const flags = `g${r.ignoreCase ? "i" : ""}${r.pattern.includes("\\p{") ? "u" : ""}`;
+    re = new RegExp(r.pattern, flags);
     compiled.set(key, re);
   }
   re.lastIndex = 0;
