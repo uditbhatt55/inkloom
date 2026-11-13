@@ -1,85 +1,64 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Browser, type Page } from "@playwright/test";
 
-test.describe("P4 Review Workflow", () => {
-  const testEmail = process.env.TEST_USER_EMAIL;
-  const testPassword = process.env.TEST_USER_PASSWORD;
-  const testItemId = process.env.TEST_ITEM_ID;
+// Milestone M4 (PLAN.md): the full review loop with two real accounts in the demo organisation.
+// The item's author can't approve it (§8.1), so the owner submits and a reviewer decides.
+const owner = { email: process.env.E2E_OWNER_EMAIL, password: process.env.E2E_OWNER_PASSWORD };
+const reviewer = { email: process.env.E2E_REVIEWER_EMAIL, password: process.env.E2E_REVIEWER_PASSWORD };
 
-  test("reviewer can accept/reject findings and approval is blocked on open critical", async ({
-    page,
-  }) => {
-    test.skip(
-      !testEmail || !testPassword,
-      "Signed-in review loop requires TEST_USER_EMAIL and TEST_USER_PASSWORD environment variables (none provided)"
-    );
+async function signIn(browser: Browser, who: { email?: string; password?: string }): Promise<Page> {
+  const page = await (await browser.newContext()).newPage();
+  await page.goto("/login");
+  await page.getByLabel("Work email").fill(who.email!);
+  await page.getByLabel("Password").fill(who.password!);
+  await page.getByRole("button", { name: "Sign in" }).click();
+  await expect(page).toHaveURL(/\/dashboard/, { timeout: 30_000 }); // first render after a cold start can be slow
+  return page;
+}
 
-    // 1. Sign in
-    await page.goto("/login");
-    await page.fill('input[name="email"]', testEmail!);
-    await page.fill('input[name="password"]', testPassword!);
-    await page.click('button[type="submit"]');
+test("M4: author can't approve; reviewer is blocked by an open Critical, waives it, then approves", async ({ browser }) => {
+  test.skip(
+    !owner.email || !owner.password || !reviewer.email || !reviewer.password,
+    "Set E2E_OWNER_EMAIL, E2E_OWNER_PASSWORD, E2E_REVIEWER_EMAIL, E2E_REVIEWER_PASSWORD in .env.local",
+  );
+  test.setTimeout(120_000);
 
-    await expect(page).toHaveURL(/\/(dashboard|items)/);
+  // 1. The owner submits public content containing a registered internal codename.
+  const author = await signIn(browser, owner);
+  await author.goto("/audit/new");
+  await author.getByPlaceholder("Spring launch LinkedIn post").fill(`E2E review loop ${Date.now()}`);
+  await author.getByPlaceholder("Paste the post, email or ad copy…").fill("Excited to share that Project Atlas is our most revolutionary product ever.");
+  await author.getByRole("button", { name: "Audit content" }).click();
+  await expect(author).toHaveURL(/\/items\/[0-9a-f-]{36}/, { timeout: 60_000 });
+  const itemUrl = author.url().split("?")[0];
 
-    // 2. Open an item (either specific TEST_ITEM_ID or first item on dashboard)
-    if (testItemId) {
-      await page.goto(`/items/${testItemId}`);
-    } else {
-      const firstItem = page.locator('a[href^="/items/"]').first();
-      await expect(firstItem).toBeVisible();
-      await firstItem.click();
-    }
+  const authorCritical = author.locator('[id^="finding-"]').filter({ hasText: "Project Atlas" });
+  const authorMinor = author.locator('[id^="finding-"]').filter({ hasText: "PACK-HYPE" }); // the hype-word finding on "revolutionary"
+  await expect(authorCritical).toContainText("Critical");
+  await expect(author.getByText("Approval blocked", { exact: true })).toBeVisible();
 
-    await expect(page.locator("h1")).toBeVisible();
+  // 2. The author has no approve control on their own item.
+  await expect(author.getByText("You cannot review or approve your own content item.")).toBeVisible();
+  await expect(author.getByRole("button", { name: "Approve", exact: true })).toHaveCount(0);
 
-    // 3. Accept one finding
-    const openFinding = page.locator('[id^="finding-"]').filter({ hasText: "Open" }).first();
-    if (await openFinding.isVisible()) {
-      const acceptBtn = openFinding.getByRole("button", { name: "Accept" });
-      if (await acceptBtn.isVisible()) {
-        await acceptBtn.click();
-        await expect(openFinding.getByText("Accepted")).toBeVisible();
-      }
-    }
+  // 3. The author rejects the Minor finding with a reason.
+  await authorMinor.getByRole("button", { name: "Reject", exact: true }).click();
+  await authorMinor.getByRole("textbox").fill("E2E: approved campaign wording");
+  await authorMinor.getByRole("button", { name: "Confirm reject" }).click();
+  await expect(authorMinor).toContainText("Rejected");
 
-    // 4. Reject one finding with a reason
-    const secondFinding = page.locator('[id^="finding-"]').filter({ hasText: "Open" }).first();
-    if (await secondFinding.isVisible()) {
-      const rejectBtn = secondFinding.getByRole("button", { name: "Reject" });
-      if (await rejectBtn.isVisible()) {
-        await rejectBtn.click();
-        const reasonInput = secondFinding.getByRole("textbox");
-        await reasonInput.fill("Approved brand exception for tone");
-        await secondFinding.getByRole("button", { name: "Confirm reject" }).click();
-        await expect(secondFinding.getByText("Rejected")).toBeVisible();
-        await expect(secondFinding.getByText("Approved brand exception for tone")).toBeVisible();
-      }
-    }
+  // 4. The reviewer can't approve while the Critical is open.
+  const rev = await signIn(browser, reviewer);
+  await rev.goto(itemUrl);
+  const approve = rev.getByRole("button", { name: "Approve", exact: true });
+  await expect(approve).toBeDisabled();
 
-    // 5. Try to approve while a Critical is open (blocked)
-    const approveBtn = page.getByRole("button", { name: "Approve" });
-    const blockAlert = page.getByText(/Approval blocked/i);
-
-    if (await blockAlert.isVisible()) {
-      // Must be disabled
-      await expect(approveBtn).toBeDisabled();
-
-      // 6. Clear the critical finding (e.g. via Waive finding)
-      const waiveFindingBtn = page.getByRole("button", { name: "Waive finding" });
-      if (await waiveFindingBtn.isVisible()) {
-        await waiveFindingBtn.click();
-        const waiverReason = page.getByPlaceholder(/Explain why this governance exception/i);
-        await waiverReason.fill("Approved temporary exemption by Brand Director");
-        await page.getByRole("button", { name: "Confirm waive" }).click();
-      }
-
-      // 7. Once cleared, approve
-      if (!(await page.getByText(/Approval blocked/i).isVisible())) {
-        await expect(approveBtn).toBeEnabled();
-        await approveBtn.click();
-        await expect(page.getByText(/approved/i)).toBeVisible();
-      }
-    }
-  });
+  // 5. The reviewer waives the Critical with a written reason, then approves.
+  const revCritical = rev.locator('[id^="finding-"]').filter({ hasText: "Project Atlas" });
+  await revCritical.getByRole("button", { name: "Waive", exact: true }).click();
+  await revCritical.getByRole("textbox").fill("E2E: approved exemption");
+  await revCritical.getByRole("button", { name: "Confirm waive" }).click();
+  await expect(revCritical).toContainText("Waived");
+  await expect(approve).toBeEnabled();
+  await approve.click();
+  await expect(rev.getByText("approved", { exact: true }).first()).toBeVisible();
 });
-
