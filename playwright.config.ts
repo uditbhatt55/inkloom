@@ -1,5 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// Next.js loads .env.local for the app only; the test runner needs it for the E2E_* sign-in variables. CI has none, so those tests skip.
+try { process.loadEnvFile(".env.local"); } catch { /* no .env.local */ }
+
 export default defineConfig({
   testDir: "tests/e2e",
   use: { baseURL: "http://localhost:3000" },
