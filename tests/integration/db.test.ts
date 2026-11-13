@@ -64,6 +64,29 @@ describe("existing SQL test suites (were run by hand in the Supabase SQL editor)
   });
 });
 
+describe("content_items read policy (migrations 20261113000000 + 000100)", () => {
+  it("a creator can create an item and get it back (INSERT … RETURNING), which the old policy refused", async () => {
+    await asUser(db, CREATOR, async (tx) => {
+      const r = await tx.query("insert into content_items (org_id, title, owner_id) values ($1, 'New post', $2) returning id", [A, CREATOR]);
+      expect(r.rows).toHaveLength(1);
+    });
+  });
+
+  it("another organisation's owner sees none of org A's items", async () => {
+    await asUser(db, B_OWNER, async (tx) => {
+      expect((await tx.query<{ n: number }>("select count(*)::int as n from content_items where org_id = $1", [A])).rows[0].n).toBe(0);
+    });
+  });
+
+  it("anon gets no rows and no error", async () => {
+    await db.transaction(async (tx) => {
+      await tx.exec("set local role anon");
+      expect((await tx.query<{ n: number }>("select count(*)::int as n from content_items")).rows[0].n).toBe(0);
+      await tx.rollback();
+    });
+  });
+});
+
 describe("save_audit()", () => {
   it("writes the run, resolves codes to THIS org's clause/fact/term, keeps system codes, and maps -1 offsets to null", async () => {
     await asService(async (tx) => {

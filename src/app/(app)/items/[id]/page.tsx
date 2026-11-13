@@ -15,6 +15,8 @@ import {
 } from "@/lib/review/approval";
 import { computeScore } from "@/lib/score/score";
 import { canSubmit, getViewer } from "@/lib/session";
+import { applyAcceptedFixes } from "@/lib/audit/apply-fixes";
+import { ApplyFixesButton } from "./apply-fixes-button";
 import { CommentsBox } from "./comments-box";
 import { DecisionPanel } from "./decision-panel";
 import { FindingCard, type CitedSource } from "./finding-card";
@@ -153,6 +155,9 @@ export default async function ItemPage({
   const canActFinding = canAcceptOrRejectFinding({ role, isItemAuthor });
   const canWaiveFinding = canDismissOrWaiveFinding({ role, isItemAuthor });
   const canComment = canUserComment({ role });
+  // accepted fixes that can be applied as a new version; only offered on the latest version
+  const isLatest = version.id === versions![0].id;
+  const applicable = isLatest && role && canSubmit(role) ? applyAcceptedFixes(version.text ?? "", findings).applied.length : 0;
 
   return (
     <div className="space-y-6">
@@ -172,11 +177,14 @@ export default async function ItemPage({
             </span>
           </div>
         </div>
-        {role && canSubmit(role) && (
-          <Button asChild variant="outline">
-            <Link href={`/audit/new?item=${item.id}`}>Upload new version</Link>
-          </Button>
-        )}
+        <div className="flex flex-wrap items-start gap-2">
+          {applicable > 0 && <ApplyFixesButton itemId={item.id} count={applicable} />}
+          {role && canSubmit(role) && (
+            <Button asChild variant="outline">
+              <Link href={`/audit/new?item=${item.id}`}>Upload new version</Link>
+            </Button>
+          )}
+        </div>
       </div>
 
       {!run ? (

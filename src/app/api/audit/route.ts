@@ -1,9 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { sha256 } from "@/lib/ai/reviewer";
 import { chooseReviewer } from "@/lib/ai/select";
 import { readAuditForm, RequestError, MAX_UPLOAD_BYTES, type AuditForm } from "@/lib/audit/request";
 import { auditVersion, todayInIndia } from "@/lib/audit/service";
 import { SupabaseAuditStore } from "@/lib/audit/store";
+import { createNextVersion } from "@/lib/audit/versions";
 import { fetchPage, ParseError, parseUpload, type ParsedContent } from "@/lib/parsers";
 import { ConfigError, createServiceClient, createUserClient, type Db } from "@/lib/supabase/server";
 
@@ -32,17 +32,7 @@ async function createVersion(db: Db, userId: string, f: AuditForm, text: string)
     if (error || !data) throw new RequestError(403, "You can't submit content to this organisation.");
     item = data;
   }
-  for (let attempt = 0; attempt < 2; attempt++) {
-    const { data: last } = await db.from("content_versions").select("n").eq("item_id", item.id).order("n", { ascending: false }).limit(1).maybeSingle();
-    const n = (last?.n ?? 0) + 1;
-    const { data, error } = await db.from("content_versions")
-      .insert({ org_id: item.org_id, item_id: item.id, n, text, sha256: sha256(text), created_by: userId })
-      .select("id, n").single();
-    if (!error && data) return { item, version: data };
-    if (error?.code !== "23505") throw new RequestError(403, "You can't add a version to this item.");
-    // 23505 = another upload took this version number at the same moment: retry once with the next one
-  }
-  throw new RequestError(409, "Another version was saved at the same time. Please try again.");
+  return { item, version: await createNextVersion(db, item, text, userId) };
 }
 
 /**

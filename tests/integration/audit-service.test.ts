@@ -5,6 +5,7 @@ import type { Knowledge } from "@/lib/ai/brandpack";
 import { chooseReviewer } from "@/lib/ai/select";
 import { rowsToKnowledge, type KnowledgeRows } from "@/lib/audit/knowledge";
 import type { SaveAuditPayload } from "@/lib/audit/persist";
+import { applyAcceptedFixes } from "@/lib/audit/apply-fixes";
 import { auditVersion, type AuditStore } from "@/lib/audit/service";
 import { parseUpload } from "@/lib/parsers";
 import recording from "@/lib/ai/recordings/northbeam-post.json";
@@ -102,5 +103,26 @@ describe("auditVersion on the Northbeam seed", () => {
     const { result } = await run("Northbeam Sync keeps your files in step across devices. Our SLA covers 99.9% monthly uptime.");
     expect(result.score.blocked).toBe(false);
     expect(result.score.score).toBeGreaterThanOrEqual(90);
+  });
+
+  it("review loop: accept the critical fix, apply it as a new version, re-audit, and approval is no longer blocked", async () => {
+    const first = await run(recording.content);
+    expect(first.result.score.blocked).toBe(true);
+
+    // creator accepts the AI's suggested fix for the uptime claim
+    const claim = (await db.query<{ id: string }>("select id from findings where run_id = $1 and rule_code = 'FACT-07'", [first.runId])).rows[0];
+    await db.query("update findings set status = 'accepted' where id = $1", [claim.id]);
+    const accepted = (await db.query<{ id: string; status: string; suggestion: string | null; quote: string; start_offset: number | null; end_offset: number | null }>(
+      "select id, status, suggestion, quote, start_offset, end_offset from findings where run_id = $1 and status = 'accepted'", [first.runId])).rows;
+
+    const fixed = applyAcceptedFixes(recording.content, accepted);
+    expect(fixed.applied).toEqual([claim.id]);
+    expect(fixed.text).toContain("99.9% monthly uptime, backed by our SLA");
+    expect(fixed.text).not.toContain("guaranteed");
+
+    const second = await run(fixed.text);
+    expect(second.result.findings.map((f) => f.ruleCode)).not.toContain("FACT-07");
+    expect(second.result.score.blocked).toBe(false);
+    expect(second.result.score.score).toBeGreaterThan(first.result.score.score);
   });
 });

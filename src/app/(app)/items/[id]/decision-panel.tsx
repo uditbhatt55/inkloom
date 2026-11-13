@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import type { Database } from "@/lib/database.types";
 import { canUserDecideItem, isApproveBlocked } from "@/lib/review/approval";
 import type { Role } from "@/lib/session";
+import { friendlyDbError } from "@/lib/review/errors";
 import { createClient } from "@/lib/supabase/browser";
 
 type FindingRow = Database["public"]["Tables"]["findings"]["Row"];
@@ -68,7 +69,7 @@ export function DecisionPanel({
 
     setBusy(false);
     if (error) {
-      setErrorMsg(error.message);
+      setErrorMsg(friendlyDbError(error));
     } else {
       router.refresh();
     }
@@ -98,7 +99,7 @@ export function DecisionPanel({
       });
       setBusy(false);
       if (error) {
-        setErrorMsg(error.message);
+        setErrorMsg(friendlyDbError(error));
       } else {
         setActiveForm(null);
         setReason("");
@@ -118,7 +119,7 @@ export function DecisionPanel({
       });
       setBusy(false);
       if (error) {
-        setErrorMsg(error.message);
+        setErrorMsg(friendlyDbError(error));
       } else {
         setActiveForm(null);
         setReason("");
