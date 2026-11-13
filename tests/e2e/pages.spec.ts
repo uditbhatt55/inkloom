@@ -41,3 +41,12 @@ test("audit API refuses requests without a session or configuration, with a fixe
   expect(Object.keys(body)).toEqual(["error"]);
   expect(body.error).not.toMatch(/supabase|env|stack|Error:/i);
 });
+
+test("apply-fixes API refuses requests without a session or configuration, with a fixed message", async ({ request }) => {
+  test.setTimeout(120_000);
+  const res = await request.post("/api/items/00000000-0000-4000-8000-0000000000d1/apply-fixes");
+  expect([401, 503]).toContain(res.status());
+  const body = await res.json();
+  expect(Object.keys(body)).toEqual(["error"]);
+  expect(body.error).not.toMatch(/supabase|env|stack|Error:/i);
+});

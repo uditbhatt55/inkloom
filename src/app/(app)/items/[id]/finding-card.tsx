@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { Database } from "@/lib/database.types";
 import { CATEGORY_LABEL, CONFIDENCE_LABEL, SEVERITY_LABEL, ruleSourceLabel } from "@/lib/labels";
+import { friendlyDbError } from "@/lib/review/errors";
 import { createClient } from "@/lib/supabase/browser";
 
 type Row = Database["public"]["Tables"]["findings"]["Row"];
@@ -61,7 +62,7 @@ export function FindingCard({
       .eq("id", f.id);
     setBusy(false);
     if (error) {
-      setErrorMsg(error.message);
+      setErrorMsg(friendlyDbError(error));
     } else {
       setStatus("accepted");
       setReason("");
@@ -100,7 +101,7 @@ export function FindingCard({
       });
       setBusy(false);
       if (error) {
-        setErrorMsg(error.message);
+        setErrorMsg(friendlyDbError(error));
       } else {
         setStatus("waived");
         setReason(actionReason.trim());
@@ -118,7 +119,7 @@ export function FindingCard({
       .eq("id", f.id);
     setBusy(false);
     if (error) {
-      setErrorMsg(error.message);
+      setErrorMsg(friendlyDbError(error));
     } else {
       setStatus(nextStatus);
       setReason(actionReason.trim());
@@ -139,7 +140,7 @@ export function FindingCard({
       .eq("id", f.id);
     setBusy(false);
     if (error) {
-      setErrorMsg(error.message);
+      setErrorMsg(friendlyDbError(error));
     } else {
       setStatus("open");
       setReason("");
