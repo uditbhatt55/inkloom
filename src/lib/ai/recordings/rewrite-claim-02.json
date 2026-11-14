@@ -1,0 +1,9 @@
+{
+  "code": "CLAIM-02",
+  "clause": "Do not describe service levels as guaranteed; refer to the SLA.",
+  "response": {
+    "text": "Do not describe the uptime or other service levels as guaranteed; refer to the SLA instead. Delivery and response promises that are not part of the SLA may be stated plainly.",
+    "example_do": "Replies are sent within four hours for priority tickets.",
+    "why": "Reviewers often dismiss this rule for delivery and event promises, so the rule now says it covers service levels only."
+  }
+}

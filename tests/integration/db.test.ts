@@ -87,6 +87,20 @@ describe("content_items read policy (migrations 20261113000000 + 000100)", () =>
   });
 });
 
+describe("approved_facts.updated_at (migration 20261114100000)", () => {
+  it("moves when the statement, dates or visibility change, not for an owner or evidence edit", async () => {
+    await db.transaction(async (tx) => {
+      const at = async () => (await tx.query<{ t: string }>("select updated_at::text as t from approved_facts where code = 'FACT-07'")).rows[0].t;
+      const before = await at(); // set when beforeAll inserted the fact, in an earlier transaction
+      await tx.exec("update approved_facts set owner_name = 'Legal', evidence_ref = 'SLA v3' where code = 'FACT-07'");
+      expect(await at()).toBe(before);
+      await tx.exec("update approved_facts set statement = 'Sync SLA: 99.95% monthly uptime' where code = 'FACT-07'");
+      expect(await at()).not.toBe(before);
+      await tx.rollback();
+    });
+  });
+});
+
 describe("save_audit()", () => {
   it("writes the run, resolves codes to THIS org's clause/fact/term, keeps system codes, and maps -1 offsets to null", async () => {
     await asService(async (tx) => {
@@ -114,6 +128,20 @@ describe("save_audit()", () => {
       await save(tx, payload());
       const links = (await tx.query<{ quote: string }>("select quote from claim_links where version_id = $1", [VERSION])).rows;
       expect(links).toEqual([{ quote: "99.99% uptime, guaranteed" }]);
+    });
+  });
+
+  it("links facts the content restates correctly (fact_links), ignores unknown codes, one link per fact, no duplicates on re-audit", async () => {
+    await asService(async (tx) => {
+      const links = [{ fact_code: "FACT-07", quote: "99.9%" }, { fact_code: "FACT-404", quote: "x" }];
+      await save(tx, payload({ findings: [], fact_links: links }));
+      await save(tx, payload({ findings: [], fact_links: links }));
+      expect((await tx.query("select quote from claim_links where version_id = $1", [VERSION])).rows).toEqual([{ quote: "99.9%" }]);
+    });
+    await asService(async (tx) => {
+      // a finding that cites the fact and a restatement of it give ONE link, the finding's quote
+      await save(tx, payload({ fact_links: [{ fact_code: "FACT-07", quote: "99.9%" }] }));
+      expect((await tx.query("select quote from claim_links where version_id = $1", [VERSION])).rows).toEqual([{ quote: "99.99% uptime, guaranteed" }]);
     });
   });
 
