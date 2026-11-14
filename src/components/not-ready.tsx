@@ -11,8 +11,8 @@ export function NotReady({ kind }: { kind: "not_configured" | "no_org" }) {
           <p>Supabase keys are missing on this server. Add them to <code>.env.local</code> (see <code>.env.example</code>).</p>
         ) : (
           <p>
-            Ask your brand owner to add you. For the demo, run <code>supabase/demo-membership.sql</code> with your email, then{" "}
-            <Link href="/dashboard" className="underline underline-offset-4">reload</Link>.
+            Ask your brand owner to add you. To try INKLOOM now, sign out and choose <strong>Try the demo</strong> on the{" "}
+            <Link href="/login" className="underline underline-offset-4">sign-in page</Link>.
           </p>
         )}
       </AlertDescription>
