@@ -1,6 +1,6 @@
 # Review of asci-ai-labelling.json (12 Nov 2026)
 
-Source file: `asci-ai-labelling.json` (ChatGPT Deep Research, Prompt B). Clause numbers and CCPA section numbers were **not** re-checked against the primary PDFs — one person should open the ASCI guideline and the CCPA Gazette and tick them before Prompt 7.
+Source file: `asci-ai-labelling.json` (ChatGPT Deep Research, Prompt B in `docs/chatgpt-prompts.md`). Clause letters and CCPA section numbers were checked against the source PDFs; see "Source check" below.
 
 ## Verdict
 Usable. Well sourced, flags its own gaps, and agrees with the proposal's design (label never clears prohibited content; no "false" without a source).
@@ -17,7 +17,7 @@ Usable. Well sourced, flags its own gaps, and agrees with the proposal's design 
 | 6 | Several rules need facts the content can't show (is it synthetic? is it sponsored?). | Add **two fields to the upload form**, like the alt-text field: "Contains AI-generated people, places, products or voices?" (y/n/unsure) and "Sponsored or paid? By whom?". Then SGC-06/11/12 become deterministic, high confidence. Answer "unsure" → reviewer check. |
 | 7 | IDs `SGC-NN` don't follow our scheme. | Rename to `AIDISC-01…` in Prompt 7. |
 | 8 | EU AI Act Art. 50 duties fall mostly on AI providers/deployers, and MVP is India-first. | Keep as background only. No EU rules in MVP. |
-| 9 | "Generic AI phrasing" (in the plan's Prompt 7) has no ASCI basis. | Keep it as a separate Minor **tone** rule, not cited to ASCI. |
+| 9 | "Generic AI phrasing" (in Prompt 7, `docs/chatgpt-prompts.md`) has no ASCI basis. | Keep it as a separate Minor **tone** rule, not cited to ASCI. |
 | 10 | Label size/position not specified by ASCI. | No size rule. Reuse our WCAG contrast check on the label text only. |
 
 ## Source check (tick each, write initials + date)
