@@ -1,8 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { chooseReviewer } from "@/lib/ai/select";
 import { readAuditForm, RequestError, MAX_UPLOAD_BYTES, type AuditForm } from "@/lib/audit/request";
 import { auditVersion, todayInIndia } from "@/lib/audit/service";
 import { SupabaseAuditStore } from "@/lib/audit/store";
+import { BURST_MESSAGE, gateForRequest } from "@/lib/audit/usage-cap";
 import { createNextVersion } from "@/lib/audit/versions";
 import { fetchPage, ParseError, parseUpload, type ParsedContent } from "@/lib/parsers";
 import { ConfigError, createServiceClient, createUserClient, type Db } from "@/lib/supabase/server";
@@ -37,7 +37,7 @@ async function createVersion(db: Db, userId: string, f: AuditForm, text: string)
 
 /**
  * POST /api/audit (multipart): upload → parse → new version → audit → save (proposal §5–§7).
- * 401 not signed in · 400/413 bad input · 403/404 not allowed · 422 unreadable content · 503 not configured.
+ * 401 not signed in · 400/413 bad input · 403/404 not allowed · 422 unreadable content · 429 too many audits · 503 not configured.
  * Every error message is fixed; internal error text is only logged, never returned.
  */
 export async function POST(req: NextRequest) {
@@ -55,15 +55,22 @@ export async function POST(req: NextRequest) {
       return fail(400, "The upload could not be read.");
     }
 
+    // cost control (src/lib/audit/usage-cap.ts) comes before anything is stored, so a refused request leaves no item behind
+    const service = createServiceClient();
+    let orgId = form.orgId;
+    if (!orgId && form.itemId) orgId = (await userDb.from("content_items").select("org_id").eq("id", form.itemId).maybeSingle()).data?.org_id;
+    const gate = await gateForRequest(service, orgId ?? "", auth.user.id);
+    if (gate.kind === "burst") return fail(429, BURST_MESSAGE);
+
     const parsed = await parseSource(form);
     const { item, version } = await createVersion(userDb, auth.user.id, form, parsed.text);
 
     const colours = form.textColour && form.bgColour
       ? [{ fg: form.textColour, bg: form.bgColour, label: "Text on image", large: form.largeText === "true", confidence: "high" as const }]
       : undefined;
-    const { runId, result } = await auditVersion(new SupabaseAuditStore(createServiceClient()), chooseReviewer(), {
+    const { runId, result } = await auditVersion(new SupabaseAuditStore(service), gate.ai, {
       orgId: item.org_id, versionId: version.id, requestedBy: auth.user.id, parsed,
-      channel: item.channel ?? form.channel, audience: item.audience, colours, today: todayInIndia(),
+      channel: item.channel ?? form.channel, audience: item.audience, colours, today: todayInIndia(), notes: gate.notes,
     });
 
     return NextResponse.json({

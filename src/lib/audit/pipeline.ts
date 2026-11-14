@@ -29,16 +29,18 @@ export type AuditInput = {
 };
 
 /**
- * Decision D4: with no colours typed on the upload form, check the lowest-contrast pair among the image's
- * three most common colours, at medium confidence (it may not be a text/background pair).
+ * Decision D4: with no colours typed on the upload form, check the lowest-contrast pair among the image's three most
+ * common colours. Pixels cannot say which colour is text, so this is a guess: LOW confidence (no score deduction, "Needs
+ * human check"). Colours under 5% of the image are anti-aliasing blends of the real ones, not colours anyone chose.
  */
+const MIN_CONTRAST_SHARE = 0.05;
 function extractedContrast(colours: ImageColour[]): ContrastCheck | null {
-  const top = colours.slice(0, 3);
+  const top = colours.filter((c) => c.share >= MIN_CONTRAST_SHARE).slice(0, 3);
   let worst: ContrastCheck | null = null, worstRatio = Infinity;
   for (let i = 0; i < top.length; i++) {
     for (let j = i + 1; j < top.length; j++) {
       const r = contrastRatio(top[i].hex, top[j].hex);
-      if (r < worstRatio) { worstRatio = r; worst = { fg: top[j].hex, bg: top[i].hex, label: "Image (extracted colours)", confidence: "medium" }; }
+      if (r < worstRatio) { worstRatio = r; worst = { fg: top[j].hex, bg: top[i].hex, label: "Image (extracted colours)", confidence: "low" }; }
     }
   }
   return worst;
@@ -93,6 +95,10 @@ export async function runAudit(input: AuditInput): Promise<AuditResult> {
   for (const c of contrastChecks) {
     try {
       const f = contrastFinding(c);
+      if (f && c.confidence === "low") {
+        f.label = "needs_human_check";
+        f.explanation += " This pair was guessed from the image's most common colours and may not be text on its background. Type the exact text and background colours on the upload form for a precise check.";
+      }
       if (f) ruleFindings.push(f);
     } catch {
       warnings.push(`Skipped contrast check "${c.label}": invalid colour value.`);

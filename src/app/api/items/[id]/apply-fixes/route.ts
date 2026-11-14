@@ -1,9 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { chooseReviewer } from "@/lib/ai/select";
 import { applyAcceptedFixes } from "@/lib/audit/apply-fixes";
 import { RequestError } from "@/lib/audit/request";
 import { auditVersion, todayInIndia } from "@/lib/audit/service";
 import { SupabaseAuditStore } from "@/lib/audit/store";
+import { BURST_MESSAGE, gateForRequest } from "@/lib/audit/usage-cap";
 import { createNextVersion } from "@/lib/audit/versions";
 import { ParseError, parseUpload } from "@/lib/parsers";
 import { canSubmit } from "@/lib/session";
@@ -44,11 +44,15 @@ export async function POST(_req: NextRequest, { params }: { params: Promise<{ id
     const fixed = applyAcceptedFixes(version.text ?? "", findings ?? []);
     if (!fixed.applied.length) return fail(400, "There are no accepted fixes that can be applied to the latest version.");
 
+    const service = createServiceClient();
+    const gate = await gateForRequest(service, item.org_id, auth.user.id);
+    if (gate.kind === "burst") return fail(429, BURST_MESSAGE);
+
     const parsed = await parseUpload(new TextEncoder().encode(fixed.text));
     const next = await createNextVersion(db, item, parsed.text, auth.user.id);
-    const { runId, result } = await auditVersion(new SupabaseAuditStore(createServiceClient()), chooseReviewer(), {
+    const { runId, result } = await auditVersion(new SupabaseAuditStore(service), gate.ai, {
       orgId: item.org_id, versionId: next.id, requestedBy: auth.user.id, parsed,
-      channel: item.channel ?? "web", audience: item.audience, today: todayInIndia(),
+      channel: item.channel ?? "web", audience: item.audience, today: todayInIndia(), notes: gate.notes,
     });
 
     return NextResponse.json({
