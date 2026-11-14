@@ -275,20 +275,3 @@ In src/lib/rules/vale.ts write importVale(yaml: string) that reads Vale "substit
 In src/components/brand-health create 3 Recharts components using shadcn Card: RecurringByClause (bar, top 10), DismissRateByClause (bar with 40% threshold line), ScoreOverTime (line). Props are plain arrays; no data fetching. Accessible: titles, aria labels, a visually hidden data table under each chart. Add a Storybook-free demo page at app/dev/charts/page.tsx using fixture data.
 ```
 
----
-
-## Your to-do list
-
-| When | Who | Do |
-|---|---|---|
-| Now | Udit | Step 0 setup, share project. Prompt B |
-| Now | Krishna | Prompt A. Tell team if quota is a problem |
-| Now | Shrikant | Prompt C |
-| Now | You (any) | Switch off Firebase + Figma plugins in claude.ai → Settings → Plugins |
-| Day one | Raghav | Fresh repo, `AI_USE_LOG.md`, copy `CLAUDE.md` + `.claude/`, connect Codex |
-| Day 1–2 | Shrikant → Raghav | Prompt 1 → 2, 3 |
-| Day 2–4 | Krishna + one other | Prompt 4, then **hand-label** |
-| P3 | Udit | Prompt 5 (iterate in ChatGPT), then 7 |
-| P4–P6 | Shrikant / Krishna | Prompt 8, 6 |
-| Any time after P0 | Raghav / Shrikant | Codex 1–3 |
-| End | Krishna | Prompt 9 |
