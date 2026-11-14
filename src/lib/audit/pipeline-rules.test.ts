@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Knowledge } from "@/lib/ai/brandpack";
+import { computeScore } from "@/lib/score/score";
 import { runAudit } from "./pipeline";
 
 const knowledge: Knowledge = {
@@ -31,7 +32,27 @@ describe("runAudit: rule pack, visual and accessibility checks (rule-only mode)"
     });
     const codes = r.findings.map((f) => f.ruleCode);
     expect(codes).toEqual(expect.arrayContaining(["BRAND-FONTS", "WCAG-1.1.1", "BRAND-PALETTE", "WCAG-1.4.3"]));
-    expect(r.findings.find((f) => f.ruleCode === "WCAG-1.4.3")!.confidence).toBe("medium");
+    // a guess from pixels: low confidence, "Needs human check", no score deduction
+    expect(r.findings.find((f) => f.ruleCode === "WCAG-1.4.3")).toMatchObject({ confidence: "low", label: "needs_human_check" });
+  });
+
+  it("does not build a text/background pair from anti-aliasing blends (colours under 5% of the image)", async () => {
+    // a clean banner: near-white background, a teal graphic, and a 2% grey blend where the headline's edges meet it
+    const r = await runAudit({
+      ...base, content: "",
+      parsed: { fonts: [], images: [], colours: [{ hex: "#f6f8fb", share: 0.71 }, { hex: "#788695", share: 0.02 }, { hex: "#182a47", share: 0.02 }] },
+    });
+    expect(r.findings.filter((f) => f.ruleCode === "WCAG-1.4.3")).toEqual([]);
+  });
+
+  it("extracted contrast never lowers the score (low confidence)", async () => {
+    const r = await runAudit({
+      ...base, content: "",
+      parsed: { fonts: [], images: [], colours: [{ hex: "#f5f7fa", share: 0.6 }, { hex: "#d0eeed", share: 0.3 }] },
+    });
+    const contrast = r.findings.filter((f) => f.ruleCode === "WCAG-1.4.3");
+    expect(contrast).toHaveLength(1);
+    expect(computeScore(contrast).score).toBe(100);
   });
 
   it("colours typed on the form replace the extracted-contrast check (high confidence)", async () => {

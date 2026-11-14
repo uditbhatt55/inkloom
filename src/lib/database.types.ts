@@ -1,6 +1,6 @@
 // Generated from the Supabase schema (Supabase MCP generate_typescript_types). Regenerate after each migration.
 // Migrations 20261112000300 (rule_code, source, label, requested_by, warnings, save_audit) and 20261114000000
-// (guideline_clause_history) were added by hand; regenerate to confirm.
+// (guideline_clause_history) and 20261114100000 (approved_facts.updated_at) were added by hand; regenerate to confirm.
 export type Json =
   | string
   | number
@@ -23,9 +23,9 @@ export type Database = {
         Relationships: Rel[]
       }
       approved_facts: {
-        Row: { code: string; created_at: string; evidence_ref: string | null; id: string; org_id: string; owner_name: string | null; statement: string; valid_from: string | null; valid_until: string | null; visibility: E["visibility"] }
-        Insert: { code: string; created_at?: string; evidence_ref?: string | null; id?: string; org_id: string; owner_name?: string | null; statement: string; valid_from?: string | null; valid_until?: string | null; visibility?: E["visibility"] }
-        Update: { code?: string; created_at?: string; evidence_ref?: string | null; id?: string; org_id?: string; owner_name?: string | null; statement?: string; valid_from?: string | null; valid_until?: string | null; visibility?: E["visibility"] }
+        Row: { code: string; created_at: string; evidence_ref: string | null; id: string; org_id: string; owner_name: string | null; statement: string; updated_at: string; valid_from: string | null; valid_until: string | null; visibility: E["visibility"] }
+        Insert: { code: string; created_at?: string; evidence_ref?: string | null; id?: string; org_id: string; owner_name?: string | null; statement: string; updated_at?: string; valid_from?: string | null; valid_until?: string | null; visibility?: E["visibility"] }
+        Update: { code?: string; created_at?: string; evidence_ref?: string | null; id?: string; org_id?: string; owner_name?: string | null; statement?: string; updated_at?: string; valid_from?: string | null; valid_until?: string | null; visibility?: E["visibility"] }
         Relationships: Rel[]
       }
       audit_runs: {

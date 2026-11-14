@@ -15,6 +15,8 @@ export type AuditVersionInput = {
   orgId: string; versionId: string; requestedBy: string;
   parsed: ParsedContent; channel: string; audience: "public" | "internal";
   colours?: ContrastCheck[]; today: string;
+  /** extra notes shown with the run, for example that the AI was skipped because the daily limit was reached */
+  notes?: string[];
 };
 
 export type AuditVersionResult = { runId: string; result: AuditResult };
@@ -27,7 +29,7 @@ export async function auditVersion(store: AuditStore, ai: AiReviewer | null, i: 
     colours: i.colours, parsed: { fonts: i.parsed.fonts, images: i.parsed.images, colours: i.parsed.colours },
   };
   const result = await runAudit(input);
-  result.warnings.push(...i.parsed.warnings);
+  result.warnings.push(...i.parsed.warnings, ...(i.notes ?? []));
   const runId = await store.saveAudit(toSavePayload(result, { orgId: i.orgId, versionId: i.versionId, requestedBy: i.requestedBy }));
   return { runId, result };
 }

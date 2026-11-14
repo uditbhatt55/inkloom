@@ -5,7 +5,7 @@ import { buildMessages, PROMPT_VERSION } from "@/lib/ai/prompt";
 import type { AiReviewer } from "@/lib/ai/reviewer";
 import { findLeaks, maskForAi, type InternalTerm } from "@/lib/guard/guard";
 import { contrastFinding, contrastRatio } from "@/lib/rules/contrast";
-import { checkExpiredFacts } from "@/lib/rules/facts";
+import { checkExpiredFacts, linkFacts } from "@/lib/rules/facts";
 import { checkRulePack } from "@/lib/rules/rulepack";
 import { checkTerms } from "@/lib/rules/terms";
 import { checkAltText, checkFonts, checkPalette, checkReadability, type ImageColour, type ImageRef } from "@/lib/rules/visual";
@@ -29,16 +29,18 @@ export type AuditInput = {
 };
 
 /**
- * Decision D4: with no colours typed on the upload form, check the lowest-contrast pair among the image's
- * three most common colours, at medium confidence (it may not be a text/background pair).
+ * Decision D4: with no colours typed on the upload form, check the lowest-contrast pair among the image's three most
+ * common colours. Pixels cannot say which colour is text, so this is a guess: LOW confidence (no score deduction, "Needs
+ * human check"). Colours under 5% of the image are anti-aliasing blends of the real ones, not colours anyone chose.
  */
+const MIN_CONTRAST_SHARE = 0.05;
 function extractedContrast(colours: ImageColour[]): ContrastCheck | null {
-  const top = colours.slice(0, 3);
+  const top = colours.filter((c) => c.share >= MIN_CONTRAST_SHARE).slice(0, 3);
   let worst: ContrastCheck | null = null, worstRatio = Infinity;
   for (let i = 0; i < top.length; i++) {
     for (let j = i + 1; j < top.length; j++) {
       const r = contrastRatio(top[i].hex, top[j].hex);
-      if (r < worstRatio) { worstRatio = r; worst = { fg: top[j].hex, bg: top[i].hex, label: "Image (extracted colours)", confidence: "medium" }; }
+      if (r < worstRatio) { worstRatio = r; worst = { fg: top[j].hex, bg: top[i].hex, label: "Image (extracted colours)", confidence: "low" }; }
     }
   }
   return worst;
@@ -55,6 +57,8 @@ const MIN_RETRY_MS = 10_000;
 export type AuditResult = {
   findings: Finding[]; score: ScoreResult; aiMode: AiMode; model: string | null; promptVersion: string;
   rejected: Rejected[]; warnings: string[];
+  /** facts this content restates (fact-impact links, Brand Health) */
+  factLinks: { code: string; quote: string }[];
 };
 
 function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
@@ -91,6 +95,10 @@ export async function runAudit(input: AuditInput): Promise<AuditResult> {
   for (const c of contrastChecks) {
     try {
       const f = contrastFinding(c);
+      if (f && c.confidence === "low") {
+        f.label = "needs_human_check";
+        f.explanation += " This pair was guessed from the image's most common colours and may not be text on its background. Type the exact text and background colours on the upload form for a precise check.";
+      }
       if (f) ruleFindings.push(f);
     } catch {
       warnings.push(`Skipped contrast check "${c.label}": invalid colour value.`);
@@ -149,6 +157,6 @@ export async function runAudit(input: AuditInput): Promise<AuditResult> {
   const findings = mergeFindings(ruleFindings, aiFindings);
   return {
     findings, score: computeScore(findings), aiMode, model: aiMode === "real" || aiMode === "simulated" ? ai!.model : null,
-    promptVersion: PROMPT_VERSION, rejected, warnings,
+    promptVersion: PROMPT_VERSION, rejected, warnings, factLinks: linkFacts(content, knowledge.facts),
   };
 }

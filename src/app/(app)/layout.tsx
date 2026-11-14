@@ -20,6 +20,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             <Link href="/dashboard" className="text-muted-foreground hover:text-foreground">Content</Link>
             <Link href="/audit/new" className="text-muted-foreground hover:text-foreground">New audit</Link>
             <Link href="/knowledge" className="text-muted-foreground hover:text-foreground">Knowledge</Link>
+            <Link href="/health" className="text-muted-foreground hover:text-foreground">Brand Health</Link>
           </nav>
           {viewer.state === "signed_in" && (
             <div className="ml-auto flex items-center gap-3 text-sm">
