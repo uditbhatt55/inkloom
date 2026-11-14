@@ -26,8 +26,16 @@ Both: Structured Outputs ✔, image input ✔, context 1,050,000, **max input 92
 | gpt-6.1-sol | Global | Global Standard | **250K TPM** (0 used) |
 | gpt-6.1-sol | APAC Data Zone | Data Zone Standard | 100K TPM |
 
-= Tier 1 level. Enough for the hackathon (an audit is ~4K tokens → ~60 audits/minute). Nothing deployed yet — deploy both on build-window day one.
-Existing project: `proj-default` (resource `Uditfoundry`, Central India).
+= Tier 1 level. Enough for the hackathon (an audit is ~4K tokens → ~60 audits/minute).
+
+## Deployment (13 Nov 2026)
+| Item | Value |
+|---|---|
+| Project / resource | `inkloom-sea` / `inkloom-sea-resource`, Southeast Asia |
+| Deployment | `gpt-6-luna`, Global Standard, 100K TPM |
+| Endpoint | `https://inkloom-sea-resource.openai.azure.com/openai/v1` |
+
+Why Southeast Asia: gpt-6-luna is not offered in Central India (the first project, `proj-default`), and the subscription policy does not allow South India. See decision D15.
 
 ## Quota — background (risk now resolved for us)
 - Tier 0 (free-type subscriptions): **no quota** for either model, and can't request more.

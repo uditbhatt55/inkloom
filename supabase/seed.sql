@@ -1,6 +1,6 @@
 -- Northbeam Cloud demo organisation (fictional; proposal §5.2, §12.4). Loaded by `supabase db reset`.
--- Starter set written by the team so the audit route, demo mode and tests have real data. ChatGPT Prompt 1
--- (CHATGPT_PROMPTS.md) will extend it; keep the codes below stable because recordings and tests cite them.
+-- Starter set so the audit route, demo mode and tests have real data (see AI_USE_LOG.md). ChatGPT Prompt 1
+-- (docs/chatgpt-prompts.md) will extend it; keep the codes below stable because recordings and tests cite them.
 -- Users are not seeded: sign up, then run supabase/demo-membership.sql with your email to join as owner.
 
 insert into public.organizations (id, name, demo)

@@ -15,8 +15,4 @@ Next.js App Router + TypeScript + Tailwind + shadcn/ui · Supabase (Postgres + R
 - Log every AI-produced file in `AI_USE_LOG.md`.
 
 ## Commands
-- `npm run test` unit · `npm run test:int` integration (needs `supabase start`) · `npm run test:e2e` Playwright · `npm run eval` AI accuracy
-
-## Token habits
-- Delegate search to `Explore`, tests to `test-writer` / `test-runner`, boilerplate to `scaffolder`, docs to `docs-writer` (all Haiku).
-- Read only the files named in the task. Don't re-read files after editing.
+- `npm run test` unit · `npm run test:int` integration · `npm run test:e2e` Playwright · `npm run lint` · `npx tsc --noEmit` · `npm run build`
