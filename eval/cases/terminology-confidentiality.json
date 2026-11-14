@@ -1,0 +1,229 @@
+[
+  {
+    "id": "EV-TERM-01",
+    "channel": "linkedin",
+    "audience": "public",
+    "content": "Your files should stay in step wherever your team works. NB Sync helps teams keep working copies aligned across devices, while Northbeam Vault keeps stored files together in one place. The experience is designed for straightforward day-to-day collaboration, without asking people to learn a new filing habit.\n\nFor teams comparing options, Northbeam Sync is used by teams in 14 countries, and its service is backed by an SLA with 99.9% monthly uptime. Files are encrypted at rest with AES-256.\n\nWe are keeping the language simple because the product should be simple to explain: sync what you are working on, store what you need to keep, and move on with your day. If your team is reviewing its file workflow this quarter, Northbeam Cloud can be part of that conversation.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "terminology",
+        "severity": "major",
+        "quote": "NB Sync",
+        "rule_id": "TERM-02",
+        "why": "Banned product name; use Northbeam Sync."
+      }
+    ]
+  },
+  {
+    "id": "EV-TERM-02",
+    "channel": "email",
+    "audience": "public",
+    "content": "Subject: A simpler home for shared files\n\nHello,\n\nWhen project folders live across laptops, inboxes and shared links, finding the current version can take longer than the work itself. Northbeam Sync keeps files in step across devices, while our cloud drive gives your team a single place for stored material.\n\nThe setup is intended to be practical: keep active work moving with Northbeam Sync, keep longer-lived material together, and give your team a clearer routine for where files belong. Files are encrypted at rest with AES-256.\n\nIf you are already mapping how your team stores and shares documents, reply with the workflow you use today. We can show how the two Northbeam Cloud products fit around it without changing the way your team names projects or organises folders.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "terminology",
+        "severity": "major",
+        "quote": "cloud drive",
+        "rule_id": "TERM-04",
+        "why": "Banned term; use Northbeam Vault."
+      }
+    ]
+  },
+  {
+    "id": "EV-TERM-03",
+    "channel": "blog",
+    "audience": "public",
+    "content": "A file workflow becomes easier to manage when each product has a clear job. Northbeam Sync keeps working files in step across devices. Northbeam Vault gives your team a consistent place to keep stored files. Using the approved product names also matters: clear terminology reduces ambiguity in support conversations, sales material and internal hand-offs.\n\nNorthbeam Sync is used by teams in 14 countries. Its service is backed by an SLA with 99.9% monthly uptime. Northbeam Cloud also encrypts files at rest with AES-256.\n\nA useful way to review your own workflow is to ask two questions. First, which files need to stay current across devices? Second, which files need a stable storage location? The answers make it easier to choose the right Northbeam Cloud product without adding unnecessary process.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": []
+  },
+  {
+    "id": "EV-TERM-04",
+    "channel": "landing_page",
+    "audience": "public",
+    "content": "Keep work moving without hunting for the latest file.\n\nNorthbeam Sync keeps working files in step across devices. For stored material, the Northbeam cloud drive gives your team a consistent place to keep documents that should remain easy to find. Together, the products support a simple routine for active work and longer-lived files.\n\nNorthbeam Sync is used by teams in 14 countries, and its 99.9% monthly uptime is backed by our SLA. Files are encrypted at rest with AES-256.\n\nBuilt for teams that want clear file habits without extra ceremony, Northbeam Cloud gives you named products for two common jobs: keep current work aligned, and keep stored files organised. Start with the workflow you already have, then decide where sync and storage fit.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "terminology",
+        "severity": "major",
+        "quote": "cloud drive",
+        "rule_id": "TERM-04",
+        "why": "Banned term; use Northbeam Vault."
+      }
+    ]
+  },
+  {
+    "id": "EV-TERM-05",
+    "channel": "press_release",
+    "audience": "public",
+    "content": "Northbeam Cloud today introduced updated messaging for its file workflow products, NB Sync and Northbeam Vault, with a focus on clear roles for active and stored work.\n\nNorthbeam Sync is positioned for files that need to stay in step across devices. Northbeam Vault is positioned for material that teams want to keep in a consistent storage location. Northbeam Sync is used by teams in 14 countries, and its 99.9% monthly uptime is backed by the SLA. Files are encrypted at rest with AES-256.\n\nThe updated messaging is intended to make product selection easier for teams reviewing how they share and store files. Northbeam Cloud will use the same product naming across public web, sales and support material so that customers see a consistent description at each stage of their evaluation.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "terminology",
+        "severity": "major",
+        "quote": "NB Sync",
+        "rule_id": "TERM-02",
+        "why": "Banned product name; use Northbeam Sync."
+      }
+    ]
+  },
+  {
+    "id": "EV-TERM-06",
+    "channel": "sales_deck_text",
+    "audience": "internal",
+    "content": "Slide: Two products, two clear jobs\n\nNorthbeam Sync\nKeeps working files in step across devices. Use this name in customer-facing material and sales conversations.\n\nNorthbeam Vault\nUse this name for the storage product. Keep the wording consistent across decks, follow-up emails and demo notes.\n\nProof points approved for current use:\nNorthbeam Sync is used by teams in 14 countries.\nIts SLA is 99.9% monthly uptime; describe the service as backed by the SLA, not guaranteed.\nFiles are encrypted at rest with AES-256.\nNorthbeam Vault starts at INR 599 per month.\n\nPresenter note: lead with the customer benefit, then explain the product. Avoid adding performance comparisons or compliance claims that are not in the approved fact set.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": []
+  },
+  {
+    "id": "EV-CONF-01",
+    "channel": "linkedin",
+    "audience": "public",
+    "content": "We are preparing the next stage of our file experience under Project Atlas, an internal name for work that is still being shaped. The goal is to make it easier for teams to keep their files in step as they move between devices and working contexts.\n\nFor now, Northbeam Sync remains the product customers use for active file sync, and Northbeam Vault remains the storage product. Northbeam Sync is used by teams in 14 countries, with 99.9% monthly uptime backed by our SLA. Files are encrypted at rest with AES-256.\n\nWe will share product updates through normal Northbeam Cloud channels when they are ready. Until then, our public product names and current approved capabilities remain the right reference for customer conversations.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "confidentiality",
+        "severity": "critical",
+        "quote": "Project Atlas",
+        "rule_id": "TERM-31",
+        "why": "Internal codename appears in public content."
+      }
+    ]
+  },
+  {
+    "id": "EV-CONF-02",
+    "channel": "email",
+    "audience": "public",
+    "content": "Subject: A preview from the Northbeam Cloud team\n\nHello,\n\nA small group inside Northbeam Cloud has been referring to upcoming product work as PROJECT ATLAS. That work is not part of our current public product set, but it is influencing how we think about a smoother file experience across devices.\n\nOne roadmap item is also worth watching: Northbeam Mobile launches in March 2027. We are planning customer education around that timing now.\n\nToday, Northbeam Sync remains the approved name for our sync product, and Northbeam Vault remains the approved name for storage. Northbeam Sync is used by teams in 14 countries, and its 99.9% monthly uptime is backed by our SLA.\n\nWe will send practical migration and rollout information as plans become final.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "confidentiality",
+        "severity": "critical",
+        "quote": "PROJECT ATLAS",
+        "rule_id": "TERM-31",
+        "why": "Internal codename appears in public content."
+      },
+      {
+        "category": "confidentiality",
+        "severity": "critical",
+        "quote": "Northbeam Mobile launches in March 2027",
+        "rule_id": "FACT-91",
+        "why": "Internal roadmap fact is disclosed publicly."
+      }
+    ]
+  },
+  {
+    "id": "EV-CONF-03",
+    "channel": "blog",
+    "audience": "public",
+    "content": "Good product planning often starts with a working name. Inside Northbeam Cloud, one initiative has appeared in workshop notes as Project  Atlas. The extra space may look accidental, but the phrase still refers to internal work and should not be used as a public label.\n\nThe same discipline applies to customer references. Acme Retail has been part of internal sales material, but customer names marked internal are not suitable for public examples.\n\nPublic copy should stay with approved information: Northbeam Sync is used by teams in 14 countries, its service is backed by an SLA with 99.9% monthly uptime, and files are encrypted at rest with AES-256. Northbeam Vault starts at INR 599 per month.\n\nClear boundaries make review easier: public facts stay public, and internal project or account names stay inside authorised material.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "confidentiality",
+        "severity": "critical",
+        "quote": "Project  Atlas",
+        "rule_id": "TERM-31",
+        "why": "Internal codename is disclosed in public content despite altered spacing."
+      },
+      {
+        "category": "confidentiality",
+        "severity": "critical",
+        "quote": "Acme Retail",
+        "rule_id": "TERM-32",
+        "why": "Internal client name appears in public content."
+      }
+    ]
+  },
+  {
+    "id": "EV-CONF-04",
+    "channel": "landing_page",
+    "audience": "public",
+    "content": "A clearer file workflow is taking shape at Northbeam Cloud.\n\nOur current products remain Northbeam Sync for keeping working files in step across devices and Northbeam Vault for stored material. Behind the scenes, the team has used the working label Project-Atlas for a future initiative. We are also working toward an internal target: 12000 customers by Q3.\n\nFor customers evaluating Northbeam Cloud today, the approved facts remain straightforward. Northbeam Sync is used by teams in 14 countries. Its service is backed by an SLA with 99.9% monthly uptime. Files are encrypted at rest with AES-256. Northbeam Vault starts at INR 599 per month.\n\nThe aim is a practical experience: clear product roles, clear language and fewer questions about where a file should live.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "confidentiality",
+        "severity": "critical",
+        "quote": "Project-Atlas",
+        "rule_id": "TERM-31",
+        "why": "Internal codename is disclosed publicly in hyphenated form."
+      },
+      {
+        "category": "confidentiality",
+        "severity": "critical",
+        "quote": "12000 customers by Q3",
+        "rule_id": "FACT-90",
+        "why": "Internal customer target is disclosed publicly."
+      }
+    ]
+  },
+  {
+    "id": "EV-CONF-05",
+    "channel": "press_release",
+    "audience": "public",
+    "content": "Northbeam Cloud today published refreshed product guidance for teams reviewing how they keep files current and stored.\n\nNorthbeam Sync keeps working files in step across devices. Northbeam Vault provides the named storage product for material teams want to keep in a consistent place. Northbeam Sync is used by teams in 14 countries, and its service is backed by an SLA with 99.9% monthly uptime. Files are encrypted at rest with AES-256. Northbeam Vault starts at INR 599 per month.\n\nThe guidance is designed to give customers one consistent set of product names and approved facts across web, sales and support material. It does not announce future products, private customer relationships or internal commercial targets.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": []
+  },
+  {
+    "id": "EV-CONF-06",
+    "channel": "sales_deck_text",
+    "audience": "public",
+    "content": "Slide: What is next for Northbeam Cloud\n\nToday: Northbeam Sync keeps working files in step across devices. Northbeam Vault is our storage product. Northbeam Sync is used by teams in 14 countries, and its 99.9% monthly uptime is backed by the SLA.\n\nNext: the internal programme currently called Project\nAtlas is shaping a future mobile experience. Northbeam Mobile launches in March 2027. Early commercial planning has included Acme-Retail as a reference account for the rollout narrative.\n\nWhy it matters: the direction is intended to make file work feel more continuous across devices while keeping the current product structure easy to explain. The details above are being shared here so the audience can understand both the current offer and the planned direction.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "confidentiality",
+        "severity": "critical",
+        "quote": "Project\nAtlas",
+        "rule_id": "TERM-31",
+        "why": "Internal codename is disclosed publicly across a line break."
+      },
+      {
+        "category": "confidentiality",
+        "severity": "critical",
+        "quote": "Northbeam Mobile launches in March 2027",
+        "rule_id": "FACT-91",
+        "why": "Internal roadmap fact is disclosed publicly."
+      },
+      {
+        "category": "confidentiality",
+        "severity": "critical",
+        "quote": "Acme-Retail",
+        "rule_id": "TERM-32",
+        "why": "Internal client name is disclosed publicly in hyphenated form."
+      }
+    ]
+  }
+]

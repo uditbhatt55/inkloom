@@ -1,0 +1,40 @@
+{
+  "organization": { "name": "Northbeam Cloud", "demo": true },
+  "clauses": [
+    { "code": "CLAIM-01", "category": "claim", "text": "Every number in public copy (uptime, customers, savings, speed) must match an approved fact.", "examples_do": ["99.9% monthly uptime (FACT-07)"], "examples_dont": ["99.99% uptime", "10x faster"] },
+    { "code": "CLAIM-02", "category": "claim", "text": "Do not describe service levels as guaranteed; refer to the SLA.", "examples_do": ["backed by our SLA"], "examples_dont": ["guaranteed uptime", "100% reliable"] },
+    { "code": "CLAIM-03", "category": "claim", "text": "Do not call Northbeam the best, #1 or market leader unless an approved fact supports it.", "examples_do": ["used by teams in 14 countries"], "examples_dont": ["India's #1 sync platform"] },
+    { "code": "CLAIM-04", "category": "claim", "text": "Do not claim legal compliance (GDPR, DPDP, HIPAA). Describe the security feature instead.", "examples_do": ["data encrypted at rest with AES-256"], "examples_dont": ["fully GDPR-compliant"] },
+    { "code": "TONE-01", "category": "tone", "text": "Professional and plain: no slang, no exclamation-mark hype in B2B channels.", "examples_do": ["It keeps your files in step."], "examples_dont": ["It's the bomb!", "Insane deal!!!"] },
+    { "code": "TONE-02", "category": "tone", "text": "Speak to the customer as \"you\"; avoid \"users\" in marketing copy.", "examples_do": ["your team"], "examples_dont": ["our users"] },
+    { "code": "MSG-01", "category": "messaging", "text": "Lead with the customer benefit (files in step across devices), then the feature.", "examples_do": [], "examples_dont": [] },
+    { "code": "ACC-01", "category": "accessibility", "text": "Every image needs alt text; text on images needs 4.5:1 contrast (3:1 for large text).", "examples_do": [], "examples_dont": [] },
+    { "code": "VIS-01", "category": "visual", "text": "Use only the brand palette and the Inter typeface.", "examples_do": [], "examples_dont": [] }
+  ],
+  "facts": [
+    { "code": "FACT-03", "statement": "Northbeam Sync is used by teams in 14 countries", "evidence_ref": "CRM export 2026-10", "owner": "Sales Ops", "valid_from": "2026-10-01", "valid_until": "2027-03-31", "visibility": "public" },
+    { "code": "FACT-05", "statement": "Northbeam Vault starts at INR 499 per month", "evidence_ref": "Pricing page v3", "owner": "Marketing", "valid_from": "2025-01-01", "valid_until": "2026-06-30", "visibility": "public" },
+    { "code": "FACT-06", "statement": "Northbeam Vault starts at INR 599 per month", "evidence_ref": "Pricing page v4", "owner": "Marketing", "valid_from": "2026-07-01", "valid_until": null, "visibility": "public" },
+    { "code": "FACT-07", "statement": "Northbeam Sync SLA: 99.9% monthly uptime", "evidence_ref": "SLA v2, clause 4.1", "owner": "Legal", "valid_from": "2026-04-01", "valid_until": "2027-03-31", "visibility": "public" },
+    { "code": "FACT-08", "statement": "Files are encrypted at rest with AES-256", "evidence_ref": "Security whitepaper 2026", "owner": "Security", "valid_from": "2026-01-01", "valid_until": null, "visibility": "public" },
+    { "code": "FACT-90", "statement": "Internal target: 12000 customers by Q3", "evidence_ref": "Board deck", "owner": "CEO office", "valid_from": null, "valid_until": null, "visibility": "internal" },
+    { "code": "FACT-91", "statement": "Northbeam Mobile launches in March 2027", "evidence_ref": "Roadmap", "owner": "Product", "valid_from": null, "valid_until": null, "visibility": "internal" }
+  ],
+  "terms": [
+    { "code": "TERM-01", "term": "Northbeam Sync", "kind": "preferred", "replacement": null, "owner": "Marketing" },
+    { "code": "TERM-02", "term": "NB Sync", "kind": "banned", "replacement": "Northbeam Sync", "owner": "Marketing" },
+    { "code": "TERM-03", "term": "Northbeam Vault", "kind": "preferred", "replacement": null, "owner": "Marketing" },
+    { "code": "TERM-04", "term": "cloud drive", "kind": "banned", "replacement": "Northbeam Vault", "owner": "Marketing" },
+    { "code": "TERM-31", "term": "Project Atlas", "kind": "internal", "replacement": null, "owner": "Product" },
+    { "code": "TERM-32", "term": "Acme Retail", "kind": "internal", "replacement": null, "owner": "Sales" }
+  ],
+  "assets": {
+    "colors": [
+      { "name": "Northbeam Navy", "hex": "#1B2A4A" },
+      { "name": "Signal Teal", "hex": "#14B8A6" },
+      { "name": "Cloud White", "hex": "#F8FAFC" },
+      { "name": "Ink Grey", "hex": "#334155" }
+    ],
+    "fonts": [{ "name": "Inter", "use": "all text" }]
+  }
+}

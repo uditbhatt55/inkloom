@@ -1,0 +1,306 @@
+[
+  {
+    "id": "EV-CLAIM-01",
+    "channel": "linkedin",
+    "audience": "public",
+    "content": "Your team deserves a file-sync platform that never lets you down. Northbeam Sync delivers 99.99% monthly uptime, guaranteed. That makes us India's #1 file-sync platform for growing businesses. Whether your team works remotely or across multiple offices, you can depend on our technology to keep every file accessible and every workflow moving. We believe reliability should never be a question. Join the thousands of businesses already discovering a better way to manage their files. Contact our team today to see how Northbeam Sync can transform your organisation's productivity.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "factual",
+        "severity": "major",
+        "quote": "99.99% monthly uptime",
+        "rule_id": "FACT-07",
+        "why": "The approved SLA specifies 99.9% monthly uptime, not 99.99%."
+      },
+      {
+        "category": "claim",
+        "severity": "major",
+        "quote": "guaranteed",
+        "rule_id": "CLAIM-02",
+        "why": "Service levels must not be described as guaranteed. Refer to the SLA instead."
+      },
+      {
+        "category": "claim",
+        "severity": "major",
+        "quote": "India's #1 file-sync platform",
+        "rule_id": "CLAIM-03",
+        "why": "This makes an unsupported market leadership claim."
+      },
+      {
+        "category": "claim",
+        "severity": "minor",
+        "quote": "the thousands of businesses",
+        "rule_id": "CLAIM-01",
+        "why": "Unverified customer count; no approved fact supports it."
+      },
+      {
+        "category": "claim",
+        "severity": "minor",
+        "quote": "never lets you down",
+        "rule_id": "CLAIM-02",
+        "why": "An absolute reliability promise; service levels should refer to the SLA instead."
+      }
+    ]
+  },
+  {
+    "id": "EV-CLAIM-02",
+    "channel": "email",
+    "audience": "public",
+    "content": "Hello,\n\nThank you for considering Northbeam Cloud for your organisation. We understand that security and regulatory requirements are important when selecting a cloud solution.\n\nNorthbeam Cloud is fully GDPR-compliant and HIPAA-compliant, making it the best platform for businesses that handle sensitive information. Our advanced infrastructure gives your organisation complete confidence when managing important files.\n\nWe would be happy to arrange a product walkthrough and explain how our solutions can support your team's daily operations. Our team can also answer questions about our security features and available plans.\n\nPlease let us know a convenient time for a discussion.\n\nRegards,\nNorthbeam Cloud Team",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "claim",
+        "severity": "major",
+        "quote": "fully GDPR-compliant and HIPAA-compliant",
+        "rule_id": "CLAIM-04",
+        "why": "The guidelines prohibit unsupported legal compliance claims. Describe the actual security features instead."
+      },
+      {
+        "category": "claim",
+        "severity": "major",
+        "quote": "the best platform",
+        "rule_id": "CLAIM-03",
+        "why": "The statement makes an unsupported superiority claim."
+      }
+    ]
+  },
+  {
+    "id": "EV-CLAIM-03",
+    "channel": "blog",
+    "audience": "public",
+    "content": "In today's fast-moving digital environment, businesses need more than basic file management. They need solutions that create measurable improvements in productivity and efficiency.\n\nNorthbeam Sync delivers 10x faster file collaboration compared with traditional platforms. Our customers also save every customer at least 40% in operating costs after switching to our ecosystem. These improvements make Northbeam Cloud an obvious choice for organisations looking to accelerate digital transformation.\n\nBeyond technology, we believe that successful collaboration starts with removing unnecessary complexity. Our platform brings teams together and helps them focus on meaningful work instead of managing scattered files.\n\nExplore Northbeam Cloud and discover a smarter approach to everyday collaboration.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "claim",
+        "severity": "major",
+        "quote": "10x faster file collaboration",
+        "rule_id": "CLAIM-01",
+        "why": "No approved fact establishes this performance comparison. It is an unverified quantitative claim."
+      },
+      {
+        "category": "claim",
+        "severity": "major",
+        "quote": "save every customer at least 40% in operating costs",
+        "rule_id": "CLAIM-01",
+        "why": "The knowledge base contains no approved evidence for this customer savings claim."
+      }
+    ]
+  },
+  {
+    "id": "EV-CLAIM-04",
+    "channel": "landing_page",
+    "audience": "public",
+    "content": "## File collaboration with clear foundations\n\nNorthbeam Sync helps your team keep files in step across devices. It is used by teams in 14 countries, and its SLA specifies 99.9% monthly uptime.\n\nNorthbeam Vault starts at INR 599 per month, providing an accessible starting point for teams exploring file storage solutions.\n\nFiles are encrypted at rest with AES-256. This gives organisations a clear understanding of one of the security measures used to protect stored information.\n\nExplore the Northbeam Cloud product range and learn how Northbeam Sync and Northbeam Vault can support your team's everyday file workflows.\n\nContact our team to discuss product features, service levels and available pricing options.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": []
+  },
+  {
+    "id": "EV-CLAIM-05",
+    "channel": "press_release",
+    "audience": "public",
+    "content": "Northbeam Cloud today announced its expanded commitment to helping organisations manage business files and collaborate across teams.\n\nThe company's Northbeam Sync service is 100% reliable and guaranteed to maintain uninterrupted availability. Northbeam Cloud is also the market leader in enterprise file synchronisation, serving organisations that demand dependable technology.\n\nThe announcement reflects the company's continued focus on delivering accessible file management solutions. Northbeam Vault provides another option for organisations looking to manage their stored information.\n\nNorthbeam Cloud also announced that its entire platform is fully DPDP-compliant, providing customers with complete regulatory assurance.\n\nThe company plans to continue investing in product improvements and customer support as organisations adopt more distributed working practices.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "claim",
+        "severity": "major",
+        "quote": "100% reliable",
+        "rule_id": "CLAIM-02",
+        "why": "The service-level claim implies guaranteed reliability, which the guidelines prohibit."
+      },
+      {
+        "category": "claim",
+        "severity": "major",
+        "quote": "guaranteed to maintain uninterrupted availability",
+        "rule_id": "CLAIM-02",
+        "why": "Service availability must be described using the approved SLA wording, not as a guarantee."
+      },
+      {
+        "category": "claim",
+        "severity": "major",
+        "quote": "the market leader",
+        "rule_id": "CLAIM-03",
+        "why": "No approved fact supports a market leadership claim."
+      },
+      {
+        "category": "claim",
+        "severity": "major",
+        "quote": "fully DPDP-compliant",
+        "rule_id": "CLAIM-04",
+        "why": "The guidelines prohibit claims of legal compliance. The actual security features should be described instead."
+      }
+    ]
+  },
+  {
+    "id": "EV-CLAIM-06",
+    "channel": "sales_deck_text",
+    "audience": "public",
+    "content": "## Northbeam Cloud: Product Overview\n\nNorthbeam Sync helps teams keep files in step across devices. It is currently used by teams in 14 countries.\n\nThe Northbeam Sync SLA specifies 99.9% monthly uptime, providing customers with a documented service-level reference.\n\nNorthbeam Vault starts at INR 599 per month. Files are encrypted at rest with AES-256.\n\nTogether, these products provide organisations with options for file synchronisation and storage. Teams can evaluate their requirements, review the available service information and select the solution that fits their workflows.\n\nOur product team can provide additional information about implementation, product features and support arrangements during a sales discussion.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": []
+  },
+  {
+    "id": "EV-FACTUAL-01",
+    "channel": "email",
+    "audience": "public",
+    "content": "Subject: An affordable way to manage your files\n\nHello,\n\nWe are pleased to introduce Northbeam Vault, our cloud drive solution for businesses looking to simplify everyday file management.\n\nNorthbeam Vault starts at INR 499 per month, making it an affordable option for growing teams. You can also combine it with NB Sync to keep your files organised across devices.\n\nOur solutions are designed to support teams with different working requirements, whether you manage a small office or coordinate across multiple locations.\n\nIf you would like to learn more about pricing and product features, our team would be happy to arrange a demonstration.\n\nRegards,\nNorthbeam Cloud Team",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "factual",
+        "severity": "major",
+        "quote": "Northbeam Vault starts at INR 499 per month",
+        "rule_id": "FACT-06",
+        "why": "INR 499 is the old price (FACT-05 expired on 2026-06-30). The current approved price is INR 599 (FACT-06)."
+      },
+      {
+        "category": "terminology",
+        "severity": "major",
+        "quote": "cloud drive",
+        "rule_id": "TERM-04",
+        "why": "This is a banned product description. Use Northbeam Vault instead."
+      },
+      {
+        "category": "terminology",
+        "severity": "major",
+        "quote": "NB Sync",
+        "rule_id": "TERM-02",
+        "why": "This abbreviation is banned. Use Northbeam Sync instead."
+      }
+    ]
+  },
+  {
+    "id": "EV-FACTUAL-02",
+    "channel": "linkedin",
+    "audience": "public",
+    "content": "Your business files deserve dependable protection and availability.\n\nWith Northbeam Sync, teams can collaborate while maintaining access to their files across devices. Our service delivers 99.99% monthly uptime, helping organisations avoid unnecessary interruptions.\n\nWe also take stored information seriously. Northbeam Cloud encrypts files at rest using AES-128 encryption, adding an important layer of protection to your business information.\n\nWhether your team works remotely or from a shared office, our products help make everyday file management more straightforward.\n\nDiscover how Northbeam Cloud can support your organisation's file management requirements. Contact our team for product information and a demonstration.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "factual",
+        "severity": "major",
+        "quote": "99.99% monthly uptime",
+        "rule_id": "FACT-07",
+        "why": "The approved Northbeam Sync SLA specifies 99.9% monthly uptime."
+      },
+      {
+        "category": "factual",
+        "severity": "major",
+        "quote": "AES-128",
+        "rule_id": "FACT-08",
+        "why": "The approved security fact specifies AES-256 encryption at rest, not AES-128."
+      }
+    ]
+  },
+  {
+    "id": "EV-FACTUAL-03",
+    "channel": "blog",
+    "audience": "public",
+    "content": "## Understanding Northbeam Cloud Products\n\nNorthbeam Cloud provides two products designed for different file management needs.\n\nNorthbeam Sync helps teams keep files in step across devices. It is used by teams in 14 countries, and its SLA specifies 99.9% monthly uptime.\n\nNorthbeam Vault starts at INR 599 per month, giving organisations a clear starting point when evaluating file storage options.\n\nFor stored information, files are encrypted at rest with AES-256.\n\nThese product details help businesses understand the available services without relying on unverified performance comparisons or unsupported promises.\n\nOrganisations interested in either product can contact the Northbeam Cloud team to discuss their requirements and explore the available features.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": []
+  },
+  {
+    "id": "EV-FACTUAL-04",
+    "channel": "landing_page",
+    "audience": "public",
+    "content": "## A simpler way to manage business files\n\nNorthbeam Cloud helps organisations manage their everyday file workflows through Northbeam Sync and Northbeam Vault.\n\nNorthbeam Vault starts at INR 699 per month, giving growing teams an affordable way to organise their business information.\n\nNB Sync is already used by teams in 41 countries, demonstrating our expanding international presence and growing customer adoption.\n\nOur products are designed to support teams that need straightforward file management across different working environments.\n\nExplore the Northbeam Cloud product range and contact our team to learn more about available features, service levels and pricing.\n\nWe look forward to helping your organisation find a suitable approach to managing its files.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "factual",
+        "severity": "major",
+        "quote": "Northbeam Vault starts at INR 699 per month",
+        "rule_id": "FACT-06",
+        "why": "The approved starting price is INR 599 per month, not INR 699."
+      },
+      {
+        "category": "terminology",
+        "severity": "major",
+        "quote": "NB Sync",
+        "rule_id": "TERM-02",
+        "why": "The abbreviation is banned. Use Northbeam Sync."
+      },
+      {
+        "category": "factual",
+        "severity": "major",
+        "quote": "used by teams in 41 countries",
+        "rule_id": "FACT-03",
+        "why": "The approved usage fact states that Northbeam Sync is used by teams in 14 countries."
+      }
+    ]
+  },
+  {
+    "id": "EV-FACTUAL-05",
+    "channel": "press_release",
+    "audience": "public",
+    "content": "Northbeam Cloud today announced an important development in its product roadmap.\n\nNorthbeam Mobile is available today, bringing the company's file management experience to mobile devices. The release also introduces Project Atlas, an initiative that will expand the capabilities of Northbeam Sync.\n\nThe company expects these developments to create additional opportunities for organisations looking to improve how their teams access business information.\n\nNorthbeam Cloud continues to focus on building products that support everyday collaboration and file management. The company plans to share additional product information and updates with its customers as development progresses.\n\nFurther details about the mobile experience and associated product improvements will be communicated through official company channels.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "factual",
+        "severity": "major",
+        "quote": "Northbeam Mobile is available today",
+        "rule_id": "FACT-91",
+        "why": "The approved roadmap states that Northbeam Mobile launches in March 2027, not that it is already available."
+      },
+      {
+        "category": "confidentiality",
+        "severity": "critical",
+        "quote": "Northbeam Mobile",
+        "rule_id": "FACT-91",
+        "why": "The Northbeam Mobile launch information is marked internal and must not appear in public content."
+      },
+      {
+        "category": "confidentiality",
+        "severity": "critical",
+        "quote": "Project Atlas",
+        "rule_id": "TERM-31",
+        "why": "Project Atlas is an internal codename and must not be disclosed in public content."
+      }
+    ]
+  },
+  {
+    "id": "EV-FACTUAL-06",
+    "channel": "sales_deck_text",
+    "audience": "internal",
+    "content": "## Northbeam Sync: Business Overview\n\nNorthbeam Sync supports organisations that need to keep files in step across devices.\n\nThe platform is currently used by teams in 41 countries, demonstrating the breadth of its international adoption. Its SLA specifies 99.9% monthly uptime, providing a documented reference for service-level discussions.\n\nNorthbeam Vault starts at INR 599 per month. Files are encrypted at rest with AES-256.\n\nThese details can help the sales team explain the current product offering, discuss pricing and answer customer questions using approved product information.\n\nDuring customer conversations, the team should refer to the documented SLA and current pricing information rather than relying on older presentation materials.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "factual",
+        "severity": "major",
+        "quote": "used by teams in 41 countries",
+        "rule_id": "FACT-03",
+        "why": "The approved fact states that Northbeam Sync is used by teams in 14 countries, not 41."
+      }
+    ]
+  }
+]
