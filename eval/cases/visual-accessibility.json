@@ -1,0 +1,314 @@
+[
+  {
+    "id": "EV-VIS-01",
+    "channel": "linkedin",
+    "audience": "public",
+    "content": "Your team should recognise Northbeam Sync at a glance. This LinkedIn campaign introduces a simpler way to keep files in step across devices, with a short headline and a clear product name. The attached banner uses a bright orange headline panel to draw attention to the message. The body copy stays focused on the day-to-day benefit and invites readers to explore how Northbeam Sync fits into their team's workflow. The design is intended for a public feed and should feel consistent with the rest of the brand.",
+    "image": {
+      "file": "banner-off-palette.png",
+      "alt": "Northbeam Sync campaign banner with an orange headline panel and product name",
+      "text_colour": "#1B2A4A",
+      "background": "#FF6B35",
+      "fonts": [
+        "Inter"
+      ],
+      "description": "A wide social banner with a bright orange background, navy headline and Northbeam Sync wordmark centred below the headline."
+    },
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "visual",
+        "severity": "major",
+        "quote": "banner-off-palette.png",
+        "rule_id": "VIS-01",
+        "why": "The banner background uses #FF6B35, which is outside Northbeam Cloud's approved brand palette."
+      }
+    ]
+  },
+  {
+    "id": "EV-VIS-02",
+    "channel": "email",
+    "audience": "public",
+    "content": "Hello,\n\nWe are sharing a refreshed Northbeam Vault overview for teams that want a clear place to keep their working files. The email header includes a compact banner with the product name and a short supporting line. Its background is a vivid violet chosen to make the message stand out in crowded inboxes. The rest of the email uses a simple layout, explains the product in plain language and asks readers to view the overview when convenient.\n\nRegards,\nNorthbeam Cloud",
+    "image": {
+      "file": "banner-off-palette.png",
+      "alt": "Northbeam Vault email header with a violet background and product name",
+      "text_colour": "#F8FAFC",
+      "background": "#7C3AED",
+      "fonts": [
+        "Inter"
+      ],
+      "description": "A horizontal email header with a violet field, white Northbeam Vault title and a small geometric cloud motif."
+    },
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "visual",
+        "severity": "major",
+        "quote": "banner-off-palette.png",
+        "rule_id": "VIS-01",
+        "why": "The violet background colour #7C3AED is not one of the approved brand colours."
+      }
+    ]
+  },
+  {
+    "id": "EV-VIS-03",
+    "channel": "blog",
+    "audience": "public",
+    "content": "A consistent visual system helps readers recognise a product before they finish reading the headline. In this Northbeam Cloud blog feature, we explain how Northbeam Sync supports teams working across devices. The article image is designed as a simple title card, with the product name on a saturated deep rose panel and a short line beneath it. The body uses short sections and practical examples, while the image is intended to provide a strong visual break near the opening paragraph.",
+    "image": {
+      "file": "banner-off-palette.png",
+      "alt": "Northbeam Sync blog title card with a deep rose background and white heading",
+      "text_colour": "#F8FAFC",
+      "background": "#BE123C",
+      "fonts": [
+        "Inter"
+      ],
+      "description": "A blog title-card image with a deep rose background, white headline and Northbeam Sync name near the lower edge."
+    },
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "visual",
+        "severity": "major",
+        "quote": "banner-off-palette.png",
+        "rule_id": "VIS-01",
+        "why": "The deep rose background #BE123C is outside the approved Northbeam Cloud palette."
+      }
+    ]
+  },
+  {
+    "id": "EV-VIS-04",
+    "channel": "landing_page",
+    "audience": "public",
+    "content": "Bring your team's files into a clearer daily workflow with Northbeam Vault. This landing page section introduces the product, describes how teams can organise their work and directs visitors to the product overview. The hero banner uses a warm yellow block behind the headline so that the main message feels energetic and distinct from the navigation. Supporting copy remains concise, and the page keeps the product name visible above the primary call to action.",
+    "image": {
+      "file": "banner-off-palette.png",
+      "alt": "Northbeam Vault landing page hero with a yellow headline block",
+      "text_colour": "#1B2A4A",
+      "background": "#FACC15",
+      "fonts": [
+        "Inter"
+      ],
+      "description": "A landing page hero banner with a bright yellow rectangle, navy Northbeam Vault headline and a small abstract file icon."
+    },
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "visual",
+        "severity": "major",
+        "quote": "banner-off-palette.png",
+        "rule_id": "VIS-01",
+        "why": "The yellow background #FACC15 is not included in the approved brand palette."
+      }
+    ]
+  },
+  {
+    "id": "EV-VIS-05",
+    "channel": "press_release",
+    "audience": "public",
+    "content": "Northbeam Cloud has prepared a refreshed visual introduction to Northbeam Sync for editors and communications teams. The accompanying banner uses the approved navy and cloud-white colours, with a clear product name and a short description of the service. The layout leaves open space around the headline so it remains easy to scan in a press release or media kit. The text is set in Inter, and the banner is intended to sit alongside the release without competing with its main announcement.",
+    "image": {
+      "file": "banner-ok.png",
+      "alt": "Northbeam Sync banner with a navy headline on a cloud-white background and a simple file icon",
+      "text_colour": "#1B2A4A",
+      "background": "#F8FAFC",
+      "fonts": [
+        "Inter"
+      ],
+      "description": "A clean horizontal banner with a cloud-white background, navy Northbeam Sync headline and a small teal file icon."
+    },
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": []
+  },
+  {
+    "id": "EV-VIS-06",
+    "channel": "sales_deck_text",
+    "audience": "internal",
+    "content": "This slide introduces Northbeam Vault to a prospective organisation. The left side summarises the product's role in a team's file workflow, while the right side contains a short sequence showing how a file moves between devices. The slide uses a pale peach background to separate the section from the rest of the deck. The headline and labels are kept brief so the presenter can explain the details verbally, and the product name appears in the footer.",
+    "image": {
+      "file": "banner-off-palette.png",
+      "alt": "Northbeam Vault sales slide with a peach background and a workflow illustration",
+      "text_colour": "#334155",
+      "background": "#FED7AA",
+      "fonts": [
+        "Inter"
+      ],
+      "description": "A sales slide banner with a pale peach background, slate headline and a simple three-step file workflow illustration."
+    },
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "visual",
+        "severity": "major",
+        "quote": "banner-off-palette.png",
+        "rule_id": "VIS-01",
+        "why": "The peach background #FED7AA is outside the approved brand palette."
+      }
+    ]
+  },
+  {
+    "id": "EV-ACC-01",
+    "channel": "linkedin",
+    "audience": "public",
+    "content": "Your files should be easy to recognise and the message should be easy to read. This LinkedIn post introduces Northbeam Sync with a short headline placed directly on the campaign banner. The design team selected teal lettering on a cloud-white field to create a light, modern look. The post copy explains the everyday benefit of keeping files in step across devices and invites readers to learn more about the workflow. The image is included as the main visual in the post.",
+    "image": {
+      "file": "banner-low-contrast.png",
+      "alt": "",
+      "text_colour": "#14B8A6",
+      "background": "#F8FAFC",
+      "fonts": [
+        "Inter"
+      ],
+      "description": "A square social graphic with a teal headline on a very light cloud-white background and a small Northbeam Sync label."
+    },
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "accessibility",
+        "severity": "major",
+        "quote": "banner-low-contrast.png",
+        "rule_id": "ACC-01",
+        "why": "The image has no alt text, and the teal text on cloud white also falls below the required 4.5:1 contrast ratio for normal text."
+      }
+    ]
+  },
+  {
+    "id": "EV-ACC-02",
+    "channel": "email",
+    "audience": "public",
+    "content": "Hello,\n\nNorthbeam Cloud is sharing a short guide to Northbeam Vault. The email banner names the product and includes a simple file illustration, while the message below explains where to find the overview and how to contact the team with questions. The banner description is supplied as meaningful alt text for readers using assistive technology. Its headline uses navy on cloud white, with Inter throughout, so the text remains clear and consistent with the brand.\n\nRegards,\nNorthbeam Cloud",
+    "image": {
+      "file": "banner-ok.png",
+      "alt": "Northbeam Vault email banner with a navy product heading, cloud-white background and file illustration",
+      "text_colour": "#1B2A4A",
+      "background": "#F8FAFC",
+      "fonts": [
+        "Inter"
+      ],
+      "description": "A horizontal email banner with a navy Northbeam Vault heading, cloud-white background and a small teal file illustration."
+    },
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": []
+  },
+  {
+    "id": "EV-ACC-03",
+    "channel": "blog",
+    "audience": "public",
+    "content": "The opening image for this Northbeam Cloud article presents a short message about keeping work files in step across devices. The headline is placed over a teal panel, with the letters set in cloud white. The article itself uses clear headings and short paragraphs to explain the Northbeam Sync workflow. The image appears immediately below the title and is intended to reinforce the article's main point before readers move into the detailed explanation.",
+    "image": {
+      "file": "banner-low-contrast.png",
+      "alt": "Northbeam Sync blog banner with a white headline on a teal background",
+      "text_colour": "#F8FAFC",
+      "background": "#14B8A6",
+      "fonts": [
+        "Inter"
+      ],
+      "description": "A wide blog banner with white headline text over a solid teal background and a small abstract sync symbol."
+    },
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "accessibility",
+        "severity": "major",
+        "quote": "banner-low-contrast.png",
+        "rule_id": "ACC-01",
+        "why": "The white text on the teal background does not meet the 4.5:1 contrast requirement for normal-sized text."
+      }
+    ]
+  },
+  {
+    "id": "EV-ACC-04",
+    "channel": "landing_page",
+    "audience": "public",
+    "content": "Northbeam Vault gives your team a clear place to organise working files. This landing page hero introduces the product with a large navy headline on a cloud-white background and a simple illustration of files moving between devices. The supporting paragraph describes the workflow in plain language, and the main action invites visitors to explore the product. The image sits above the paragraph and carries the central message for visitors who scan the page before reading.",
+    "image": {
+      "file": "banner-low-contrast.png",
+      "alt": "",
+      "text_colour": "#1B2A4A",
+      "background": "#F8FAFC",
+      "fonts": [
+        "Inter"
+      ],
+      "description": "A landing page hero with a navy headline on cloud white and an illustration of files moving between devices."
+    },
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "accessibility",
+        "severity": "major",
+        "quote": "banner-low-contrast.png",
+        "rule_id": "ACC-01",
+        "why": "The image's alt field is empty, so visitors using assistive technology do not receive a text alternative for the hero image."
+      }
+    ]
+  },
+  {
+    "id": "EV-ACC-05",
+    "channel": "press_release",
+    "audience": "public",
+    "content": "Northbeam Cloud is issuing a media note about Northbeam Sync and the way it helps teams keep files in step across devices. The release includes a supporting banner with the product name and a short line about the service. The visual uses navy text on cloud white, and the layout is deliberately simple for reuse in media coverage. The image description supplied with the asset is only a generic placeholder, so it does not explain the content of the banner to a reader who cannot see it.",
+    "image": {
+      "file": "banner-ok.png",
+      "alt": "image",
+      "text_colour": "#1B2A4A",
+      "background": "#F8FAFC",
+      "fonts": [
+        "Inter"
+      ],
+      "description": "A simple press banner with a navy Northbeam Sync headline on a cloud-white background."
+    },
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "accessibility",
+        "severity": "minor",
+        "quote": "banner-ok.png",
+        "rule_id": "ACC-01",
+        "why": "The alt text is only the placeholder word 'image'; it does not describe the banner's product name or message."
+      }
+    ]
+  },
+  {
+    "id": "EV-ACC-06",
+    "channel": "sales_deck_text",
+    "audience": "internal",
+    "content": "This slide is designed for a presenter introducing Northbeam Vault to an internal sales audience. The banner states the product name and shows a small file illustration, while the speaker notes carry the longer explanation of the workflow. The image has a descriptive text alternative that names the product and summarises the illustration. Navy text on cloud white provides clear contrast, and the typography uses Inter so the slide is readable when projected or viewed on a laptop.",
+    "image": {
+      "file": "banner-ok.png",
+      "alt": "Northbeam Vault slide banner with a navy product name and a file illustration on a cloud-white background",
+      "text_colour": "#334155",
+      "background": "#F8FAFC",
+      "fonts": [
+        "Inter"
+      ],
+      "description": "A sales slide banner with an ink-grey Northbeam Vault heading, cloud-white background and a small teal file illustration."
+    },
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": []
+  }
+]

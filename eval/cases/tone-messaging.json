@@ -1,0 +1,264 @@
+[
+  {
+    "id": "EV-TONE-01",
+    "channel": "linkedin",
+    "audience": "public",
+    "content": "Big news from Northbeam Cloud!!! Northbeam Sync keeps files in step across devices, so your team can move between workspaces without losing track of the latest version. It is backed by our 99.9% monthly uptime SLA and files are encrypted at rest with AES-256.\n\nAnd honestly, this release is an absolute game changer!!! Our users can stop worrying about file chaos and get on with real work. If your team is tired of chasing attachments, duplicated folders and “final-final” files, Northbeam Sync gives you a clearer way to stay aligned across devices.\n\nSee what a calmer file workflow can look like with Northbeam Sync.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "tone",
+        "severity": "minor",
+        "quote": "Big news from Northbeam Cloud!!!",
+        "rule_id": "TONE-01",
+        "why": "Exclamation-mark hype in a B2B marketing post conflicts with the requirement for professional, plain language."
+      },
+      {
+        "category": "tone",
+        "severity": "minor",
+        "quote": "this release is an absolute game changer!!!",
+        "rule_id": "TONE-01",
+        "why": "The phrase uses promotional hype and repeated exclamation marks instead of professional, plain B2B language."
+      },
+      {
+        "category": "tone",
+        "severity": "minor",
+        "quote": "Our users",
+        "rule_id": "TONE-02",
+        "why": "Marketing copy should speak to the customer as \"you\" and avoid referring to customers as \"users\"."
+      }
+    ]
+  },
+  {
+    "id": "EV-TONE-02",
+    "channel": "email",
+    "audience": "public",
+    "content": "Subject: A simpler way to keep files aligned\n\nNorthbeam Sync helps teams keep files in step across devices. It is used by teams in 14 countries, and its 99.9% monthly uptime is backed by our SLA.\n\nFor our users, the value is straightforward: fewer moments spent wondering which copy is current and more confidence that work is available where it is needed. Our users can also rely on files being encrypted at rest with AES-256.\n\nIf you are reviewing file workflows this quarter, we would be glad to show how Northbeam Sync fits into a typical team setup. Reply to this email and we can arrange a short product walkthrough.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "tone",
+        "severity": "minor",
+        "quote": "our users",
+        "rule_id": "TONE-02",
+        "why": "The copy refers to customers as \"users\" instead of speaking to them as \"you\" or \"your team\"."
+      },
+      {
+        "category": "tone",
+        "severity": "minor",
+        "quote": "Our users",
+        "rule_id": "TONE-02",
+        "why": "The second use of \"users\" repeats the same customer-address issue in marketing copy."
+      }
+    ]
+  },
+  {
+    "id": "EV-TONE-03",
+    "channel": "blog",
+    "audience": "public",
+    "content": "When work moves between a laptop, desktop and shared workspace, the hard part is often not creating a file. It is knowing that everyone is working from the right version.\n\nNorthbeam Sync is designed to keep your files in step across devices. That gives your team a simpler way to move between locations without adding another manual check to the day. The service is used by teams in 14 countries, and its 99.9% monthly uptime is backed by our SLA.\n\nFiles are also encrypted at rest with AES-256. Together, these capabilities support a practical workflow: your team can focus on the work itself while Northbeam Sync helps keep shared files aligned across devices.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": []
+  },
+  {
+    "id": "EV-TONE-04",
+    "channel": "landing_page",
+    "audience": "public",
+    "content": "Stop babysitting files. Northbeam Sync keeps your files in step across devices, so your team can pick up work without hunting through duplicate folders or old attachments.\n\nIt is stupidly simple to get moving, and the experience is a total no-brainer for busy teams. Northbeam Sync is 10x faster than ordinary sync tools, giving you instant access wherever work happens. Files are encrypted at rest with AES-256, and service availability is backed by our 99.9% monthly uptime SLA.\n\nYour team gets a cleaner way to stay aligned across devices, with less time spent asking which version is current. Bring your files together with Northbeam Sync and get back to the work that matters.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "tone",
+        "severity": "minor",
+        "quote": "It is stupidly simple to get moving, and the experience is a total no-brainer for busy teams.",
+        "rule_id": "TONE-01",
+        "why": "\"Stupidly simple\" and \"total no-brainer\" are slangy, hype-led phrases rather than professional, plain B2B language."
+      },
+      {
+        "category": "claim",
+        "severity": "major",
+        "quote": "Northbeam Sync is 10x faster than ordinary sync tools",
+        "rule_id": "CLAIM-01",
+        "why": "The numeric speed claim does not match any approved fact in the knowledge base."
+      }
+    ]
+  },
+  {
+    "id": "EV-TONE-05",
+    "channel": "press_release",
+    "audience": "public",
+    "content": "Northbeam Cloud today announced an exciting new chapter for Northbeam Sync, the market-leading file sync experience built for modern teams. This is a game-changing revolution in how teams work!!!\n\nNorthbeam Sync helps your team keep files in step across devices, reducing the friction of moving between work locations and shared folders. The service is used by teams in 14 countries, files are encrypted at rest with AES-256, and its 99.9% monthly uptime is backed by our SLA.\n\nNorthbeam Cloud said the update reflects a continued focus on practical, dependable file workflows. Teams can use Northbeam Sync to stay aligned without relying on repeated manual checks for the latest version.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "claim",
+        "severity": "major",
+        "quote": "the market-leading file sync experience",
+        "rule_id": "CLAIM-03",
+        "why": "Calling the product market-leading is not supported by an approved fact."
+      },
+      {
+        "category": "tone",
+        "severity": "minor",
+        "quote": "This is a game-changing revolution in how teams work!!!",
+        "rule_id": "TONE-01",
+        "why": "The sentence uses exaggerated hype and repeated exclamation marks in B2B copy."
+      },
+      {
+        "category": "messaging",
+        "severity": "major",
+        "quote": "Northbeam Cloud today announced an exciting new chapter for Northbeam Sync, the market-leading file sync experience built for modern teams.",
+        "rule_id": "MSG-01",
+        "why": "The release opens with a company announcement; the customer benefit (files in step across devices) only appears in the second paragraph."
+      }
+    ]
+  },
+  {
+    "id": "EV-TONE-06",
+    "channel": "sales_deck_text",
+    "audience": "internal",
+    "content": "Your team needs the latest file to be available when work moves from one device to another. Northbeam Sync helps keep files in step across devices so people can continue work with less uncertainty about which copy is current.\n\nThe service is used by teams in 14 countries. Its 99.9% monthly uptime is backed by our SLA, and files are encrypted at rest with AES-256.\n\nFor a buyer, the story is simple: Northbeam Sync supports a more consistent file workflow across devices. In a sales conversation, lead with that practical benefit, then use the approved service and security facts to answer questions without overstating what the product promises.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": []
+  },
+  {
+    "id": "EV-MSG-01",
+    "channel": "landing_page",
+    "audience": "public",
+    "content": "Northbeam Sync uses AES-256 encryption at rest and is backed by a 99.9% monthly uptime SLA. It is used by teams in 14 countries and is built for work across multiple devices.\n\nThese capabilities matter because your team needs files to stay in step when work moves between locations. Northbeam Sync gives you a simpler way to continue from the current file without relying on repeated manual checks or sending another attachment.\n\nBring your work together across devices with Northbeam Sync. You get a practical file workflow supported by approved availability and security facts, without adding extra complexity to the way your team already works.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "messaging",
+        "severity": "major",
+        "quote": "Northbeam Sync uses AES-256 encryption at rest and is backed by a 99.9% monthly uptime SLA.",
+        "rule_id": "MSG-01",
+        "why": "The page opens with product features and proof points instead of leading with the customer benefit of keeping files in step across devices."
+      }
+    ]
+  },
+  {
+    "id": "EV-MSG-02",
+    "channel": "email",
+    "audience": "public",
+    "content": "Subject: Product details for your file workflow review\n\nNorthbeam Vault starts at INR 499 per month. Northbeam Sync is used by teams in 14 countries, has a 99.9% monthly uptime backed by our SLA, and encrypts files at rest with AES-256.\n\nThose details are useful when comparing options, but the main reason to consider Northbeam Sync is simpler: it helps keep your files in step across devices. Your team can move between work locations with less uncertainty about which copy is current.\n\nIf that is a problem you are trying to solve, reply and we can walk through how Northbeam Sync would fit into your current workflow.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "messaging",
+        "severity": "major",
+        "quote": "Northbeam Vault starts at INR 499 per month. Northbeam Sync is used by teams in 14 countries, has a 99.9% monthly uptime backed by our SLA, and encrypts files at rest with AES-256.",
+        "rule_id": "MSG-01",
+        "why": "The email leads with pricing and product facts before explaining the customer benefit."
+      },
+      {
+        "category": "factual",
+        "severity": "major",
+        "quote": "Northbeam Vault starts at INR 499 per month.",
+        "rule_id": "FACT-06",
+        "why": "The INR 499 price is from expired FACT-05; the current approved public price is INR 599 per month in FACT-06."
+      }
+    ]
+  },
+  {
+    "id": "EV-MSG-03",
+    "channel": "blog",
+    "audience": "public",
+    "content": "Your team should not have to stop and ask which file is current every time work moves to another device. Northbeam Sync helps keep files in step across devices, giving you a clearer and more consistent workflow.\n\nThe product supports that benefit with concrete service and security details. Its 99.9% monthly uptime is backed by our SLA, and files are encrypted at rest with AES-256. Northbeam Sync is also used by teams in 14 countries.\n\nThe result is a simple story: your team gets an easier way to stay aligned across devices, while the supporting features and approved facts explain how Northbeam Sync is designed to support that experience.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": []
+  },
+  {
+    "id": "EV-MSG-04",
+    "channel": "sales_deck_text",
+    "audience": "public",
+    "content": "Northbeam Cloud has engineered a powerful sync platform with advanced infrastructure, AES-256 encryption at rest and a 99.9% monthly uptime SLA. Our architecture is designed for dependable access across devices, and the service is 100% reliable for every customer.\n\nWhat does that mean for your team? Northbeam Sync helps keep your files in step across devices, so work can continue with less uncertainty about which copy is current. The product is used by teams in 14 countries.\n\nFor teams evaluating file workflows, Northbeam Sync combines a practical cross-device experience with clear service and security information. It gives you a more consistent way to keep shared work aligned as people move between devices.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "messaging",
+        "severity": "major",
+        "quote": "Northbeam Cloud has engineered a powerful sync platform with advanced infrastructure, AES-256 encryption at rest and a 99.9% monthly uptime SLA.",
+        "rule_id": "MSG-01",
+        "why": "The deck opens with company and feature details instead of the customer benefit of keeping files in step across devices."
+      },
+      {
+        "category": "claim",
+        "severity": "major",
+        "quote": "the service is 100% reliable for every customer.",
+        "rule_id": "CLAIM-02",
+        "why": "The copy describes service reliability as absolute; the approved approach is to refer to the SLA rather than present service levels as guaranteed."
+      }
+    ]
+  },
+  {
+    "id": "EV-MSG-05",
+    "channel": "press_release",
+    "audience": "public",
+    "content": "Northbeam Cloud today announced new platform capabilities across its product portfolio, including expanded planning for Northbeam Sync and future mobile experiences. Northbeam Mobile launches in March 2027.\n\nThe announcement highlights product roadmap activity before explaining the customer outcome. For teams working across devices, the practical benefit is keeping files in step so people can continue from the right version with less manual checking. Northbeam Sync is used by teams in 14 countries, files are encrypted at rest with AES-256, and its 99.9% monthly uptime is backed by our SLA.\n\nNorthbeam Cloud will continue developing tools intended to make everyday file workflows clearer for teams working across devices.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "messaging",
+        "severity": "major",
+        "quote": "Northbeam Cloud today announced new platform capabilities across its product portfolio, including expanded planning for Northbeam Sync and future mobile experiences.",
+        "rule_id": "MSG-01",
+        "why": "The release leads with company and roadmap activity before the customer benefit."
+      },
+      {
+        "category": "confidentiality",
+        "severity": "critical",
+        "quote": "Northbeam Mobile launches in March 2027.",
+        "rule_id": "FACT-91",
+        "why": "FACT-91 is an internal fact (launch timing), so publishing it in public copy exposes internal information."
+      }
+    ]
+  },
+  {
+    "id": "EV-MSG-06",
+    "channel": "linkedin",
+    "audience": "public",
+    "content": "Introducing the next evolution of intelligent file orchestration for modern work. Northbeam Sync combines AES-256 encryption at rest, a 99.9% monthly uptime SLA and a cloud drive experience built for distributed teams. It is used by teams in 14 countries.\n\nIn an increasingly dynamic digital landscape, organisations require robust, seamless and future-ready infrastructure to unlock productivity and operational synergy. That is where the practical benefit comes in: Northbeam Sync helps your team keep files in step across devices, so people can move between work locations with less uncertainty about which copy is current.\n\nFor teams reviewing file workflows, Northbeam Sync brings the supporting features together around a simple goal: keeping shared work aligned across devices.",
+    "labelled_by": [
+      "UB"
+    ],
+    "expected": [
+      {
+        "category": "messaging",
+        "severity": "major",
+        "quote": "Introducing the next evolution of intelligent file orchestration for modern work. Northbeam Sync combines AES-256 encryption at rest, a 99.9% monthly uptime SLA and a cloud drive experience built for distributed teams.",
+        "rule_id": "MSG-01",
+        "why": "The post leads with abstract positioning and features before stating the customer benefit."
+      },
+      {
+        "category": "terminology",
+        "severity": "major",
+        "quote": "cloud drive",
+        "rule_id": "TERM-04",
+        "why": "TERM-04 marks \"cloud drive\" as a banned term; the replacement is Northbeam Vault."
+      }
+    ]
+  }
+]
