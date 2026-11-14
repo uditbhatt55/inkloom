@@ -1,5 +1,6 @@
 // Generated from the Supabase schema (Supabase MCP generate_typescript_types). Regenerate after each migration.
-// Migration 20261112000300 (rule_code, source, label, requested_by, warnings, save_audit) was added by hand; regenerate to confirm.
+// Migrations 20261112000300 (rule_code, source, label, requested_by, warnings, save_audit) and 20261114000000
+// (guideline_clause_history) were added by hand; regenerate to confirm.
 export type Json =
   | string
   | number
@@ -73,6 +74,12 @@ export type Database = {
         Row: { category: E["finding_category"]; clause_id: string | null; confidence: E["confidence"]; decided_by: string | null; end_offset: number | null; explanation: string; fact_id: string | null; id: string; label: string | null; org_id: string; quote: string; reason: string | null; rule_code: string | null; run_id: string; source: string; severity: E["severity"]; start_offset: number | null; status: E["finding_status"]; suggestion: string | null; term_id: string | null }
         Insert: { category: E["finding_category"]; clause_id?: string | null; confidence: E["confidence"]; decided_by?: string | null; end_offset?: number | null; explanation: string; fact_id?: string | null; id?: string; label?: string | null; org_id: string; quote: string; reason?: string | null; rule_code?: string | null; run_id: string; source?: string; severity: E["severity"]; start_offset?: number | null; status?: E["finding_status"]; suggestion?: string | null; term_id?: string | null }
         Update: { category?: E["finding_category"]; clause_id?: string | null; confidence?: E["confidence"]; decided_by?: string | null; end_offset?: number | null; explanation?: string; fact_id?: string | null; id?: string; label?: string | null; org_id?: string; quote?: string; reason?: string | null; rule_code?: string | null; run_id?: string; source?: string; severity?: E["severity"]; start_offset?: number | null; status?: E["finding_status"]; suggestion?: string | null; term_id?: string | null }
+        Relationships: Rel[]
+      }
+      guideline_clause_history: {
+        Row: { changed_at: string; changed_by: string | null; clause_id: string; id: string; org_id: string; text: string; version: number }
+        Insert: { changed_at?: string; changed_by?: string | null; clause_id: string; id?: string; org_id: string; text: string; version: number }
+        Update: { changed_at?: string; changed_by?: string | null; clause_id?: string; id?: string; org_id?: string; text?: string; version?: number }
         Relationships: Rel[]
       }
       guideline_clauses: {

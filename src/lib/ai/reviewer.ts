@@ -18,7 +18,8 @@ export function azureReviewer(cfg: AzureConfig, fetchImpl: typeof fetch = fetch)
     model: cfg.deployment,
     async review({ messages }) {
       const ctl = new AbortController();
-      const timer = setTimeout(() => ctl.abort(), cfg.timeoutMs ?? 25_000);
+      // same as the pipeline's AI budget (AI_BUDGET_MS): the request is cancelled, not left running, when time is up
+      const timer = setTimeout(() => ctl.abort(), cfg.timeoutMs ?? 45_000);
       try {
         // shortcut: no temperature set (support differs per model); add it if the eval shows unstable results.
         const res = await fetchImpl(`${cfg.endpoint.replace(/\/+$/, "")}/chat/completions`, {

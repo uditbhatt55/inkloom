@@ -19,7 +19,9 @@ export type AiMode = "real" | "simulated" | "skipped" | "failed";
 
 export type AuditInput = {
   content: string; channel: string; audience: "public" | "internal"; today: string; knowledge: Knowledge;
-  colours?: ContrastCheck[]; ai: AiReviewer | null; timeoutMs?: number;
+  colours?: ContrastCheck[]; ai: AiReviewer | null;
+  /** TOTAL time the AI may take, retry included; default AI_BUDGET_MS. Must fit inside the route's maxDuration. */
+  timeoutMs?: number;
   /** what the parser found besides text (src/lib/parsers): fonts, images with alt text, dominant colours */
   parsed?: { fonts: string[]; images: ImageRef[]; colours: ImageColour[] };
   /** Flesch–Kincaid target for this channel; default 12 */
@@ -41,6 +43,15 @@ function extractedContrast(colours: ImageColour[]): ContrastCheck | null {
   }
   return worst;
 }
+/**
+ * The AI gets one time budget for the whole audit, retry included. Routes run with maxDuration = 60 s on Vercel; 45 s
+ * for the model leaves time to parse the upload and save the run, so a slow model ends in rule-only results, never a
+ * 504 (§9.1). gpt-6-luna can need more than 25 s, so the budget is not split evenly: the first attempt may use all of it.
+ */
+export const AI_BUDGET_MS = 45_000;
+/** A retry after invalid output only starts if at least this much of the budget is left. */
+const MIN_RETRY_MS = 10_000;
+
 export type AuditResult = {
   findings: Finding[]; score: ScoreResult; aiMode: AiMode; model: string | null; promptVersion: string;
   rejected: Rejected[]; warnings: string[];
@@ -99,8 +110,13 @@ export async function runAudit(input: AuditInput): Promise<AuditResult> {
 
       let output: ReturnType<typeof AiOutputSchema.parse> | null = null;
       let noRecording = false;
-      for (let attempt = 0; attempt < 2 && !output; attempt++) { // invalid output is retried once (§7.2)
-        const raw = await withTimeout(ai.review({ messages, content }), input.timeoutMs ?? 30_000);
+      let outOfTime = false;
+      const budget = input.timeoutMs ?? AI_BUDGET_MS;
+      const deadline = Date.now() + budget;
+      for (let attempt = 0; attempt < 2 && !output; attempt++) { // invalid output is retried once (§7.2), if time allows
+        const left = deadline - Date.now();
+        if (attempt > 0 && left < Math.min(MIN_RETRY_MS, budget / 3)) { outOfTime = true; break; }
+        const raw = await withTimeout(ai.review({ messages, content }), left);
         if (raw === null) { noRecording = true; break; }
         const parsed = AiOutputSchema.safeParse(raw);
         if (parsed.success) output = parsed.data;
@@ -110,7 +126,9 @@ export async function runAudit(input: AuditInput): Promise<AuditResult> {
         warnings.push("AI judgement checks were skipped.");
       } else if (!output) {
         aiMode = "failed";
-        warnings.push("The AI returned invalid output twice; showing rule-based results only.");
+        warnings.push(outOfTime
+          ? "The AI returned invalid output and there was no time to retry; showing rule-based results only."
+          : "The AI returned invalid output twice; showing rule-based results only.");
       } else {
         const usable = output.findings.filter((f) => !/^\*+$/.test(f.quote.trim())); // a quote that is only masked text is unverifiable
         rejected = output.findings.filter((f) => !usable.includes(f)).map((raw) => ({ raw, reason: "quote is masked text" }));
