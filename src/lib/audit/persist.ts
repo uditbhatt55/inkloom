@@ -9,6 +9,8 @@ export type SaveAuditPayload = {
     category: string; severity: string; confidence: string; quote: string; start_offset: number; end_offset: number;
     rule_code: string | null; source: "rule" | "ai"; label: string | null; explanation: string; suggestion: string | null;
   }[];
+  /** facts the content restates; save_audit stores them as claim links (migration 20261114100000) */
+  fact_links: { fact_code: string; quote: string }[];
 };
 
 /**
@@ -27,5 +29,6 @@ export function toSavePayload(r: AuditResult, ids: { orgId: string; versionId: s
       start_offset: f.start, end_offset: f.end, rule_code: f.ruleCode, source: f.source, label: f.label,
       explanation: f.explanation, suggestion: f.suggestion,
     })),
+    fact_links: r.factLinks.map((l) => ({ fact_code: l.code, quote: l.quote })),
   };
 }

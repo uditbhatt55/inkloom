@@ -5,7 +5,7 @@ import { buildMessages, PROMPT_VERSION } from "@/lib/ai/prompt";
 import type { AiReviewer } from "@/lib/ai/reviewer";
 import { findLeaks, maskForAi, type InternalTerm } from "@/lib/guard/guard";
 import { contrastFinding, contrastRatio } from "@/lib/rules/contrast";
-import { checkExpiredFacts } from "@/lib/rules/facts";
+import { checkExpiredFacts, linkFacts } from "@/lib/rules/facts";
 import { checkRulePack } from "@/lib/rules/rulepack";
 import { checkTerms } from "@/lib/rules/terms";
 import { checkAltText, checkFonts, checkPalette, checkReadability, type ImageColour, type ImageRef } from "@/lib/rules/visual";
@@ -55,6 +55,8 @@ const MIN_RETRY_MS = 10_000;
 export type AuditResult = {
   findings: Finding[]; score: ScoreResult; aiMode: AiMode; model: string | null; promptVersion: string;
   rejected: Rejected[]; warnings: string[];
+  /** facts this content restates (fact-impact links, Brand Health) */
+  factLinks: { code: string; quote: string }[];
 };
 
 function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
@@ -149,6 +151,6 @@ export async function runAudit(input: AuditInput): Promise<AuditResult> {
   const findings = mergeFindings(ruleFindings, aiFindings);
   return {
     findings, score: computeScore(findings), aiMode, model: aiMode === "real" || aiMode === "simulated" ? ai!.model : null,
-    promptVersion: PROMPT_VERSION, rejected, warnings,
+    promptVersion: PROMPT_VERSION, rejected, warnings, factLinks: linkFacts(content, knowledge.facts),
   };
 }

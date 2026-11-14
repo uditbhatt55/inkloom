@@ -11,7 +11,8 @@ const result = (o: Partial<AuditResult> = {}): AuditResult => ({
     ruleCode: "WCAG-1.4.3", explanation: "e", suggestion: null, status: "open", label: null,
   }],
   score: { score: 90, byCategory: {}, blocked: false, openCritical: 0 } as AuditResult["score"],
-  aiMode: "simulated", model: "simulated", promptVersion: "v1-draft", rejected: [], warnings: [], ...o,
+  aiMode: "simulated", model: "simulated", promptVersion: "v1-draft", rejected: [], warnings: [],
+  factLinks: [{ code: "FACT-07", quote: "99.9%" }], ...o,
 });
 
 describe("toSavePayload", () => {
@@ -27,6 +28,9 @@ describe("toSavePayload", () => {
     const [f] = toSavePayload(result(), ids).findings;
     expect(f).toMatchObject({ rule_code: "WCAG-1.4.3", source: "rule", start_offset: -1, end_offset: -1 });
     expect(f.quote).toHaveLength(2000);
+  });
+  it("passes fact links as fact codes for save_audit to resolve", () => {
+    expect(toSavePayload(result(), ids).fact_links).toEqual([{ fact_code: "FACT-07", quote: "99.9%" }]);
   });
 });
 

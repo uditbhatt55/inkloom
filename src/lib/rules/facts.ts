@@ -6,6 +6,25 @@ export type Fact = { code: string; statement: string; validUntil: string | null 
 /** `today` is passed in (YYYY-MM-DD) so the function stays pure. A fact is valid through its valid_until date. */
 export const isExpired = (f: Fact, today: string) => f.validUntil !== null && f.validUntil < today;
 
+const figuresOf = (statement: string) => statement.match(/\d+(?:[.,]\d+)*%?/g);
+
+/**
+ * Facts the content restates: every figure of the fact appears as a whole number (same matching as checkExpiredFacts).
+ * Stored as claim links so Brand Health can list approved content that relies on a fact after it changes (§8.3).
+ * shortcut: figure matching only; a fact with no number is never linked here, an AI citation would be needed for those.
+ */
+export function linkFacts(text: string, facts: { code: string; statement: string }[]): { code: string; quote: string }[] {
+  const out: { code: string; quote: string }[] = [];
+  for (const fact of facts) {
+    const figures = figuresOf(fact.statement);
+    if (!figures) continue;
+    const hits = figures.map((fig) => findFigure(text, fig)[0]);
+    if (hits.some((h) => !h)) continue;
+    out.push({ code: fact.code, quote: hits.reduce((a, b) => (a!.start <= b!.start ? a : b))!.quote });
+  }
+  return out;
+}
+
 /**
  * Flags content that restates an expired fact. A fact counts as restated when EVERY figure in its statement
  * (e.g. "99.9%") appears in the text as a whole number.
@@ -16,7 +35,7 @@ export function checkExpiredFacts(text: string, facts: Fact[], today: string): F
   const out: Finding[] = [];
   for (const fact of facts) {
     if (!isExpired(fact, today)) continue;
-    const figures = fact.statement.match(/\d+(?:[.,]\d+)*%?/g);
+    const figures = figuresOf(fact.statement);
     if (!figures) continue;
     const hits = figures.map((fig) => findFigure(text, fig)[0]);
     if (hits.some((h) => !h)) continue;
