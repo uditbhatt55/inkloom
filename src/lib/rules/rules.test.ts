@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { checkContrast, contrastFinding, contrastRatio } from "./contrast";
-import { checkExpiredFacts, isExpired } from "./facts";
+import { checkExpiredFacts, isExpired, linkFacts } from "./facts";
 import { checkTerms, type Term } from "./terms";
 
 describe("contrast (WCAG 2.2 SC 1.4.3)", () => {
@@ -48,6 +48,24 @@ describe("terminology", () => {
   });
   it("ignores internal terms (the Guard handles them)", () => {
     expect(checkTerms("Project Atlas", terms)).toEqual([]);
+  });
+});
+
+describe("fact links (Brand Health fact impact)", () => {
+  const facts = [
+    { code: "FACT-07", statement: "Northbeam Sync SLA: 99.9% monthly uptime" },
+    { code: "FACT-09", statement: "99.9% uptime across 3 regions" },
+    { code: "FACT-08", statement: "Files are encrypted at rest with AES-256" },
+    { code: "FACT-10", statement: "Encrypted at rest" },
+  ];
+  it("links every fact whose figures all appear, with the first figure as the quote", () => {
+    expect(linkFacts("Backed by our SLA: 99.9% uptime, AES-256 at rest.", facts)).toEqual([
+      { code: "FACT-07", quote: "99.9%" },
+      { code: "FACT-08", quote: "256" },
+    ]);
+  });
+  it("does not link 99.99% to 99.9%, a fact missing one of its figures, or a fact with no figures", () => {
+    expect(linkFacts("99.99% uptime, encrypted at rest", facts)).toEqual([]);
   });
 });
 
