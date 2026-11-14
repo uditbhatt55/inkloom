@@ -38,6 +38,15 @@ begin
             case when f->>'status' = 'open' then null else p_reviewer end, f->>'reason');
   end loop;
 
+  -- the run's score by the proposal formula (src/lib/score): severity x confidence, 40 per category, cleared findings excluded
+  update public.audit_runs set score = greatest(0, round(100 - coalesce((
+    select sum(d) from (
+      select least(40, sum((case severity when 'critical' then 25 when 'major' then 10 when 'minor' then 3 else 0 end)
+                           * (case confidence when 'high' then 1.0 when 'medium' then 0.6 else 0 end))) as d
+      from public.findings where run_id = v_run and status not in ('dismissed', 'waived', 'resolved') group by category
+    ) c), 0)))::int
+  where id = v_run;
+
   insert into public.claim_links (org_id, version_id, fact_id, quote, matched_at)
   select v_org, v_version, a.id, coalesce(substring(p_text from '\d+(?:[.,]\d+)*%?'), a.code), v_at
   from public.approved_facts a where a.org_id = v_org and a.code = any(p_facts);

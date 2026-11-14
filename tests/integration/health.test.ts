@@ -48,6 +48,14 @@ describe("supabase/demo-history.sql (Brand Health seeded history, M5)", () => {
     expect(r).toEqual({ n: 12, approved: 4, decisions: 4 });
   });
 
+  it("stores each run's score by the proposal formula, not a flat 100", async () => {
+    const scores = Object.fromEntries((await db.query<{ title: string; score: number }>(`
+      select i.title, r.score from audit_runs r join content_versions v on v.id = r.version_id join content_items i on i.id = v.item_id`)).rows
+      .map((r) => [r.title, r.score]));
+    // NB Sync major/high (10) + revolutionary minor/medium (1.8) → 88; a dismissed CLAIM-02 does not count → 100
+    expect(scores).toMatchObject({ "Holiday promo": 88, "Customer story draft": 80, "Webinar invite": 100, "Product page update": 100 });
+  });
+
   it("every finding quote sits at its offsets in the post text", async () => {
     const bad = (await db.query(`
       select f.quote from findings f join audit_runs r on r.id = f.run_id join content_versions v on v.id = r.version_id

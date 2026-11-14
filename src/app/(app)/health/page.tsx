@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { todayInIndia } from "@/lib/audit/service";
 import { loadBrandHealth } from "@/lib/health/load";
 import { getViewer } from "@/lib/session";
+import { CheckClauseConflicts, SuggestRewrite } from "./ai-actions";
 
 export const metadata: Metadata = { title: "Brand Health · INKLOOM AI" };
 
@@ -89,13 +90,14 @@ export default async function BrandHealthPage() {
                   Suggestion: reword the rule or add an allowed example
                   {u.examples.length > 0 && <> such as {u.examples.map((e, i) => <span key={e}>{i > 0 && ", "}“{e}”</span>)}</>}.
                 </p>
+                <SuggestRewrite orgId={m.orgId} code={u.ruleCode} />
               </li>
             ))}
           </ul>
         )}
       </Section>
 
-      <Section title="Conflicting rules" hint="Terms that contradict each other in the terminology list.">
+      <Section title="Conflicting rules" hint="Terms that contradict each other in the terminology list, and (on request) guideline clauses that contradict each other.">
         {!h.conflicts.length ? <Empty>No conflicting terms.</Empty> : (
           <ul className="space-y-2 text-sm">
             {h.conflicts.map((c) => (
@@ -105,6 +107,7 @@ export default async function BrandHealthPage() {
             ))}
           </ul>
         )}
+        <CheckClauseConflicts orgId={m.orgId} />
       </Section>
 
       <Section title="Fact impact" hint="Approved content that relies on a fact that has expired, expires within 30 days, or changed after the content was approved.">

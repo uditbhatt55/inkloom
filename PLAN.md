@@ -39,7 +39,7 @@ Next.js App Router (Vercel); all model calls are server-side
 | P2 Knowledge Centre | guidelines, facts, terms: add/edit, versions, search, brand-book import | **M2** | P2a done (PR #11, tested live); brand-book import (P2b) and its E2E test not built |
 | P3 Audit pipeline | parsers, rules, guard, AI step, validator, score, `/api/audit` | **M3**: score matches formula; seeded codenames caught; AI failure → rule-only | Done |
 | P4 Review workflow | accept/reject per finding, waive/dismiss, comments, decisions, DB gate | **M4**: full-loop Playwright test; approve blocked on open Critical | Done: Playwright M4 test passes; apply-accepted-fixes added (PR #6, #7) |
-| P5 Brand Health | 4 detectors, fact-impact list | **M5** on seeded history | Built: `/health`, detectors in `src/lib/health`, history in `supabase/demo-history.sql`; PR open |
+| P5 Brand Health | 4 detectors, fact-impact list | **M5** on seeded history | Done: `/health` with the four detectors, AI rewrite and clause comparison, seeded history in `supabase/demo-history.sql`, Playwright test `tests/e2e/health.spec.ts` |
 | P6 Demo mode | simulated reviewer + "Simulated" labels | works with no API key | Done ("Simulated analysis" label); check again in the demo storyline |
 | P7 Test + polish | eval runner, accessibility, fixes | **M6**: accuracy numbers recorded | In progress: 48-case eval set labelled (`eval/cases`), runner not built |
 | P8 Docs + demo | README, demo video, Round 2 report | README + video | Not started |
