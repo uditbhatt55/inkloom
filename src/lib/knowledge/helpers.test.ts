@@ -6,6 +6,8 @@ import {
   isValidHex,
   nextCode,
   todayISO,
+  planTermImport,
+  valePrefix,
   validateDateRange,
 } from "./helpers";
 
@@ -133,5 +135,31 @@ describe("todayISO", () => {
   it("accepts an injected date for testing", () => {
     expect(todayISO(new Date("2026-07-04T12:00:00Z"))).toBe("2026-07-04");
   });
+
+  it("uses India time: 20:00 UTC is already the next day in India", () => {
+    expect(todayISO(new Date("2027-03-31T20:00:00Z"))).toBe("2027-04-01");
+  });
 });
 
+
+describe("valePrefix", () => {
+  it("builds a code prefix from the file name", () => {
+    expect(valePrefix("Brand.Terms.yml")).toBe("VALE-BRAND-TERMS");
+    expect(valePrefix("north beam_terms.yaml")).toBe("VALE-NORTH-BEAM-TERMS");
+    expect(valePrefix(".yml")).toBe("VALE");
+  });
+});
+
+describe("planTermImport", () => {
+  const existing = [{ code: "TERM-02", term: "NB Sync" }, { code: "VALE-X-001", term: "old" }];
+  it("skips terms already present (any case/spacing) and used codes; adds the rest once", () => {
+    const r = planTermImport([
+      { code: "VALE-X-002", term: "nb  sync", kind: "banned", replacement: "Northbeam Sync" },
+      { code: "VALE-X-001", term: "brand new", kind: "banned", replacement: null },
+      { code: "VALE-X-003", term: "cloud drive", kind: "banned", replacement: "Northbeam Vault" },
+      { code: "VALE-X-004", term: "Cloud-Drive", kind: "banned", replacement: null },
+    ], existing);
+    expect(r.toAdd.map((t) => t.term)).toEqual(["cloud drive"]);
+    expect(r.skipped.map((s) => s.reason)).toEqual(["already in the knowledge base", "code VALE-X-001 already used", "already in the knowledge base"]);
+  });
+});

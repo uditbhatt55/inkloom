@@ -76,10 +76,40 @@ export function isFactExpired(validUntil: string | null | undefined, today: stri
 }
 
 /**
- * Returns the ISO date string for today (YYYY-MM-DD).
- * Pure; caller may inject a fixed date for testing.
+ * Today as YYYY-MM-DD in India time, the same day the audit uses for fact expiry (decision D10), so the
+ * "Expired" badge here and the expired-fact finding agree. Pure; inject `now` in tests.
  */
 export function todayISO(now: Date = new Date()): string {
-  return now.toISOString().slice(0, 10);
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(now);
 }
 
+
+/** Code prefix for terms imported from a Vale file: "Brand.Terms.yml" => "VALE-BRAND-TERMS" (codes stay unique per file). */
+export function valePrefix(fileName: string): string {
+  const stem = fileName.replace(/\.[^.]*$/, "").toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 24);
+  return stem ? `VALE-${stem}` : "VALE";
+}
+
+type ImportTerm = { code: string; term: string; kind: string; replacement: string | null };
+
+/**
+ * Which imported terms are new. A term already in the knowledge base (same words, any case or spacing) or a code that
+ * already exists is skipped, so importing the same file twice adds nothing.
+ */
+export function planTermImport(imported: ImportTerm[], existing: { code: string; term: string }[]) {
+  const norm = (t: string) => t.trim().toLowerCase().replace(/[\s\-_]+/g, " ");
+  const terms = new Set(existing.map((e) => norm(e.term)));
+  const codes = new Set(existing.map((e) => e.code));
+  const toAdd: ImportTerm[] = [];
+  const skipped: { term: string; reason: string }[] = [];
+  for (const t of imported) {
+    if (terms.has(norm(t.term))) skipped.push({ term: t.term, reason: "already in the knowledge base" });
+    else if (codes.has(t.code)) skipped.push({ term: t.term, reason: `code ${t.code} already used` });
+    else {
+      toAdd.push(t);
+      terms.add(norm(t.term));
+      codes.add(t.code);
+    }
+  }
+  return { toAdd, skipped };
+}

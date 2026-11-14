@@ -14,6 +14,7 @@ export type ClauseRow = Pick<
   T["guideline_clauses"]["Row"],
   "id" | "code" | "category" | "text" | "examples_do" | "examples_dont" | "status" | "version" | "source_page"
 >;
+export type ClauseHistoryRow = Pick<T["guideline_clause_history"]["Row"], "id" | "clause_id" | "version" | "text" | "changed_at">;
 export type FactRow = Pick<
   T["approved_facts"]["Row"],
   "id" | "code" | "statement" | "valid_from" | "valid_until" | "visibility" | "owner_name" | "evidence_ref"
@@ -29,6 +30,7 @@ export type AssetRow = Pick<
 
 export function KnowledgeTabs({
   clauses,
+  history,
   facts,
   terms,
   assets,
@@ -36,6 +38,7 @@ export function KnowledgeTabs({
   isOwner,
 }: {
   clauses: ClauseRow[];
+  history: ClauseHistoryRow[];
   facts: FactRow[];
   terms: TermRow[];
   assets: AssetRow[];
@@ -46,7 +49,7 @@ export function KnowledgeTabs({
 
   return (
     <Tabs value={tab} onValueChange={setTab}>
-      <TabsList>
+      <TabsList aria-label="Knowledge sections">
         <TabsTrigger value="guidelines">Guidelines ({clauses.length})</TabsTrigger>
         <TabsTrigger value="facts">Facts ({facts.length})</TabsTrigger>
         <TabsTrigger value="terms">Terms ({terms.length})</TabsTrigger>
@@ -54,7 +57,7 @@ export function KnowledgeTabs({
       </TabsList>
 
       <TabsContent value="guidelines" className="mt-4">
-        <GuidelinesTab clauses={clauses} orgId={orgId} isOwner={isOwner} />
+        <GuidelinesTab clauses={clauses} history={history} orgId={orgId} isOwner={isOwner} />
       </TabsContent>
       <TabsContent value="facts" className="mt-4">
         <FactsTab facts={facts} orgId={orgId} isOwner={isOwner} />

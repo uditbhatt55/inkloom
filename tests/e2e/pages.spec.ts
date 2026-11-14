@@ -24,7 +24,7 @@ test("login page has labelled fields and says when sign-in is not set up", async
   expect(await serious(page)).toEqual([]);
 });
 
-for (const path of ["/dashboard", "/audit/new"]) {
+for (const path of ["/dashboard", "/audit/new", "/knowledge"]) {
   test(`${path} shows a clear "not set up" message without Supabase keys`, async ({ page }) => {
     await page.goto(path);
     await expect(page.getByText("Not set up yet")).toBeVisible();

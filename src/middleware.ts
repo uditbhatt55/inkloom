@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 /** Pages that need a signed-in user. API routes check auth themselves and return JSON errors. */
-const PROTECTED = ["/dashboard", "/audit", "/items"];
+const PROTECTED = ["/dashboard", "/audit", "/items", "/knowledge"];
 
 /**
  * Refreshes the Supabase session cookie on every page request and sends signed-out users to /login.

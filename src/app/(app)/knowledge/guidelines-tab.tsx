@@ -11,8 +11,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { Database } from "@/lib/database.types";
 import { CATEGORY_PREFIX, nextCode } from "@/lib/knowledge/helpers";
+import { friendlyDbError } from "@/lib/review/errors";
 import { createClient } from "@/lib/supabase/browser";
-import type { ClauseRow } from "./knowledge-tabs";
+import type { ClauseHistoryRow, ClauseRow } from "./knowledge-tabs";
 
 type E = Database["public"]["Enums"];
 
@@ -35,10 +36,12 @@ const selectClass =
 
 export function GuidelinesTab({
   clauses,
+  history,
   orgId,
   isOwner,
 }: {
   clauses: ClauseRow[];
+  history: ClauseHistoryRow[];
   orgId: string;
   isOwner: boolean;
 }) {
@@ -113,15 +116,15 @@ export function GuidelinesTab({
 
     let err;
     if (editing) {
-      // Bump version when text changed
-      const versionBump = text.trim() !== editing.text ? { version: (editing.version ?? 1) + 1 } : {};
-      ({ error: err } = await supabase.from("guideline_clauses").update({ ...payload, ...versionBump }).eq("id", editing.id));
+      // the database bumps the version and keeps the old text when the rule text changes (migration 20261114000000)
+      const changes = { text: payload.text, status: payload.status, examples_do: payload.examples_do, examples_dont: payload.examples_dont, source_page: payload.source_page };
+      ({ error: err } = await supabase.from("guideline_clauses").update(changes).eq("id", editing.id));
     } else {
       ({ error: err } = await supabase.from("guideline_clauses").insert(payload));
     }
     setBusy(false);
     if (err) {
-      setError(err.code === "23505" ? `Code "${payload.code}" already exists for this organisation.` : err.message);
+      setError(err.code === "23505" ? `Code "${payload.code}" already exists for this organisation.` : friendlyDbError(err));
     } else {
       setShowForm(false);
       startTransition(() => router.refresh());
@@ -132,8 +135,10 @@ export function GuidelinesTab({
     const supabase = createClient();
     if (!supabase) return;
     setBusy(true);
-    await supabase.from("guideline_clauses").update({ status: "retired" }).eq("id", c.id);
+    setError(null);
+    const { error: err } = await supabase.from("guideline_clauses").update({ status: "retired" }).eq("id", c.id);
     setBusy(false);
+    if (err) return setError(friendlyDbError(err));
     startTransition(() => router.refresh());
   }
 
@@ -216,7 +221,7 @@ export function GuidelinesTab({
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1">
-                  <Label htmlFor="clause-do">Examples (do) — one per line</Label>
+                  <Label htmlFor="clause-do">Examples (do), one per line</Label>
                   <Textarea
                     id="clause-do"
                     value={examplesDo}
@@ -226,7 +231,7 @@ export function GuidelinesTab({
                   />
                 </div>
                 <div className="space-y-1">
-                  <Label htmlFor="clause-dont">Examples (don't) — one per line</Label>
+                  <Label htmlFor="clause-dont">Examples (don&apos;t), one per line</Label>
                   <Textarea
                     id="clause-dont"
                     value={examplesDont}
@@ -294,6 +299,12 @@ export function GuidelinesTab({
         </Card>
       )}
 
+      {error && !showForm && (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
       <div className="space-y-2">
         {filtered.length === 0 && (
           <p className="text-sm text-muted-foreground py-4 text-center">
@@ -315,6 +326,18 @@ export function GuidelinesTab({
                 )}
               </div>
               <p className="text-sm">{c.text}</p>
+              {history.some((h) => h.clause_id === c.id) && (
+                <details className="text-xs text-muted-foreground">
+                  <summary className="cursor-pointer">Previous versions</summary>
+                  <ul className="mt-1 space-y-1 border-l pl-3">
+                    {history.filter((h) => h.clause_id === c.id).map((h) => (
+                      <li key={h.id}>
+                        <span className="font-medium">v{h.version}</span> (until {h.changed_at.slice(0, 10)}): {h.text}
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
               {(c.examples_do?.length > 0 || c.examples_dont?.length > 0) && (
                 <div className="flex flex-wrap gap-4 text-xs text-muted-foreground mt-1">
                   {c.examples_do?.length > 0 && (
