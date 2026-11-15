@@ -136,6 +136,38 @@ describe("HTML", () => {
     expect(p.images.map((i) => i.alt)).toEqual([null, "Northbeam logo", "", ""]);
   });
 
+  describe("a page's main content", () => {
+    const copy = "Northbeam Sync keeps your files in step across devices, so your team can pick up work without hunting for the latest copy. ".repeat(3);
+
+    it("reads <main> only: menus, header, sidebar and their images are left out", () => {
+      const html = `<body><header><img src="logo.png"><nav><a>Home</a><a>Pricing</a></nav></header>
+        <aside>Related links</aside><main><h1>Spring launch</h1><p>${copy}</p><img src="hero.png" alt="Product hero"></main><footer>Contact us</footer></body>`;
+      const p = parseHtmlContent(html);
+      expect(p.text).toContain("Spring launch");
+      expect(p.text).not.toMatch(/Home|Pricing|Related links|Contact us/);
+      expect(p.images).toEqual([{ label: "hero.png", alt: "Product hero" }]);
+    });
+
+    it("drops navigation menus even when the page has no <main>", () => {
+      const html = `<body><nav role="navigation">Skip to content Main menu</nav><div role="navigation">Sidebar menu</div><p>Hello page</p></body>`;
+      expect(parseHtmlContent(html).text).toBe("Hello page");
+    });
+
+    it("falls back to the whole body when <main> holds almost no text", () => {
+      const html = `<body><p>${copy}</p><main><a>Skip</a></main></body>`;
+      expect(parseHtmlContent(html).text).toContain("Northbeam Sync keeps your files");
+    });
+
+    it("uses a single <article>, but reads the whole body when there are several", () => {
+      const one = parseHtmlContent(`<body><div>Site banner text</div><article><p>${copy}</p></article></body>`);
+      expect(one.text).toContain("Northbeam Sync");
+      expect(one.text).not.toContain("Site banner");
+      const many = parseHtmlContent(`<body><div>Site banner text</div><article><p>${copy}</p></article><article><p>Second story ${copy}</p></article></body>`);
+      expect(many.text).toContain("Site banner text");
+      expect(many.text).toContain("Second story");
+    });
+  });
+
   it("private, loopback, link-local and mapped addresses are private", () => {
     for (const ip of ["127.0.0.1", "10.1.2.3", "172.20.0.1", "192.168.1.1", "169.254.169.254", "100.64.0.1", "0.0.0.0", "::1", "fd00::1", "fe80::1", "::ffff:127.0.0.1", "224.0.0.1"]) {
       expect(isPrivateAddress(ip), ip).toBe(true);

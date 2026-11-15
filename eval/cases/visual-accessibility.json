@@ -15,7 +15,8 @@
       "description": "A wide social banner with a bright orange background, navy headline and Northbeam Sync wordmark centred below the headline."
     },
     "labelled_by": [
-      "UB"
+      "UB",
+      "SS"
     ],
     "expected": [
       {
@@ -43,7 +44,8 @@
       "description": "A horizontal email header with a violet field, white Northbeam Vault title and a small geometric cloud motif."
     },
     "labelled_by": [
-      "UB"
+      "UB",
+      "SS"
     ],
     "expected": [
       {
@@ -71,7 +73,8 @@
       "description": "A blog title-card image with a deep rose background, white headline and Northbeam Sync name near the lower edge."
     },
     "labelled_by": [
-      "UB"
+      "UB",
+      "SS"
     ],
     "expected": [
       {
@@ -99,7 +102,8 @@
       "description": "A landing page hero banner with a bright yellow rectangle, navy Northbeam Vault headline and a small abstract file icon."
     },
     "labelled_by": [
-      "UB"
+      "UB",
+      "SS"
     ],
     "expected": [
       {
@@ -127,7 +131,8 @@
       "description": "A clean horizontal banner with a cloud-white background, navy Northbeam Sync headline and a small teal file icon."
     },
     "labelled_by": [
-      "UB"
+      "UB",
+      "SS"
     ],
     "expected": []
   },
@@ -147,7 +152,8 @@
       "description": "A sales slide banner with a pale peach background, slate headline and a simple three-step file workflow illustration."
     },
     "labelled_by": [
-      "UB"
+      "UB",
+      "SS"
     ],
     "expected": [
       {
@@ -175,7 +181,8 @@
       "description": "A square social graphic with a teal headline on a very light cloud-white background and a small Northbeam Sync label."
     },
     "labelled_by": [
-      "UB"
+      "UB",
+      "SS"
     ],
     "expected": [
       {
@@ -183,7 +190,14 @@
         "severity": "major",
         "quote": "banner-low-contrast.png",
         "rule_id": "ACC-01",
-        "why": "The image has no alt text, and the teal text on cloud white also falls below the required 4.5:1 contrast ratio for normal text."
+        "why": "The image has no alt text (alt is empty) although it carries the headline, so it is not decorative."
+      },
+      {
+        "category": "accessibility",
+        "severity": "major",
+        "quote": "banner-low-contrast.png",
+        "rule_id": "ACC-01",
+        "why": "Teal #14B8A6 text on cloud white #F8FAFC is 2.38:1, below the required 4.5:1 for normal text."
       }
     ]
   },
@@ -203,7 +217,8 @@
       "description": "A horizontal email banner with a navy Northbeam Vault heading, cloud-white background and a small teal file illustration."
     },
     "labelled_by": [
-      "UB"
+      "UB",
+      "SS"
     ],
     "expected": []
   },
@@ -223,7 +238,8 @@
       "description": "A wide blog banner with white headline text over a solid teal background and a small abstract sync symbol."
     },
     "labelled_by": [
-      "UB"
+      "UB",
+      "SS"
     ],
     "expected": [
       {
@@ -251,7 +267,8 @@
       "description": "A landing page hero with a navy headline on cloud white and an illustration of files moving between devices."
     },
     "labelled_by": [
-      "UB"
+      "UB",
+      "SS"
     ],
     "expected": [
       {
@@ -279,12 +296,13 @@
       "description": "A simple press banner with a navy Northbeam Sync headline on a cloud-white background."
     },
     "labelled_by": [
-      "UB"
+      "UB",
+      "SS"
     ],
     "expected": [
       {
         "category": "accessibility",
-        "severity": "minor",
+        "severity": "major",
         "quote": "banner-ok.png",
         "rule_id": "ACC-01",
         "why": "The alt text is only the placeholder word 'image'; it does not describe the banner's product name or message."
@@ -307,7 +325,8 @@
       "description": "A sales slide banner with an ink-grey Northbeam Vault heading, cloud-white background and a small teal file illustration."
     },
     "labelled_by": [
-      "UB"
+      "UB",
+      "SS"
     ],
     "expected": []
   }
