@@ -4,10 +4,10 @@
     "ai_model": null,
     "today": "2026-11-15",
     "cases": 48,
-    "expected": 67,
+    "expected": 69,
     "found": 49,
-    "recall_pct": 50.7,
-    "precision_pct": 71.4,
+    "recall_pct": 52.2,
+    "precision_pct": 79.6,
     "precision_high_confidence_pct": 100,
     "codename_recall_pct": 100,
     "internal_fact_recall_pct": 100,
@@ -16,8 +16,8 @@
     "ai_not_real": 0,
     "by_category": {
       "factual": {
-        "expected": 9,
-        "recall_pct": 22.2,
+        "expected": 8,
+        "recall_pct": 25,
         "found": 2,
         "precision_pct": 100
       },
@@ -28,14 +28,14 @@
         "precision_pct": 66.7
       },
       "tone": {
-        "expected": 7,
-        "recall_pct": 28.6,
+        "expected": 9,
+        "recall_pct": 33.3,
         "found": 9,
-        "precision_pct": 22.2
+        "precision_pct": 66.7
       },
       "accessibility": {
-        "expected": 4,
-        "recall_pct": 75,
+        "expected": 5,
+        "recall_pct": 80,
         "found": 9,
         "precision_pct": 33.3
       },
@@ -204,15 +204,13 @@
     {
       "id": "EV-FACTUAL-05",
       "found": 3,
-      "expected": 3,
+      "expected": 2,
       "hit": 2,
       "truePos": 2,
       "extra": [
         "accessibility/medium: Reading grade 15.7"
       ],
-      "missed": [
-        "factual: Northbeam Mobile is available today"
-      ],
+      "missed": [],
       "aiMode": "skipped"
     },
     {
@@ -386,11 +384,12 @@
     {
       "id": "EV-TONE-04",
       "found": 0,
-      "expected": 2,
+      "expected": 3,
       "hit": 0,
       "truePos": 0,
       "extra": [],
       "missed": [
+        "tone: Stop babysitting files",
         "tone: It is stupidly simple to get moving, and the experience is a total no-brainer for busy teams.",
         "claim: Northbeam Sync is 10x faster than ordinary sync tools"
       ],
@@ -405,7 +404,7 @@
       "extra": [],
       "missed": [
         "claim: the market-leading file sync experience",
-        "messaging: Northbeam Cloud today announced an exciting new chapter for Northbeam Sync, the market-leading file sync experience built for modern teams."
+        "messaging: Northbeam Cloud today announced an exciting new chapter for Northbeam Sync"
       ],
       "aiMode": "skipped"
     },
@@ -481,15 +480,11 @@
     {
       "id": "EV-MSG-06",
       "found": 6,
-      "expected": 2,
-      "hit": 1,
-      "truePos": 1,
+      "expected": 3,
+      "hit": 2,
+      "truePos": 5,
       "extra": [
-        "tone/medium: In an increasingly",
-        "tone/medium: dynamic",
-        "tone/medium: robust",
-        "claim/medium: seamless",
-        "tone/medium: synergy"
+        "claim/medium: seamless"
       ],
       "missed": [
         "messaging: Introducing the next evolution of intelligent file orchestration for modern work. Northbeam Sync combines AES-256 encryption at rest, a 99.9% monthly uptime SLA and a cloud drive experience built for distributed teams."
@@ -559,8 +554,8 @@
     {
       "id": "EV-ACC-01",
       "found": 1,
-      "expected": 1,
-      "hit": 1,
+      "expected": 2,
+      "hit": 2,
       "truePos": 1,
       "extra": [],
       "missed": [],

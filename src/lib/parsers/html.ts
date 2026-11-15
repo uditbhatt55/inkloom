@@ -7,11 +7,30 @@ import { empty, LIMITS, normaliseText, ParseError, type ParsedContent } from "@/
 
 const BLOCK = new Set(["p", "div", "section", "article", "header", "footer", "main", "aside", "nav", "li", "ul", "ol", "h1", "h2", "h3", "h4", "h5", "h6", "br", "tr", "table", "blockquote", "figure", "figcaption", "pre", "hr"]);
 
-/** Visible text with block breaks, image alt texts, and nothing from scripts/styles/templates. */
+type Node = ReturnType<typeof parseHtml>;
+/** A page's main content is only used when it holds real text; a tiny <main> (a skip link, an empty shell) falls back to the body. */
+const MIN_MAIN_CHARS = 200;
+
+/**
+ * The part of the page that is the content: <main> or role=main, else the page's only <article>, else the whole body.
+ * Menus, headers and sidebars outside it are not the author's copy and would flood the audit with findings.
+ * shortcut: a site with no <main> and several <article>s is read whole, menus included; pick the right container if that shows up.
+ */
+function contentRoot(body: Node): Node {
+  const big = (el: Node | null | undefined): el is Node => !!el && el.text.replace(/\s+/g, " ").trim().length >= MIN_MAIN_CHARS;
+  const main = body.querySelector("main") ?? body.querySelector("[role=main]");
+  if (big(main)) return main;
+  const articles = body.querySelectorAll("article");
+  if (articles.length === 1 && big(articles[0])) return articles[0];
+  return body;
+}
+
+/** Visible text with block breaks, image alt texts, and nothing from scripts/styles/templates or navigation menus. */
 export function parseHtmlContent(html: string, url?: string): ParsedContent {
   const root = parseHtml(html, { comment: false, blockTextElements: { script: false, style: false, noscript: false, template: false } });
-  for (const el of root.querySelectorAll("script,style,noscript,template,svg,iframe")) el.remove();
+  for (const el of root.querySelectorAll("script,style,noscript,template,svg,iframe,nav,[role=navigation]")) el.remove();
   const out = empty("html", "");
+  const scope = contentRoot(root.querySelector("body") ?? root);
 
   const parts: string[] = [];
   const walk = (node: ReturnType<typeof parseHtml>) => {
@@ -25,11 +44,11 @@ export function parseHtmlContent(html: string, url?: string): ParsedContent {
       }
     }
   };
-  walk(root.querySelector("body") ?? root);
+  walk(scope);
   const text = parts.join("").split("\n").map((l) => l.trim()).filter(Boolean).join("\n");
   out.text = normaliseText(text, out.warnings);
 
-  root.querySelectorAll("img").forEach((img, i) => {
+  scope.querySelectorAll("img").forEach((img, i) => {
     const decorative = ["presentation", "none"].includes(img.getAttribute("role") ?? "") || img.getAttribute("aria-hidden") === "true";
     const alt = img.getAttribute("alt");
     out.images.push({ label: img.getAttribute("src")?.split("/").pop()?.slice(0, 60) || `Image ${i + 1}`, alt: decorative ? "" : alt ?? null });

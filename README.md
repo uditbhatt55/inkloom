@@ -31,12 +31,16 @@ The demo accounts are shared, so you may see other judges' posts. The demo data 
 ## Not built or limited (honest list)
 
 - Brand-book import works on PDFs with a text layer (not scanned pages); every item it drafts must be checked by the owner before saving.
-- Accuracy on our own 48 labelled cases (`npm run eval`; one labeller so far, so treat as a first measurement): with the real model, 98% of high-confidence findings are correct and 97% of the labelled issues are found; rule checks alone find 51% and are 100% correct on high confidence. All seeded codenames and internal facts are found. The model's answers vary a little between runs. Results are in `eval/results/`. Precision over all confidence levels is lower (79%) because medium and low findings include reasonable extras the labels did not list.
+- Accuracy on our own 48 labelled cases (`npm run eval`; labelled by two people: Udit, then Shrikant read all 48 and his 9 changes were applied, see `eval/second-labeller-SS.md`; still our own set, so treat it as a first measurement, not a benchmark). With the real model, in two runs: 88% and 91% of the 69 labelled issues are found, 93% and 88% of high-confidence findings are correct, and 77% and 72% of all findings are correct. Run 1 had one model call fail, which lowers its recall. Rule checks alone find 52% and are 100% correct on high confidence. All seeded codenames and internal facts are found in every run. The model's answers vary between runs, so numbers move by a few points. Results are in `eval/results/`. Precision over all confidence levels is lower because medium and low findings include reasonable extras the labels did not list.
 - Contrast measured from an image is an estimate (the weakest foreground colour on the main background, no text reading) and is marked low confidence; type the text and background colours in the upload form for an exact check.
 - Uploaded files are kept (private Storage bucket) and can be opened again from the post; after a fix only the text is audited again, not the file.
 - The approval gate checks the version belongs to the item, not that it is the latest one.
 - An internal fact reworded with neither its figure nor its name (and spelled-out numbers) is not caught; reworded figures are flagged as a hint to check.
 - Logos are stored for the team but not yet checked against content (no logo recognition).
+- Usability: so far one guided walkthrough by a person from outside the team, who completed the basic flow and the file tests; it led to the web page fix below. No timings or ratings yet; the five-person test in `docs/usability/kit.md` is planned for Round 3. Notes: [`docs/usability/results-round2.md`](docs/usability/results-round2.md).
+- A web page is audited from its main content (`<main>`, or the page's only `<article>`); menus are skipped. A page with neither is read whole, so very busy pages (many images, long language lists) can still give noisy results.
+- A post page lists at most 1,000 findings (the database returns 1,000 rows per request); the score of a post with more is still capped per category and the approval gate in the database sees all of them. The per-account limit of 20 audits in 10 minutes counts finished audits, so many requests sent at the same moment can pass it.
+- If text tries to instruct the AI ("ignore all previous instructions…"), Azure's jailbreak filter refuses the request; the audit then returns the rule checks only, with a note that AI checks were skipped.
 
 ## Stack
 
