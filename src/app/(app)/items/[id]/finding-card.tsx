@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { Database } from "@/lib/database.types";
-import { CATEGORY_LABEL, CONFIDENCE_LABEL, SEVERITY_LABEL, ruleSourceLabel } from "@/lib/labels";
+import { CATEGORY_LABEL, CONFIDENCE_LABEL, SEVERITY_LABEL, SEVERITY_STYLE as SEV_BADGE, ruleSourceLabel } from "@/lib/labels";
 import { friendlyDbError } from "@/lib/review/errors";
 import { createClient } from "@/lib/supabase/browser";
 
@@ -16,10 +16,10 @@ type Row = Database["public"]["Tables"]["findings"]["Row"];
 export type CitedSource = { code: string; kind: "Clause" | "Fact" | "Term"; text: string | null; note?: string };
 
 const SEVERITY_STYLE: Record<Row["severity"], string> = {
-  critical: "border-l-red-700",
-  major: "border-l-orange-600",
-  minor: "border-l-amber-500",
-  info: "border-l-slate-400",
+  critical: "border-l-critical",
+  major: "border-l-major",
+  minor: "border-l-minor",
+  info: "border-l-info",
 };
 
 export function FindingCard({
@@ -154,7 +154,7 @@ export function FindingCard({
       <CardHeader className="px-4">
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="font-semibold tabular-nums text-muted-foreground">#{n}</span>
-          <Badge variant={f.severity === "critical" ? "destructive" : "secondary"}>{SEVERITY_LABEL[f.severity]}</Badge>
+          <Badge className={SEV_BADGE[f.severity]}>{SEVERITY_LABEL[f.severity]}</Badge>
           <Badge variant="outline">{CATEGORY_LABEL[f.category]}</Badge>
           <span className="text-muted-foreground">Confidence: {CONFIDENCE_LABEL[f.confidence]}</span>
           <Badge variant="outline">{f.source === "ai" ? "AI finding" : "Rule check"}</Badge>

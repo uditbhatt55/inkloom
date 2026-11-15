@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { Finding } from "@/lib/audit/types";
 import { bySeverity, segmentText } from "@/lib/highlight";
-import { CATEGORY_LABEL, RUN_MODE_LABEL, STATUS_LABEL } from "@/lib/labels";
+import { CATEGORY_LABEL, RUN_MODE_LABEL, STATUS_LABEL, STATUS_STYLE } from "@/lib/labels";
 import {
   canAcceptOrRejectFinding,
   canDismissOrWaiveFinding,
@@ -20,6 +20,7 @@ import { ApplyFixesButton } from "./apply-fixes-button";
 import { CommentsBox } from "./comments-box";
 import { DecisionPanel } from "./decision-panel";
 import { FindingCard, type CitedSource } from "./finding-card";
+import { ScoreRing } from "./score-ring";
 
 export const metadata: Metadata = { title: "Audit · INKLOOM AI" };
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -176,7 +177,7 @@ export default async function ItemPage({
           </p>
           <h1 className="text-2xl font-semibold tracking-tight">{item.title}</h1>
           <div className="flex flex-wrap items-center gap-2 text-sm">
-            <Badge variant="secondary">{STATUS_LABEL[item.status]}</Badge>
+            <Badge className={STATUS_STYLE[item.status]}>{STATUS_LABEL[item.status]}</Badge>
             <span className="text-muted-foreground">
               Version {version.n} of {versions!.length} · {item.audience === "public" ? "Public" : "Internal"}
             </span>
@@ -286,10 +287,12 @@ export default async function ItemPage({
                   <h2 id="score-heading" className="text-sm font-medium text-muted-foreground">
                     Compliance score
                   </h2>
-                  <p className="text-4xl font-semibold tabular-nums">
-                    {live.score}
-                    <span className="text-base text-muted-foreground"> / 100</span>
-                  </p>
+                  <div className="flex items-center gap-4">
+                    <ScoreRing score={live.score} tone={live.blocked ? "critical" : live.score >= 80 ? "success" : "primary"} />
+                    <p className="text-sm text-muted-foreground">
+                      {live.blocked ? "Blocked: an open Critical finding stops approval." : "Live score with today's decisions."}
+                    </p>
+                  </div>
                   <div className="flex flex-wrap gap-2 text-xs">
                     <Badge variant="outline">{RUN_MODE_LABEL[run.mode] ?? run.mode}</Badge>
                     {run.model && run.mode !== "simulated" && (
@@ -330,7 +333,7 @@ export default async function ItemPage({
               <h2 className="text-lg font-medium">
                 {findings.length} finding{findings.length === 1 ? "" : "s"}
               </h2>
-              <div className="space-y-3">
+              <div className="stagger space-y-3">
                 {findings.map((f) => (
                   <FindingCard
                     key={f.id}

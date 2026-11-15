@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 340" width="1000" height="340">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F5F3FF"/><stop offset="1" stop-color="#ECFEFF"/></linearGradient>
+    <filter id="sh" x="-10%" y="-10%" width="130%" height="150%"><feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#1E1B4B" flood-opacity="0.16"/></filter>
+    <linearGradient id="bar" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#4F46E5"/><stop offset="1" stop-color="#818CF8"/></linearGradient>
+    <linearGradient id="barT" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#0D9488"/><stop offset="1" stop-color="#5EEAD4"/></linearGradient>
+  </defs>
+  <rect width="1000" height="340" rx="16" fill="url(#bg)"/>
+
+  <!-- tile 1: recurring mistakes (3D bars) -->
+  <g transform="translate(36 56)" filter="url(#sh)">
+    <rect width="214" height="228" rx="16" fill="#FFFFFF"/>
+    <text x="20" y="36" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="#18181B">Recurring mistakes</text>
+    <g transform="translate(28 196)">
+      <path d="M0 0 v-120 l14 -8 v120 z" fill="#3730A3"/><rect x="-24" y="-120" width="24" height="120" fill="url(#bar)"/><path d="M-24 -120 l14 -8 h24 l-14 8 z" fill="#A5B4FC"/>
+    </g>
+    <g transform="translate(78 196)">
+      <path d="M0 0 v-84 l14 -8 v84 z" fill="#3730A3"/><rect x="-24" y="-84" width="24" height="84" fill="url(#bar)"/><path d="M-24 -84 l14 -8 h24 l-14 8 z" fill="#A5B4FC"/>
+    </g>
+    <g transform="translate(128 196)">
+      <path d="M0 0 v-56 l14 -8 v56 z" fill="#3730A3"/><rect x="-24" y="-56" width="24" height="56" fill="url(#bar)"/><path d="M-24 -56 l14 -8 h24 l-14 8 z" fill="#A5B4FC"/>
+    </g>
+    <g transform="translate(178 196)">
+      <path d="M0 0 v-30 l14 -8 v30 z" fill="#3730A3"/><rect x="-24" y="-30" width="24" height="30" fill="url(#bar)"/><path d="M-24 -30 l14 -8 h24 l-14 8 z" fill="#A5B4FC"/>
+    </g>
+  </g>
+
+  <!-- tile 2: unclear rules (gauge) -->
+  <g transform="translate(276 56)" filter="url(#sh)">
+    <rect width="214" height="228" rx="16" fill="#FFFFFF"/>
+    <text x="20" y="36" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="#18181B">Unclear rules</text>
+    <path d="M37 170 A 70 70 0 0 1 177 170" fill="none" stroke="#F4F4F5" stroke-width="22" stroke-linecap="round"/>
+    <path d="M37 170 A 70 70 0 0 1 150 115" fill="none" stroke="#D97706" stroke-width="22" stroke-linecap="round"/>
+    <text x="107" y="166" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700" fill="#18181B">62%</text>
+    <text x="107" y="204" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#52525B">overruled</text>
+  </g>
+
+  <!-- tile 3: conflicting rules -->
+  <g transform="translate(516 56)" filter="url(#sh)">
+    <rect width="214" height="228" rx="16" fill="#FFFFFF"/>
+    <text x="20" y="36" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="#18181B">Conflicting rules</text>
+    <g transform="translate(24 70) rotate(-6)">
+      <rect width="104" height="70" rx="10" fill="#DCFCE7" stroke="#86EFAC"/>
+      <text x="14" y="26" font-family="JetBrains Mono, Consolas, monospace" font-size="11" fill="#166534">TERM-02</text>
+      <rect x="14" y="40" width="70" height="10" rx="5" fill="#4ADE80"/>
+    </g>
+    <g transform="translate(90 110) rotate(6)">
+      <rect width="104" height="70" rx="10" fill="#FEE2E2" stroke="#FCA5A5"/>
+      <text x="14" y="26" font-family="JetBrains Mono, Consolas, monospace" font-size="11" fill="#991B1B">TERM-07</text>
+      <rect x="14" y="40" width="70" height="10" rx="5" fill="#F87171"/>
+    </g>
+    <circle cx="107" cy="128" r="16" fill="#18181B"/>
+    <text x="107" y="134" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">≠</text>
+  </g>
+
+  <!-- tile 4: fact impact -->
+  <g transform="translate(756 56)" filter="url(#sh)">
+    <rect width="214" height="228" rx="16" fill="#FFFFFF" stroke="#FDE68A" stroke-width="2"/>
+    <text x="20" y="36" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="#18181B">Fact impact</text>
+    <g font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">
+      <rect x="20" y="62" width="174" height="40" rx="10" fill="#FAFAFA"/><rect x="32" y="76" width="70" height="10" rx="5" fill="#A1A1AA"/><rect x="122" y="72" width="62" height="20" rx="10" fill="#FEE2E2"/><text x="153" y="86" text-anchor="middle" fill="#991B1B">Expired</text>
+      <rect x="20" y="112" width="174" height="40" rx="10" fill="#FAFAFA"/><rect x="32" y="126" width="60" height="10" rx="5" fill="#A1A1AA"/><rect x="112" y="122" width="72" height="20" rx="10" fill="#FEF3C7"/><text x="148" y="136" text-anchor="middle" fill="#92400E">Expires soon</text>
+      <rect x="20" y="162" width="174" height="40" rx="10" fill="#FAFAFA"/><rect x="32" y="176" width="76" height="10" rx="5" fill="#A1A1AA"/><rect x="122" y="172" width="62" height="20" rx="10" fill="#E0E7FF"/><text x="153" y="186" text-anchor="middle" fill="#3730A3">Changed</text>
+    </g>
+  </g>
+</svg>
