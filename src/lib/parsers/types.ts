@@ -14,7 +14,8 @@ export type ParsedContent = {
   colours: ImageColour[];
   /** images only: the foreground colour with the lowest contrast on the background, guessed from pixels (no OCR) */
   textPair?: { fg: string; bg: string; share: number; strokeLike: boolean } | null;
-  meta: { pages?: number; width?: number; height?: number; url?: string };
+  /** pageStarts: offset in `text` where each PDF page begins (page n starts at pageStarts[n-1]) */
+  meta: { pages?: number; pageStarts?: number[]; width?: number; height?: number; url?: string };
   warnings: string[];
 };
 
