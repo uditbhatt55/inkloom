@@ -4,6 +4,8 @@ export const CONTENT_BUCKET = "content-files";
 export const LOGO_BUCKET = "brand-assets";
 /** Logos are small raster images. SVG is not accepted: it can carry script. */
 export const LOGO_MAX_BYTES = 2 * 1024 * 1024;
+/** Many hosts and proxies refuse request bodies over about 4.5 MB, so bigger files go straight to Storage first and the route fetches them. */
+export const DIRECT_UPLOAD_MAX = 4 * 1024 * 1024;
 
 /** A file name that is safe inside a storage path: no folders, no spaces or odd characters, at most 80 characters. */
 export function safeFileName(name: string): string {
@@ -14,6 +16,11 @@ export function safeFileName(name: string): string {
 }
 
 export const contentFilePath = (orgId: string, versionId: string, name: string) => `${orgId}/${versionId}/${safeFileName(name)}`;
+/** Where a big file waits in the content bucket until the audit or import route takes it. Keyed by the user, not the org. */
+export const stagedPath = (userId: string, id: string, name: string) => `staged/${userId}/${id}/${safeFileName(name)}`;
+const STAGED = /^staged\/([0-9a-f-]{36})\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/[A-Za-z0-9._-]{1,80}$/i;
+/** True only for a path in this user's own staging folder, so nobody can make a route read another file. */
+export const isStagedPathOf = (userId: string, path: string) => STAGED.exec(path)?.[1]?.toLowerCase() === userId.toLowerCase() && !path.includes("..");
 export const logoPath = (orgId: string, assetId: string, name: string) => `${orgId}/${assetId}/${safeFileName(name)}`;
 
 /** Image type from the bytes (never from the file name or the browser's claim): png, jpeg or webp, else null. */

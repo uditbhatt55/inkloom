@@ -3,7 +3,7 @@
 Brand-governance platform: audits content against an org's guidelines, facts, terms and assets. Full plan: PLAN.md.
 
 ## Stack
-Next.js App Router + TypeScript + Tailwind + shadcn/ui · Supabase (Postgres + RLS, Auth, Storage) · Azure GPT-6 (structured outputs) · Vitest · Playwright · Vercel
+Next.js App Router + TypeScript + Tailwind + shadcn/ui · Supabase (Postgres + RLS, Auth, Storage) · Azure GPT-6 (structured outputs) · Vitest · Playwright · Azure App Service
 
 ## Rules
 - `src/lib/{rules,guard,validator,score}` are pure functions: no DB, no network. Every change there needs a Vitest test.

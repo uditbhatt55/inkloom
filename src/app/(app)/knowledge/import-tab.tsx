@@ -12,6 +12,7 @@ import { assignCodes, type DraftClause, type DraftColour, type DraftTerm, type T
 import type { ImportResult } from "@/lib/knowledge/import-service";
 import { isValidHex } from "@/lib/knowledge/helpers";
 import { friendlyDbError } from "@/lib/review/errors";
+import { attachFile } from "@/lib/storage/stage-upload";
 import { createClient } from "@/lib/supabase/browser";
 
 type Kept<T> = T & { keep: boolean };
@@ -43,8 +44,8 @@ export function ImportTab({ orgId, existingCodes }: { orgId: string; existingCod
     setResult(null);
     const fd = new FormData();
     fd.set("orgId", orgId);
-    fd.set("file", file);
     try {
+      await attachFile(fd, file);
       const res = await fetch("/api/knowledge/import", { method: "POST", body: fd });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(typeof body.error === "string" ? body.error : "The brand book could not be read.");

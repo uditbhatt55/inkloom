@@ -6,6 +6,7 @@ import { BURST_MESSAGE, gateForRequest } from "@/lib/audit/usage-cap";
 import { createNextVersion } from "@/lib/audit/versions";
 import { fetchPage, ParseError, parseUpload, type ParsedContent } from "@/lib/parsers";
 import { CONTENT_BUCKET, contentFilePath, originalMime } from "@/lib/storage/files";
+import { takeStagedFile } from "@/lib/storage/staged";
 import { ConfigError, createServiceClient, createUserClient, type Db } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
@@ -65,16 +66,18 @@ export async function POST(req: NextRequest) {
     const { data: auth } = await userDb.auth.getUser();
     if (!auth.user) return fail(401, "Please sign in.");
 
+    const service = createServiceClient();
     let form: AuditForm;
     try {
-      form = readAuditForm(await req.formData());
+      const raw = await req.formData();
+      await takeStagedFile(raw, auth.user.id, service);
+      form = readAuditForm(raw);
     } catch (e) {
       if (e instanceof RequestError) return fail(e.status, e.message);
       return fail(400, "The upload could not be read.");
     }
 
     // cost control (src/lib/audit/usage-cap.ts) comes before anything is stored, so a refused request leaves no item behind
-    const service = createServiceClient();
     let orgId = form.orgId;
     if (!orgId && form.itemId) orgId = (await userDb.from("content_items").select("org_id").eq("id", form.itemId).maybeSingle()).data?.org_id;
     const gate = await gateForRequest(service, orgId ?? "", auth.user.id);

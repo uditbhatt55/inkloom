@@ -6,9 +6,9 @@ Team **Specfix** · CodeNova India 2026 · Plan: [`PLAN.md`](PLAN.md) · Decisio
 
 ## Try it (no sign-up)
 
-**Live app: https://inkloom-eight.vercel.app**
+**Live app: https://inkloom-specfix.azurewebsites.net**
 
-The demo organisation is a fictional company, *Northbeam Cloud*, with its brand rules already loaded. The first page load after a quiet period can take 10 to 15 seconds.
+The demo organisation is a fictional company, *Northbeam Cloud*, with its brand rules already loaded.
 
 1. Open the link and press **Try the demo**, then **Brand owner**. (Sign-up is not needed.)
 2. Press **New audit**, stay on **Paste text** and paste this (or upload a PDF, Word file or image):
@@ -22,7 +22,7 @@ The demo accounts are shared, so you may see other judges' posts. The demo data 
 
 ## What works
 
-- **Knowledge Centre:** guidelines (versioned), approved facts with validity dates, terminology (banned, preferred, internal), colours and fonts, import of Vale rule files.
+- **Knowledge Centre:** guidelines (versioned), approved facts with validity dates, terminology (banned, preferred, internal), colours and fonts, import of Vale rule files, and **Import brand book**: upload a brand-book PDF and the AI drafts guidelines, terms and colours; the owner ticks what to keep, and nothing is saved until they do.
 - **Audit:** text, PDF, Word, HTML and image input; rule checks (terms, facts, expiry, contrast, palette, fonts, alt text, readability) plus a model check against the guidelines. The **Confidential Guard** removes internal codenames and personal data before anything reaches the model. A finding only appears if its quote is really in the text and its source really exists.
 - **Human decisions:** accept, reject, dismiss or waive with a reason; comments; approve, request changes or reject; a database trigger blocks approval while a Critical finding is open; full history.
 - **Brand Health:** recurring mistakes, unclear rules, conflicting terms, fact impact.
@@ -30,8 +30,8 @@ The demo accounts are shared, so you may see other judges' posts. The demo data 
 
 ## Not built or limited (honest list)
 
-- Importing a whole brand-book PDF into rules is **not built**; rules and terms are entered or imported from Vale files.
-- Accuracy on our own 48 labelled cases (`npm run eval`; one labeller so far, so treat as a first measurement): with the real model, 95% of high-confidence findings are correct and 84% of the labelled issues are found; rule checks alone find 43% and are 100% correct on high confidence. All seeded codenames are found. Results are in `eval/results/`. Precision over all confidence levels is lower (68%) because medium and low findings include reasonable extras the labels did not list.
+- Brand-book import works on PDFs with a text layer (not scanned pages); every item it drafts must be checked by the owner before saving.
+- Accuracy on our own 48 labelled cases (`npm run eval`; one labeller so far, so treat as a first measurement): with the real model, 98% of high-confidence findings are correct and 97% of the labelled issues are found; rule checks alone find 51% and are 100% correct on high confidence. All seeded codenames and internal facts are found. The model's answers vary a little between runs. Results are in `eval/results/`. Precision over all confidence levels is lower (79%) because medium and low findings include reasonable extras the labels did not list.
 - Contrast measured from an image is an estimate (the weakest foreground colour on the main background, no text reading) and is marked low confidence; type the text and background colours in the upload form for an exact check.
 - Uploaded files are kept (private Storage bucket) and can be opened again from the post; after a fix only the text is audited again, not the file.
 - The approval gate checks the version belongs to the item, not that it is the latest one.
@@ -40,7 +40,11 @@ The demo accounts are shared, so you may see other judges' posts. The demo data 
 
 ## Stack
 
-Next.js 15 (App Router) · TypeScript · Tailwind · shadcn/ui · Supabase (Postgres, Row Level Security, Auth) · Azure AI Foundry · Vitest · Playwright · Vercel. Libraries: [`LICENSES.md`](LICENSES.md).
+Next.js 15 (App Router) · TypeScript · Tailwind · shadcn/ui · Supabase (Postgres, Row Level Security, Auth) · Azure AI Foundry · Vitest · Playwright · Azure App Service. Libraries: [`LICENSES.md`](LICENSES.md).
+
+## Hosting
+
+The live app runs on **Azure App Service** (Linux, Central India, always on, so there is no cold start). Every push to `main` is tested, built (`scripts/build-azure.sh`) and deployed by `.github/workflows/deploy-azure.yml`; the app's keys live in the App Service settings, never in the repository. Files over 4 MB are uploaded straight to Storage, so there is no request-size limit in the way. See decision D29 in [`docs/decisions.md`](docs/decisions.md).
 
 ## Run locally
 
