@@ -61,7 +61,8 @@ export function validateAiFindings(raw: RawAiFinding[], content: string, known: 
       f.confidence = "low";
       if (!code && (f.category === "claim" || f.category === "factual")) {
         f.label = "unverified_claim";
-        f.explanation = `Unverified claim: ${f.explanation}`;
+        // the prompt already asks the model to start with this prefix; add it only once (text dedupe, not a rule change)
+        if (!/^\s*unverified claim\s*:/i.test(f.explanation)) f.explanation = `Unverified claim: ${f.explanation}`;
       } else {
         f.label = "needs_human_check";
       }

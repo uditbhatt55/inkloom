@@ -88,3 +88,48 @@ describe("owner-only writes (§8.1)", () => {
     });
   });
 });
+
+describe("deleting facts (Facts tab)", () => {
+  const FACT = "00000000-0000-4000-8000-0000000000b1";
+  const CITED = "00000000-0000-4000-8000-0000000000b2";
+
+  async function withFacts(fn: (tx: Pick<PGlite, "query" | "exec">) => Promise<void>) {
+    await db.transaction(async (tx) => {
+      await tx.exec(`
+        insert into approved_facts (id, org_id, code, statement) values ('${FACT}','${A}','FACT-50','Unused fact'),('${CITED}','${A}','FACT-51','Cited fact');
+        insert into content_items (id, org_id, title, owner_id) values ('00000000-0000-4000-8000-0000000000c9','${A}','post','${CREATOR}');
+        insert into content_versions (id, org_id, item_id, n, text, sha256, created_by) values ('00000000-0000-4000-8000-0000000000d9','${A}','00000000-0000-4000-8000-0000000000c9',1,'x','h','${CREATOR}');
+        insert into audit_runs (id, org_id, version_id, mode) values ('00000000-0000-4000-8000-0000000000e9','${A}','00000000-0000-4000-8000-0000000000d9','rule_only');
+        insert into findings (org_id, run_id, category, severity, confidence, quote, explanation, fact_id)
+          values ('${A}','00000000-0000-4000-8000-0000000000e9','factual','major','high','x','cites FACT-51','${CITED}');
+      `);
+      try {
+        await fn(tx);
+      } finally {
+        await tx.rollback();
+      }
+    });
+  }
+  const as = (tx: Pick<PGlite, "exec">, user: string) => tx.exec(`reset role; set local role authenticated; select set_config('request.jwt.claims', '{"sub":"${user}"}', true);`);
+
+  it("the owner can delete a fact no finding cites", async () => {
+    await withFacts(async (tx) => {
+      await as(tx, OWNER);
+      expect((await tx.query("delete from approved_facts where id = $1 returning id", [FACT])).rows).toHaveLength(1);
+    });
+  });
+
+  it("a fact cited by a finding cannot be deleted (23503), so past findings keep their source", async () => {
+    await withFacts(async (tx) => {
+      await as(tx, OWNER);
+      await expect(tx.query("delete from approved_facts where id = $1", [CITED])).rejects.toMatchObject({ code: "23503" });
+    });
+  });
+
+  it("a creator cannot delete facts", async () => {
+    await withFacts(async (tx) => {
+      await as(tx, CREATOR);
+      expect((await tx.query("delete from approved_facts where id = $1 returning id", [FACT])).rows).toHaveLength(0);
+    });
+  });
+});

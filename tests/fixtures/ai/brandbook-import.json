@@ -1,0 +1,134 @@
+{
+ "note": "Demo-mode recording for seed/northbeam/brandbook.pdf. Written by hand (Claude Code) from the parsed text of the brand book, because no Azure key was available while building P2b; every quote is copied from the document. To replace it with a real gpt-6-luna answer, run: RECORD_IMPORT=1 DEMO_MODE=false npm run test:int (needs the Azure keys in .env.local).",
+ "recorded_by": "hand-written",
+ "content": "NORTHBEAM CLOUD | INTERNAL BRAND BOOK\nINTERNAL BRAND BOOK\nNorthbeam Cloud\nBrand voice, writing style, terminology, claims, visual identity and accessibility\nOUR BRAND\nA practical guide to how Northbeam Cloud communicates and presents itself.\n\nNORTHBEAM CLOUD BRAND BOOK\nNorthbeam Cloud\nBrand Voice\nNorthbeam Cloud speaks in a professional, plain voice. In B2B channels, keep the language direct:\navoid slang and exclamation-mark hype.\nHow the voice should sound\n• Use clear, plain wording rather than slang.\n• Keep B2B copy professional and avoid exclamation-mark hype.\n• Speak to the customer as “you”. In marketing copy, avoid referring to the audience as “users”.\n• Lead with the customer benefit: files in step across devices. Then introduce the feature.\nVOICE EXAMPLE\n“It keeps your files in step.”\n\nNORTHBEAM CLOUD BRAND BOOK\nNorthbeam Cloud\nWriting Style\nWrite so the customer benefit is easy to understand before the reader reaches the feature detail.\nWriting principles\n• Put the benefit first: files in step across devices. Follow with the feature that supports it.\n• Address the reader as “you”; use “your team” where a team reference is needed.\n• Keep B2B language professional and plain.\n• Avoid slang and exclamation-mark hype.\n• Check every number in public copy against an approved fact before publication.\nExamples\nUSE AVOID\n“It keeps your files in step.” “Insane deal!!!”\n“your team” “our users”\n\nNORTHBEAM CLOUD BRAND BOOK\nNorthbeam Cloud\nTerminology\nUse the preferred product names consistently. Replace banned shorthand or generic wording with the\napproved term.\nPreferred terms\nPREFERRED TERM\nNorthbeam Sync\nNorthbeam Vault\nBanned wording and replacements\nDO NOT USE USE INSTEAD\nNB Sync Northbeam Sync\ncloud drive Northbeam Vault\nInternal terms\nThe following terms are internal and are not public-facing terminology: Project Atlas and Acme\nRetail.\n\nNORTHBEAM CLOUD BRAND BOOK\nNorthbeam Cloud\nClaims and Legal Language\nPublic claims must match the approved facts. Do not turn a feature or service level into a broader\npromise.\nClaim rules\n• Every number in public copy (uptime, customers, savings, speed) must match an approved fact.\n• Do not describe service levels as guaranteed; refer to the SLA.\n• Do not call Northbeam the best, #1 or market leader unless an approved fact supports it.\n• Do not claim legal compliance (GDPR, DPDP, HIPAA). Describe the security feature instead.\nApproved public facts\n• Northbeam Sync is used by teams in 14 countries.\n• Northbeam Sync SLA: 99.9% monthly uptime.\n• Files are encrypted at rest with AES-256.\n• Northbeam Vault starts at INR 599 per month.\nFor service-level wording, use “backed by our SLA”. For security wording, use “data encrypted at rest with AES-256”.\n\nNORTHBEAM CLOUD BRAND BOOK\nNorthbeam Cloud\nVisual Identity\nUse only the brand palette and the Inter typeface. Inter is used for all text.\nBrand colours\nCOLOUR HEX VALUE\nNorthbeam Navy #1B2A4A\nSignal Teal #14B8A6\nCloud White #F8FAFC\nInk Grey #334155\nTypeface\nInter — use for all text.\nLogo rules\n• Keep clear space around the logo on all sides. Do not place other elements within this space.\n• Respect the logo’s minimum size. Do not reduce it to a size where its details are no longer clear and\nlegible.\n• Use the primary logo on Cloud White or Northbeam Navy only.\n• Never stretch or recolour the logo.\n\nNORTHBEAM CLOUD BRAND BOOK\nNorthbeam Cloud\nAccessibility\nMake visual content accessible by providing text alternatives and sufficient contrast.\nRequirements\n• Every image needs alt text.\n• Text on images needs 4.5:1 contrast.\n• Large text on images needs 3:1 contrast.\nIMAGE TEXT MINIMUM CONTRAST\nStandard text 4.5:1\nLarge text 3:1\n\nNORTHBEAM CLOUD BRAND BOOK\nNorthbeam Cloud\nContact\nFor brand guidance and questions about applying these standards, contact the Marketing team.\nBRAND CONTACT\nbrand@northbeam.example\nOwner: Marketing",
+ "response": {
+  "clauses": [
+   {
+    "category": "tone",
+    "text": "Keep a professional, plain voice: no slang and no exclamation-mark hype in B2B channels.",
+    "quote": "In B2B channels, keep the language direct: avoid slang and exclamation-mark hype."
+   },
+   {
+    "category": "tone",
+    "text": "Speak to the customer as “you”; do not call the audience “users” in marketing copy.",
+    "quote": "Speak to the customer as “you”. In marketing copy, avoid referring to the audience as “users”."
+   },
+   {
+    "category": "messaging",
+    "text": "Lead with the customer benefit (files in step across devices), then the feature.",
+    "quote": "Lead with the customer benefit: files in step across devices. Then introduce the feature."
+   },
+   {
+    "category": "claim",
+    "text": "Every number in public copy (uptime, customers, savings, speed) must match an approved fact.",
+    "quote": "Every number in public copy (uptime, customers, savings, speed) must match an approved fact."
+   },
+   {
+    "category": "claim",
+    "text": "Do not describe service levels as guaranteed; refer to the SLA.",
+    "quote": "Do not describe service levels as guaranteed; refer to the SLA."
+   },
+   {
+    "category": "claim",
+    "text": "Do not call Northbeam the best, #1 or market leader unless an approved fact supports it.",
+    "quote": "Do not call Northbeam the best, #1 or market leader unless an approved fact supports it."
+   },
+   {
+    "category": "claim",
+    "text": "Do not claim legal compliance (GDPR, DPDP, HIPAA). Describe the security feature instead.",
+    "quote": "Do not claim legal compliance (GDPR, DPDP, HIPAA). Describe the security feature instead."
+   },
+   {
+    "category": "visual",
+    "text": "Use only the brand palette and the Inter typeface.",
+    "quote": "Use only the brand palette and the Inter typeface. Inter is used for all text."
+   },
+   {
+    "category": "visual",
+    "text": "Keep clear space around the logo on all sides; place no other elements in it.",
+    "quote": "Keep clear space around the logo on all sides. Do not place other elements within this space."
+   },
+   {
+    "category": "visual",
+    "text": "Use the primary logo on Cloud White or Northbeam Navy only.",
+    "quote": "Use the primary logo on Cloud White or Northbeam Navy only."
+   },
+   {
+    "category": "visual",
+    "text": "Never stretch or recolour the logo.",
+    "quote": "Never stretch or recolour the logo."
+   },
+   {
+    "category": "accessibility",
+    "text": "Every image needs alt text.",
+    "quote": "Every image needs alt text."
+   },
+   {
+    "category": "accessibility",
+    "text": "Text on images needs at least 4.5:1 contrast; large text needs 3:1.",
+    "quote": "Text on images needs 4.5:1 contrast."
+   }
+  ],
+  "terms": [
+   {
+    "term": "Northbeam Sync",
+    "kind": "preferred",
+    "replacement": null,
+    "quote": "PREFERRED TERM Northbeam Sync"
+   },
+   {
+    "term": "Northbeam Vault",
+    "kind": "preferred",
+    "replacement": null,
+    "quote": "Northbeam Sync Northbeam Vault Banned wording and replacements"
+   },
+   {
+    "term": "NB Sync",
+    "kind": "banned",
+    "replacement": "Northbeam Sync",
+    "quote": "NB Sync Northbeam Sync"
+   },
+   {
+    "term": "cloud drive",
+    "kind": "banned",
+    "replacement": "Northbeam Vault",
+    "quote": "cloud drive Northbeam Vault"
+   },
+   {
+    "term": "Project Atlas",
+    "kind": "internal",
+    "replacement": null,
+    "quote": "The following terms are internal and are not public-facing terminology: Project Atlas and Acme Retail."
+   },
+   {
+    "term": "Acme Retail",
+    "kind": "internal",
+    "replacement": null,
+    "quote": "The following terms are internal and are not public-facing terminology: Project Atlas and Acme Retail."
+   }
+  ],
+  "colours": [
+   {
+    "name": "Northbeam Navy",
+    "hex": "#1B2A4A",
+    "quote": "Northbeam Navy #1B2A4A"
+   },
+   {
+    "name": "Signal Teal",
+    "hex": "#14B8A6",
+    "quote": "Signal Teal #14B8A6"
+   },
+   {
+    "name": "Cloud White",
+    "hex": "#F8FAFC",
+    "quote": "Cloud White #F8FAFC"
+   },
+   {
+    "name": "Ink Grey",
+    "hex": "#334155",
+    "quote": "Ink Grey #334155"
+   }
+  ]
+ }
+}

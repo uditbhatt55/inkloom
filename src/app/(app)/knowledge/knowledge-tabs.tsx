@@ -4,6 +4,10 @@ import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Database } from "@/lib/database.types";
 import { GuidelinesTab } from "./guidelines-tab";
+import dynamic from "next/dynamic";
+
+// owners only, and only when the tab is opened: keeps the import code out of everyone else's page
+const ImportTab = dynamic(() => import("./import-tab").then((m) => m.ImportTab), { loading: () => <p className="text-sm text-muted-foreground">Loading…</p> });
 import { FactsTab } from "./facts-tab";
 import { TermsTab } from "./terms-tab";
 import { AssetsTab } from "./assets-tab";
@@ -54,6 +58,7 @@ export function KnowledgeTabs({
         <TabsTrigger value="facts">Facts ({facts.length})</TabsTrigger>
         <TabsTrigger value="terms">Terms ({terms.length})</TabsTrigger>
         <TabsTrigger value="assets">Brand assets ({assets.length})</TabsTrigger>
+        {isOwner && <TabsTrigger value="import">Import brand book</TabsTrigger>}
       </TabsList>
 
       <TabsContent value="guidelines" className="mt-4">
@@ -68,6 +73,11 @@ export function KnowledgeTabs({
       <TabsContent value="assets" className="mt-4">
         <AssetsTab assets={assets} orgId={orgId} isOwner={isOwner} />
       </TabsContent>
+      {isOwner && (
+        <TabsContent value="import" className="mt-4">
+          <ImportTab orgId={orgId} existingCodes={[...clauses.map((c) => c.code), ...terms.map((t) => t.code)]} />
+        </TabsContent>
+      )}
     </Tabs>
   );
 }
