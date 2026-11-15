@@ -19,7 +19,7 @@ Goal for Round 2: the core loop works end to end and is tested: **Knowledge Cent
 
 ## Architecture (proposal §6–7)
 ```
-Next.js App Router (Vercel); all model calls are server-side
+Next.js App Router (Azure App Service, D29); all model calls are server-side
  src/lib/
    parsers/    text · PDF (unpdf) · DOCX (mammoth) · image (sharp: size + dominant colours, D8) · HTML (sanitised, SSRF-safe fetch, D7)
    rules/      terms, contrast (WCAG SC 1.4.3), palette, fonts, alt text, readability, expired facts, wording packs (D5)

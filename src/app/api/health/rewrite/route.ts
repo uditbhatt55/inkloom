@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { chooseAiJson } from "@/lib/ai/json";
 import rewriteClaim02 from "@/lib/ai/recordings/rewrite-claim-02.json";
+import { maskForAi } from "@/lib/guard/guard";
 import { fail, requireOwnerOrReviewer } from "@/lib/health/access";
 import { REWRITE_JSON_SCHEMA, rewriteMessages, validateRewrite } from "@/lib/health/rewrite";
 
@@ -27,23 +28,29 @@ export async function POST(req: NextRequest) {
   const { data: overruled } = await db.from("findings").select("quote, reason").eq("org_id", orgId).eq("rule_code", clause.code)
     .in("status", ["dismissed", "waived"]).order("run_id").limit(8);
   const notes = (overruled ?? []).map((f) => ({ quote: f.quote.slice(0, 300), reason: f.reason?.slice(0, 300) ?? null }));
+  // the reviewers' quotes come from real content: the model must not see internal terms or personal data in them
+  const { data: termRows } = await db.from("terminology").select("code, term, kind").eq("org_id", orgId);
+  const terms = termRows ?? [];
+  const internal = terms.filter((t) => t.kind === "internal");
+  const hide = (s: string) => maskForAi(s, internal);
 
   const ai = chooseAiJson();
   if (!ai) {
     const rec = RECORDINGS[clause.code];
     if (!rec || rec.clause !== clause.text) return NextResponse.json({ mode: "simulated", suggestion: null, message: "AI suggestions need the real model. Reword the rule yourself in the Knowledge Centre." });
-    const v = validateRewrite(rec.response, clause.text, notes);
+    const v = validateRewrite(rec.response, clause.text, notes, terms);
     return NextResponse.json({ mode: "simulated", suggestion: v.ok ? v.value : null });
   }
 
   let raw: unknown;
   try {
-    raw = await ai.call({ messages: rewriteMessages(clause, notes), name: "clause_rewrite", schema: REWRITE_JSON_SCHEMA });
+    const sent = notes.map((n) => ({ quote: hide(n.quote), reason: n.reason && hide(n.reason) }));
+    raw = await ai.call({ messages: rewriteMessages({ code: clause.code, text: hide(clause.text) }, sent), name: "clause_rewrite", schema: REWRITE_JSON_SCHEMA });
   } catch (e) {
     console.error("rewrite suggestion failed", e instanceof Error ? e.message : e);
     return fail(502, "The AI could not be reached. Please try again.");
   }
-  const v = validateRewrite(raw, clause.text, notes);
+  const v = validateRewrite(raw, clause.text, notes, terms);
   if (!v.ok) {
     console.error("rewrite suggestion rejected:", v.reason);
     return fail(422, "The AI draft did not pass our checks. Please try again.");

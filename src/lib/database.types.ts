@@ -59,9 +59,9 @@ export type Database = {
         Relationships: Rel[]
       }
       content_versions: {
-        Row: { created_at: string; created_by: string; file_path: string | null; id: string; item_id: string; n: number; org_id: string; sha256: string; text: string | null }
-        Insert: { created_at?: string; created_by: string; file_path?: string | null; id?: string; item_id: string; n: number; org_id: string; sha256: string; text?: string | null }
-        Update: { created_at?: string; created_by?: string; file_path?: string | null; id?: string; item_id?: string; n?: number; org_id?: string; sha256?: string; text?: string | null }
+        Row: { created_at: string; created_by: string; file_name: string | null; file_path: string | null; file_type: string | null; id: string; item_id: string; n: number; org_id: string; sha256: string; text: string | null }
+        Insert: { created_at?: string; created_by: string; file_name?: string | null; file_path?: string | null; file_type?: string | null; id?: string; item_id: string; n: number; org_id: string; sha256: string; text?: string | null }
+        Update: { created_at?: string; created_by?: string; file_name?: string | null; file_path?: string | null; file_type?: string | null; id?: string; item_id?: string; n?: number; org_id?: string; sha256?: string; text?: string | null }
         Relationships: Rel[]
       }
       decisions: {

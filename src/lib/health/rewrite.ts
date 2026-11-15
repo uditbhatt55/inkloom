@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { Message } from "@/lib/ai/prompt";
+import { forbiddenTermIn } from "@/lib/rules/suggestion";
 
 /** A stray closing tag inside the clause or a reviewer's note must not be able to end its data block early. */
 const neutralise = (s: string) => s.replace(/<\/(clause|reviewer_notes)/gi, "<\\/$1");
@@ -42,13 +43,18 @@ const figures = (s: string) => new Set(s.match(/\d+(?:[.,]\d+)*/g) ?? []);
 
 /**
  * Checks the model's draft before anyone sees it: right shape and size, actually different from the current rule,
- * and no number that is in neither the current rule nor the reviewer notes (the model must not invent facts).
+ * no number that is in neither the current rule nor the reviewer notes (the model must not invent facts), and no
+ * internal term, nor a banned term the current rule did not already mention (`terms` is the organisation's term list).
  */
-export function validateRewrite(raw: unknown, clauseText: string, notes: OverruledNote[]): { ok: true; value: Rewrite } | { ok: false; reason: string } {
+export function validateRewrite(
+  raw: unknown, clauseText: string, notes: OverruledNote[], terms: { term: string; kind: string }[] = [],
+): { ok: true; value: Rewrite } | { ok: false; reason: string } {
   const parsed = RewriteSchema.safeParse(raw);
   if (!parsed.success) return { ok: false, reason: "the AI returned an unexpected shape" };
   const v = parsed.data;
   if (v.text.trim() === clauseText.trim()) return { ok: false, reason: "the suggestion is the same as the current rule" };
+  const forbidden = forbiddenTermIn(`${v.text} ${v.example_do ?? ""} ${v.why}`, terms, clauseText);
+  if (forbidden) return { ok: false, reason: "the suggestion uses a banned or internal term" };
   const known = figures([clauseText, ...notes.flatMap((n) => [n.quote, n.reason ?? ""])].join(" "));
   const invented = [...figures(`${v.text} ${v.example_do ?? ""}`)].filter((n) => !known.has(n));
   if (invented.length) return { ok: false, reason: `the suggestion contains numbers that are not in the rule or the notes: ${invented.join(", ")}` };

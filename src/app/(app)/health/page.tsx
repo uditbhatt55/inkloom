@@ -55,12 +55,12 @@ export default async function BrandHealthPage() {
         </p>
       </div>
 
-      <Section title="Recurring mistakes" hint="Rules broken most often in the last 30 days. Dismissed and waived findings are not counted.">
+      <Section title="Recurring mistakes" hint="Rules broken in the most posts in the last 30 days. A post counts once per rule, however many versions repeat the mistake. Dismissed and waived findings are not counted.">
         {!h.recurring.length ? <Empty>No repeated mistakes in the last 30 days.</Empty> : (
           <table className="w-full text-sm">
-            <caption className="sr-only">Findings per rule in the last 30 days, most frequent first</caption>
+            <caption className="sr-only">Posts that broke each rule in the last 30 days, most frequent first</caption>
             <thead className="text-left text-muted-foreground">
-              <tr><th scope="col" className="w-28 py-2 font-medium">Rule</th><th scope="col" className="py-2 font-medium">Findings</th><th scope="col" className="hidden py-2 font-medium sm:table-cell">Where</th></tr>
+              <tr><th scope="col" className="w-28 py-2 font-medium">Rule</th><th scope="col" className="py-2 font-medium">Posts</th><th scope="col" className="hidden py-2 font-medium sm:table-cell">Where</th></tr>
             </thead>
             <tbody>
               {h.recurring.map((r) => (

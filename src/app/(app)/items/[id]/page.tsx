@@ -46,11 +46,16 @@ export default async function ItemPage({
   if (!item) notFound();
   const { data: versions } = await db
     .from("content_versions")
-    .select("id, n, text, created_at")
+    .select("*") // includes file_name/file_type once the storage migration is applied; the page also works before it
     .eq("item_id", id)
     .order("n", { ascending: false });
   const version = (v && versions?.find((x) => String(x.n) === v)) || versions?.[0];
   if (!version) notFound();
+
+  // the original upload, if the server kept it: a short-lived link, only for people who can see this item (storage RLS)
+  const original = version.file_path
+    ? (await db.storage.from("content-files").createSignedUrl(version.file_path, 600)).data?.signedUrl ?? null
+    : null;
 
   const { data: run } = await db
     .from("audit_runs")
@@ -176,7 +181,16 @@ export default async function ItemPage({
             <span className="text-muted-foreground">
               Version {version.n} of {versions!.length} · {item.audience === "public" ? "Public" : "Internal"}
             </span>
+            {original && (
+              <a href={original} target="_blank" rel="noopener noreferrer" className="text-sm underline underline-offset-2">
+                Open original ({version.file_name ?? "file"})
+              </a>
+            )}
           </div>
+          {original && version.file_type?.startsWith("image/") && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={original} alt={`Uploaded image: ${version.file_name ?? "file"}`} className="mt-2 max-h-64 w-auto max-w-full rounded border" />
+          )}
         </div>
         <div className="flex flex-wrap items-start gap-2">
           {applicable > 0 && <ApplyFixesButton itemId={item.id} count={applicable} />}

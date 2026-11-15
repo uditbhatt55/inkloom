@@ -1,0 +1,40 @@
+name: Deploy to Azure
+# Every push to main (after the unit tests pass) is built as a standalone bundle and deployed to
+# https://inkloom-specfix.azurewebsites.net (decision D29). Needs, in the GitHub repo settings:
+#   secret   AZURE_WEBAPP_PUBLISH_PROFILE  (Azure Portal > inkloom-specfix > Download publish profile)
+#   variable NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY  (public values, baked into the browser code)
+# Server keys stay in the App Service settings; they are never needed here.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+concurrency:
+  group: deploy-azure
+  cancel-in-progress: false # never stop a deploy halfway
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run test
+      - run: bash scripts/build-azure.sh
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      - uses: azure/webapps-deploy@v3
+        with:
+          app-name: inkloom-specfix
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: azure-app.zip
+      - name: Site answers after the deploy
+        run: |
+          for i in $(seq 1 18); do
+            code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 60 https://inkloom-specfix.azurewebsites.net/login || true)
+            echo "attempt $i: $code"; [ "$code" = "200" ] && exit 0; sleep 10
+          done
+          exit 1

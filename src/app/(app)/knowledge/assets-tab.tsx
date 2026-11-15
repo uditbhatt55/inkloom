@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { isValidHex } from "@/lib/knowledge/helpers";
+import { imageMime, LOGO_BUCKET, LOGO_MAX_BYTES, logoPath } from "@/lib/storage/files";
 import { friendlyDbError } from "@/lib/review/errors";
 import { createClient } from "@/lib/supabase/browser";
 import type { AssetRow } from "./knowledge-tabs";
@@ -17,7 +18,7 @@ type Kind = "color" | "font" | "logo";
 const SECTIONS: { kind: Kind; title: string; help: string }[] = [
   { kind: "color", title: "Palette", help: "Image colours more than ΔE 10 from every palette colour are flagged (neutrals are ignored)." },
   { kind: "font", title: "Fonts", help: "Fonts used in PDF and Word files are compared with these families." },
-  { kind: "logo", title: "Logos", help: "Usage rules for each logo variant. Logo images are checked by the AI in a later release." },
+  { kind: "logo", title: "Logos", help: "Upload each logo variant (PNG, JPG or WebP, up to 2 MB) with its usage rules. Logos are kept for your team; they are not yet checked against content." },
 ];
 const selectClass = "h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50";
 const empty = { type: "color" as Kind, name: "", hex: "#1B2A4A", font: "", rules: "" };
@@ -29,12 +30,14 @@ export function AssetsTab({ assets, orgId, isOwner }: { assets: AssetRow[]; orgI
   const [editing, setEditing] = useState<AssetRow | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(empty);
+  const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const set = (k: keyof typeof empty) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setForm({ ...form, [k]: e.target.value });
   const refresh = () => startTransition(() => router.refresh());
 
   function openAdd(type: Kind) {
+    setFile(null);
     setForm({ ...empty, type });
     setEditing(null);
     setError(null);
@@ -42,6 +45,7 @@ export function AssetsTab({ assets, orgId, isOwner }: { assets: AssetRow[]; orgI
   }
 
   function openEdit(a: AssetRow) {
+    setFile(null);
     setForm({ type: a.type as Kind, name: a.name, hex: a.hex ?? "#000000", font: a.font_name ?? "", rules: a.rules ?? "" });
     setEditing(a);
     setError(null);
@@ -54,19 +58,40 @@ export function AssetsTab({ assets, orgId, isOwner }: { assets: AssetRow[]; orgI
     if (form.type === "color" && !isValidHex(hex)) return setError("Colours must be hex, like #1B2A4A.");
     const supabase = createClient();
     if (!supabase) return;
+    // a logo needs an image: checked on the bytes, not on the file name
+    let upload: { path: string; id: string; mime: string } | null = null;
+    if (form.type === "logo") {
+      if (!editing && !file) return setError("Choose a logo image to upload.");
+      if (file) {
+        if (file.size > LOGO_MAX_BYTES) return setError("Logo images must be 2 MB or smaller.");
+        const mime = imageMime(new Uint8Array(await file.slice(0, 16).arrayBuffer()));
+        if (!mime) return setError("Logos must be PNG, JPG or WebP images.");
+        const id = editing?.id ?? crypto.randomUUID();
+        upload = { path: logoPath(orgId, `${id}-${Date.now().toString(36)}`, file.name), id, mime };
+      }
+    }
     setBusy(true);
     setError(null);
+    if (upload && file) {
+      const up = await supabase.storage.from(LOGO_BUCKET).upload(upload.path, file, { contentType: upload.mime, upsert: false });
+      if (up.error) { setBusy(false); return setError("The logo could not be uploaded. Only the brand owner can upload logos."); }
+    }
     const fields = {
       type: form.type, name: form.name.trim(),
       hex: form.type === "color" ? hex : null,
       font_name: form.type === "font" ? form.font.trim() || form.name.trim() : null,
       rules: form.rules.trim() || null,
+      ...(upload ? { file_path: upload.path } : {}),
     };
     const { error: err } = editing
       ? await supabase.from("brand_assets").update(fields).eq("id", editing.id)
-      : await supabase.from("brand_assets").insert({ ...fields, org_id: orgId });
+      : await supabase.from("brand_assets").insert({ ...fields, id: upload?.id, org_id: orgId });
     setBusy(false);
-    if (err) return setError(friendlyDbError(err));
+    if (err) {
+      if (upload) await supabase.storage.from(LOGO_BUCKET).remove([upload.path]); // do not leave an orphan file behind
+      return setError(friendlyDbError(err));
+    }
+    if (upload && editing?.file_path) await supabase.storage.from(LOGO_BUCKET).remove([editing.file_path]); // the replaced image
     setShowForm(false);
     refresh();
   }
@@ -80,6 +105,7 @@ export function AssetsTab({ assets, orgId, isOwner }: { assets: AssetRow[]; orgI
     const { error: err } = await supabase.from("brand_assets").delete().eq("id", a.id);
     setBusy(false);
     if (err) return setError(friendlyDbError(err));
+    if (a.file_path) await supabase.storage.from(LOGO_BUCKET).remove([a.file_path]);
     refresh();
   }
 
@@ -121,6 +147,13 @@ export function AssetsTab({ assets, orgId, isOwner }: { assets: AssetRow[]; orgI
                   </div>
                 )}
               </div>
+              {form.type === "logo" && (
+                <div className="space-y-1">
+                  <Label htmlFor="asset-file">{editing ? "Replace the image (optional)" : "Logo image"}</Label>
+                  <Input id="asset-file" type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => setFile(e.target.files?.[0] ?? null)} required={!editing} />
+                  <p className="text-xs text-muted-foreground">PNG, JPG or WebP, up to 2 MB. Not SVG.</p>
+                </div>
+              )}
               <div className="space-y-1">
                 <Label htmlFor="asset-rules">Usage rules (optional)</Label>
                 <Textarea id="asset-rules" value={form.rules} onChange={set("rules")} rows={2} maxLength={1000} placeholder="Use on dark backgrounds only; minimum width 120 px." />
@@ -149,6 +182,10 @@ export function AssetsTab({ assets, orgId, isOwner }: { assets: AssetRow[]; orgI
                 {list.map((a) => (
                   <li key={a.id} className="flex items-center gap-3 rounded-lg border bg-background p-3 text-sm">
                     {kind === "color" && <span aria-hidden className="h-8 w-8 shrink-0 rounded border" style={{ backgroundColor: a.hex ?? undefined }} />}
+                    {kind === "logo" && a.url && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={a.url} alt={`Logo: ${a.name}`} className="h-10 w-16 shrink-0 rounded border bg-white object-contain" />
+                    )}
                     <div className="min-w-0 flex-1">
                       <p className="font-medium">{a.name}</p>
                       <p className="truncate text-xs text-muted-foreground">

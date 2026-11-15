@@ -3,7 +3,7 @@
 INKLOOM AI: a brand-governance checkpoint. Checks content against an organisation's approved guidelines, facts and assets before publication. A human makes every final decision. The product proposal (`INKLOOM_AI_Round1_Proposal2.pdf`, summarised in `PLAN.md`) is the spec.
 
 ## Stack
-Next.js App Router, TypeScript, Tailwind, shadcn/ui · Supabase (Postgres, RLS, Auth, Storage) · Azure AI Foundry (gpt-6-luna, decision D15) · Vitest · Playwright · Vercel.
+Next.js App Router, TypeScript, Tailwind, shadcn/ui · Supabase (Postgres, RLS, Auth, Storage) · Azure AI Foundry (gpt-6-luna, decision D15) · Vitest · Playwright · Azure App Service.
 
 ## Commands
 - `npm install`, then `npm run dev` (app at http://localhost:3000)
@@ -22,7 +22,7 @@ Run all of these except `test:e2e` before you finish. Do not finish with any of 
 - **Every Supabase table has RLS.** A new table needs a migration, an RLS policy and an RLS test.
 - **Tests never call a live AI model.** Use recorded fixtures in `tests/fixtures/ai/` or `src/lib/ai/recordings/`.
 - **Demo mode works with no API keys.** Simulated results must be labelled "Simulated".
-- **Secrets:** never commit `.env*`, API keys, or the Supabase service-role key. Keys live only in `.env.local` or Vercel environment variables. Never put the service-role key in a `NEXT_PUBLIC_` variable. Never print `.env.local` values or paste them into chat; `.env.example` lists the names.
+- **Secrets:** never commit `.env*`, API keys, or the Supabase service-role key. Keys live only in `.env.local` or the Azure App Service settings. Never put the service-role key in a `NEXT_PUBLIC_` variable. Never print `.env.local` values or paste them into chat; `.env.example` lists the names.
 - **Internal data never reaches the AI model.** Internal facts and terms are masked before any model call (see `src/lib/guard`).
 - **Log AI help.** Every file you produce goes in `AI_USE_LOG.md`.
 

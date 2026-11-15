@@ -41,5 +41,13 @@ export async function parsePdf(bytes: Uint8Array): Promise<ParsedContent> {
   }
   out.fonts = pdfFontNames(bytes);
   out.meta.pages = pages.length;
+  // where each page starts in the joined text (pages are joined by a blank line), so a quote can be traced to its page
+  const starts: number[] = [];
+  let at = 0;
+  for (const p of pages) {
+    starts.push(at);
+    at += p.trim().length + 2;
+  }
+  out.meta.pageStarts = starts.filter((s) => s <= out.text.length);
   return out;
 }

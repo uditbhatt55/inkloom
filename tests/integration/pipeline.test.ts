@@ -73,6 +73,56 @@ describe("confidentiality", () => {
     const r = await runAudit(base({ content: "PROJECT-ATLAS and project  atlas", ai: null, colours: [] }));
     expect(r.findings.filter((f) => f.category === "confidentiality")).toHaveLength(2);
   });
+
+  it("catches a codename hidden with invisible characters, full-width or lookalike letters, and none of it reaches the model", async () => {
+    const hidden = [
+      "Pro​ject Atlas",            // zero-width space inside a word
+      "Pro­ject At­las",      // soft hyphens
+      "Ｐroject Atlas",             // full-width P
+      "Prоject Atlаs",        // Cyrillic o and a
+      "Project–Atlas",             // en dash
+    ];
+    const content = `Our news: ${hidden.join(". ")}.`;
+    const { reviewer, calls } = scripted([empty]);
+    const r = await runAudit(base({ content, ai: reviewer, colours: [] }));
+    const leaks = r.findings.filter((f) => f.category === "confidentiality");
+    expect(leaks).toHaveLength(hidden.length);
+    for (const l of leaks) expect(content.slice(l.start, l.end)).toBe(l.quote); // offsets still point at the original text
+
+    const sent = calls[0].messages[1].content.replace(/[​­]/g, "");
+    expect(sent.toLowerCase()).not.toContain("atlas");
+    expect(sent).not.toMatch(/[оаＰ]/); // no lookalike or full-width letters of the codename got through
+    expect(r.score.blocked).toBe(true);
+  });
+});
+
+describe("suggested fixes are re-checked (red-team review: fixes introducing secondary violations)", () => {
+  const content = "Northbeam Sync keeps your files in step across devices.";
+  const quote = "keeps your files in step";
+  const finding = (suggestion: string | null) => ({
+    quote, start: content.indexOf(quote), end: content.indexOf(quote) + quote.length, category: "messaging", severity: "minor",
+    confidence: "medium", ruleId: null, explanation: "Lead with the benefit.", suggestion,
+  });
+  const run = async (suggestion: string | null) => {
+    const { reviewer } = scripted([() => ({ findings: [finding(suggestion)] })]);
+    return runAudit(base({ content, ai: reviewer, colours: [] }));
+  };
+
+  it("keeps a clean suggestion", async () => {
+    const r = await run("keeps every file current");
+    expect(r.findings.find((f) => f.source === "ai")!.suggestion).toBe("keeps every file current");
+    expect(r.warnings.some((w) => /suggested fix/.test(w))).toBe(false);
+  });
+
+  it("removes a suggestion that brings back a banned term or names an internal one, keeps the finding, and says so", async () => {
+    for (const bad of ["moves files with NB Sync", "is built on Project Atlas", "is built on Prоject Atlas"]) {
+      const r = await run(bad);
+      const f = r.findings.find((x) => x.source === "ai")!;
+      expect(f.quote).toBe(quote);
+      expect(f.suggestion).toBeNull();
+      expect(r.warnings.some((w) => /One suggested fix was removed/.test(w))).toBe(true);
+    }
+  });
 });
 
 describe("graceful degradation (proposal §9.1)", () => {
