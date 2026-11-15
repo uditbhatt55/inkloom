@@ -54,7 +54,12 @@ Vercel refuses request bodies over about 4.5 MB (413 FUNCTION_PAYLOAD_TOO_LARGE)
 
 *Why:* brand books are often over 5 MB, and judges upload their own. Shortcut: a staged file that is never submitted stays in the bucket; add a cleanup job if storage use grows.
 
-## D29 · A second copy runs on Azure App Service (15 Nov 2026)
+## D29 · The app runs on Azure App Service (15 Nov 2026)
 `inkloom-specfix` (resource group `inkloom-web-rg`, Linux B1, Central India next to Supabase in Mumbai, Always On, HTTPS only, Node 24). It runs the same code against the same Supabase project and model. Azure has no 4.5 MB body limit and no 60 s function limit (its front end allows about 230 s), so it is the safer host for big brand books. Building on App Service was too slow on B1 (npm install alone took 9 minutes), so `scripts/build-azure.sh` builds a standalone bundle locally (`NEXT_OUTPUT=standalone`, Linux binaries for sharp added) and it is deployed as a zip; start command `HOSTNAME=0.0.0.0 node server.js`; keys live only in the App Service settings. Azure is now the only host: the earlier Vercel deployment is retired and the repo no longer refers to it (`vercel.json` removed). `.github/workflows/deploy-azure.yml` deploys every push to `main` (tests, then `scripts/build-azure.sh`, then `azure/webapps-deploy` with the app's publish profile as a GitHub secret, then a check that `/login` answers); FTP stays off.
 
 *Why:* the event is judged once from a link; large uploads and long AI steps must not fail because of a host limit. Shortcut: deploys are manual (`az webapp deploy`), not from GitHub; add a GitHub Actions workflow if Azure becomes the main host.
+
+## D30 · Sign-in callback redirects are relative (15 Nov 2026)
+Found by Udit's sign-up test on Azure: a confirmation link that failed (`otp_expired`) opened `https://0.0.0.0:8080/login`. Behind Azure App Service the Node server only sees its inner address (`HOSTNAME=0.0.0.0`, `PORT=8080`), so `new URL("/login", req.nextUrl.origin)` in `/auth/callback` produced an address nobody can open. The callback now answers 307 with a relative `Location`, which the browser resolves against the address it really used and which keeps Supabase's `#error=...` fragment. The middleware redirect was already relative (checked on the live site). Test: `src/app/auth/callback/route.test.ts`.
+
+*Why:* sign-up and email links must work on the real host, not only on localhost. Shortcut: the login page does not yet turn the `#error` fragment into a readable message.
