@@ -53,7 +53,7 @@ export function KnowledgeTabs({
 
   return (
     <Tabs value={tab} onValueChange={setTab}>
-      <TabsList aria-label="Knowledge sections">
+      <TabsList aria-label="Knowledge sections" className="max-w-full justify-start overflow-x-auto">
         <TabsTrigger value="guidelines">Guidelines ({clauses.length})</TabsTrigger>
         <TabsTrigger value="facts">Facts ({facts.length})</TabsTrigger>
         <TabsTrigger value="terms">Terms ({terms.length})</TabsTrigger>
