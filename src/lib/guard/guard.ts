@@ -6,7 +6,9 @@ export type InternalTerm = { code: string; term: string };
 /**
  * Confidential Guard: runs BEFORE any AI call. Whole-word, case/spacing-insensitive (decision D2).
  * Only for public content; the caller must skip it for internal-audience items.
- * shortcut: no unicode normalisation (look-alike letters, zero-width chars), add NFKC folding if the eval set shows evasion.
+ * The matching (src/lib/text/match.ts) also sees through hidden-codename tricks: invisible characters (zero-width, soft hyphen),
+ * Unicode dashes, full-width letters and Cyrillic/Greek lookalikes. It runs on the original text, so offsets stay valid.
+ * shortcut: a fixed table of common lookalikes, not the full Unicode confusables list; extend it if the eval set shows a miss.
  */
 export function findLeaks(text: string, terms: InternalTerm[]): Finding[] {
   return terms.flatMap((t) =>
