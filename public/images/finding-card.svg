@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" width="1000" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EEF2FF"/><stop offset="1" stop-color="#F5F3FF"/></linearGradient>
+    <filter id="sh" x="-10%" y="-10%" width="130%" height="140%"><feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#1E1B4B" flood-opacity="0.18"/></filter>
+    <linearGradient id="link" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#DC2626"/><stop offset="1" stop-color="#6366F1"/></linearGradient>
+  </defs>
+  <rect width="1000" height="400" rx="16" fill="url(#bg)"/>
+
+  <!-- content document (left) -->
+  <g transform="translate(60 50) rotate(-3)" filter="url(#sh)">
+    <rect width="340" height="300" rx="18" fill="#FFFFFF"/>
+    <rect x="24" y="26" width="140" height="12" rx="6" fill="#27272A"/>
+    <rect x="24" y="64" width="290" height="9" rx="4.5" fill="#D4D4D8"/>
+    <rect x="24" y="86" width="100" height="9" rx="4.5" fill="#D4D4D8"/>
+    <rect x="132" y="80" width="130" height="20" rx="5" fill="#FEE2E2"/>
+    <rect x="132" y="98" width="130" height="3" fill="#DC2626"/>
+    <text x="197" y="95" text-anchor="middle" font-family="JetBrains Mono, Consolas, monospace" font-size="12" fill="#991B1B">Project Atlas</text>
+    <rect x="24" y="112" width="270" height="9" rx="4.5" fill="#D4D4D8"/>
+    <rect x="24" y="134" width="290" height="9" rx="4.5" fill="#D4D4D8"/>
+    <rect x="24" y="156" width="160" height="20" rx="5" fill="#FFEDD5"/>
+    <rect x="24" y="174" width="160" height="3" fill="#EA580C"/>
+    <rect x="24" y="188" width="250" height="9" rx="4.5" fill="#D4D4D8"/>
+    <rect x="24" y="210" width="290" height="9" rx="4.5" fill="#D4D4D8"/>
+    <rect x="24" y="232" width="200" height="9" rx="4.5" fill="#D4D4D8"/>
+  </g>
+
+  <!-- connector -->
+  <path d="M330 140 C 420 140, 440 110, 520 110" fill="none" stroke="url(#link)" stroke-width="3" stroke-dasharray="6 6"/>
+  <circle cx="330" cy="140" r="6" fill="#DC2626"/>
+  <circle cx="520" cy="110" r="6" fill="#6366F1"/>
+
+  <!-- finding card (right) -->
+  <g transform="translate(520 40) rotate(2)" filter="url(#sh)">
+    <rect width="420" height="320" rx="18" fill="#FFFFFF" stroke="#FECACA" stroke-width="2"/>
+    <rect x="22" y="22" width="76" height="26" rx="13" fill="#DC2626"/>
+    <text x="60" y="40" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">Critical</text>
+    <rect x="106" y="22" width="104" height="26" rx="13" fill="#F4F4F5"/>
+    <text x="158" y="40" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="500" fill="#3F3F46">Confidential</text>
+    <text x="396" y="40" text-anchor="end" font-family="JetBrains Mono, Consolas, monospace" font-size="14" fill="#B91C1C">−25</text>
+    <text x="22" y="84" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="500" fill="#18181B">Internal codename in public content.</text>
+    <rect x="22" y="100" width="376" height="40" rx="8" fill="#FAFAFA"/>
+    <text x="36" y="125" font-family="JetBrains Mono, Consolas, monospace" font-size="14" fill="#3F3F46">“Project Atlas”</text>
+    <text x="22" y="166" font-family="Inter, Arial, sans-serif" font-size="13" fill="#52525B">Source:</text>
+    <text x="74" y="166" font-family="Inter, Arial, sans-serif" font-size="13" fill="#4F46E5">Term · Project Atlas (internal)</text>
+    <rect x="22" y="184" width="182" height="64" rx="10" fill="#FFFFFF" stroke="#E4E4E7"/>
+    <text x="36" y="206" font-family="JetBrains Mono, Consolas, monospace" font-size="11" fill="#52525B">BEFORE</text>
+    <text x="36" y="232" font-family="Inter, Arial, sans-serif" font-size="14" fill="#18181B">Project Atlas</text>
+    <rect x="216" y="184" width="182" height="64" rx="10" fill="#F0FDF4" stroke="#BBF7D0"/>
+    <text x="230" y="206" font-family="JetBrains Mono, Consolas, monospace" font-size="11" fill="#166534">SUGGESTED FIX</text>
+    <rect x="230" y="222" width="120" height="12" rx="6" fill="#86EFAC"/>
+    <rect x="22" y="266" width="96" height="34" rx="8" fill="#4F46E5"/>
+    <text x="70" y="288" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="500" fill="#FFFFFF">Accept fix</text>
+    <rect x="126" y="266" width="76" height="34" rx="8" fill="#FFFFFF" stroke="#D4D4D8"/>
+    <text x="164" y="288" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="500" fill="#18181B">Reject</text>
+    <rect x="210" y="266" width="76" height="34" rx="8" fill="#FFFFFF" stroke="#D4D4D8"/>
+    <text x="248" y="288" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="500" fill="#18181B">Waive…</text>
+  </g>
+</svg>

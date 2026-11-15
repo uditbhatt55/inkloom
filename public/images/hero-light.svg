@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FBF8F3"/>
+      <stop offset="0.55" stop-color="#F3EEF9"/>
+      <stop offset="1" stop-color="#E9F1EC"/>
+    </linearGradient>
+    <radialGradient id="bloomL" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#D9CCF2" stop-opacity=".9"/><stop offset="1" stop-color="#D9CCF2" stop-opacity="0"/></radialGradient>
+    <radialGradient id="bloomP" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FAD9C8" stop-opacity=".85"/><stop offset="1" stop-color="#FAD9C8" stop-opacity="0"/></radialGradient>
+    <radialGradient id="bloomS" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#CDE6D7" stop-opacity=".85"/><stop offset="1" stop-color="#CDE6D7" stop-opacity="0"/></radialGradient>
+    <radialGradient id="sphere" cx="38%" cy="32%" r="70%">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".95"/>
+      <stop offset="0.45" stop-color="#F1ECFA" stop-opacity=".75"/>
+      <stop offset="0.85" stop-color="#D8CCF0" stop-opacity=".6"/>
+      <stop offset="1" stop-color="#BFAEE6" stop-opacity=".7"/>
+    </radialGradient>
+    <linearGradient id="rimS" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.5" stop-color="#C9B8EE"/><stop offset="1" stop-color="#F6C9B4"/></linearGradient>
+    <linearGradient id="cubeT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".9"/><stop offset="1" stop-color="#E6DDF7" stop-opacity=".8"/></linearGradient>
+    <linearGradient id="cubeL" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E4DAF6" stop-opacity=".85"/><stop offset="1" stop-color="#CFC0EE" stop-opacity=".8"/></linearGradient>
+    <linearGradient id="cubeR" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7E2D7" stop-opacity=".85"/><stop offset="1" stop-color="#E8D3E8" stop-opacity=".8"/></linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".92"/><stop offset="1" stop-color="#F4EFFB" stop-opacity=".82"/></linearGradient>
+    <linearGradient id="ped1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#ECE6F4"/></linearGradient>
+    <linearGradient id="ped2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3EEF9"/><stop offset="1" stop-color="#DCD3EA"/></linearGradient>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#E3D9F6" stop-opacity="0"/><stop offset="0.3" stop-color="#E3D9F6" stop-opacity=".7"/><stop offset="0.7" stop-color="#F8DCCD" stop-opacity=".7"/><stop offset="1" stop-color="#F8DCCD" stop-opacity="0"/></linearGradient>
+    <linearGradient id="orbit" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B9A6E6"/><stop offset="0.5" stop-color="#8FC6A9"/><stop offset="1" stop-color="#F2B89D"/></linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#5B4B8A" flood-opacity=".14"/></filter>
+    <filter id="blur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <ellipse cx="1080" cy="360" rx="520" ry="380" fill="url(#bloomL)"/>
+  <ellipse cx="1420" cy="700" rx="360" ry="260" fill="url(#bloomP)"/>
+  <ellipse cx="760" cy="760" rx="380" ry="200" fill="url(#bloomS)"/>
+
+  <!-- soft curved ribbons behind -->
+  <path d="M560 520 C 760 420, 1380 400, 1560 520 L1560 560 C 1380 450, 780 470, 560 570 Z" fill="url(#ribbon)"/>
+  <path d="M600 260 C 820 170, 1340 170, 1540 290 L1540 318 C 1340 210, 830 210, 610 300 Z" fill="url(#ribbon)" opacity=".7"/>
+
+  <!-- pedestal -->
+  <g filter="url(#sh)">
+    <ellipse cx="1080" cy="720" rx="360" ry="70" fill="url(#ped2)"/>
+    <ellipse cx="1080" cy="706" rx="360" ry="70" fill="url(#ped1)"/>
+    <ellipse cx="1080" cy="706" rx="330" ry="58" fill="none" stroke="#C9B8EE" stroke-width="3"/>
+    <ellipse cx="1080" cy="668" rx="240" ry="46" fill="url(#ped2)"/>
+    <ellipse cx="1080" cy="656" rx="240" ry="46" fill="url(#ped1)"/>
+    <ellipse cx="1080" cy="656" rx="214" ry="36" fill="none" stroke="#F2B89D" stroke-width="2.5"/>
+    <ellipse cx="1080" cy="628" rx="150" ry="28" fill="url(#ped2)"/>
+    <ellipse cx="1080" cy="620" rx="150" ry="28" fill="url(#ped1)"/>
+    <ellipse cx="1080" cy="620" rx="120" ry="20" fill="none" stroke="#8FC6A9" stroke-width="2.5"/>
+  </g>
+  <ellipse cx="1080" cy="612" rx="90" ry="14" fill="#FFFFFF" opacity=".9" filter="url(#blur)"/>
+
+  <!-- orbit ring (back half) -->
+  <ellipse cx="1080" cy="380" rx="300" ry="96" fill="none" stroke="url(#orbit)" stroke-width="3" transform="rotate(-12 1080 380)" opacity=".8"/>
+
+  <!-- glass sphere -->
+  <circle cx="1080" cy="380" r="200" fill="url(#sphere)" stroke="url(#rimS)" stroke-width="4"/>
+  <ellipse cx="1010" cy="290" rx="90" ry="46" fill="#FFFFFF" opacity=".6" transform="rotate(-30 1010 290)"/>
+
+  <!-- translucent cube with shield -->
+  <g>
+    <path d="M1080 268 L1180 326 L1080 384 L980 326 Z" fill="url(#cubeT)" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M980 326 L1080 384 L1080 500 L980 442 Z" fill="url(#cubeL)" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M1180 326 L1080 384 L1080 500 L1180 442 Z" fill="url(#cubeR)" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M1080 330 L1132 350 L1132 392 C1132 426 1108 448 1080 460 C1052 448 1028 426 1028 392 L1028 350 Z" fill="#FFFFFF" fill-opacity=".85" stroke="#5B4B8A" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M1056 396 L1074 414 L1106 380" fill="none" stroke="#3F7F62" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- orbit ring (front half) with beads -->
+  <path d="M780 380 A 300 96 0 0 0 1380 380" fill="none" stroke="url(#orbit)" stroke-width="3.5" transform="rotate(-12 1080 380)"/>
+  <g transform="rotate(-12 1080 380)">
+    <circle cx="840" cy="430" r="8" fill="#B9A6E6" stroke="#FFFFFF" stroke-width="3"/>
+    <circle cx="1080" cy="476" r="8" fill="#8FC6A9" stroke="#FFFFFF" stroke-width="3"/>
+    <circle cx="1320" cy="430" r="8" fill="#F2B89D" stroke="#FFFFFF" stroke-width="3"/>
+    <circle cx="1240" cy="292" r="6" fill="#B9A6E6" stroke="#FFFFFF" stroke-width="2"/>
+  </g>
+
+  <!-- floating cards -->
+  <g filter="url(#sh)">
+    <!-- image card -->
+    <g transform="translate(720 120) rotate(-8)">
+      <rect width="190" height="124" rx="18" fill="url(#card)" stroke="#FFFFFF" stroke-width="2"/>
+      <rect x="20" y="20" width="62" height="46" rx="8" fill="#EDE7F8" stroke="#B9A6E6" stroke-width="2"/>
+      <path d="M26 60 L44 42 L56 54 L64 46 L78 60 Z" fill="#B9A6E6"/>
+      <circle cx="68" cy="32" r="5" fill="#F2B89D"/>
+      <rect x="96" y="26" width="72" height="8" rx="4" fill="#C9C0D9"/>
+      <rect x="96" y="44" width="56" height="8" rx="4" fill="#DDD6E8"/>
+      <rect x="20" y="84" width="120" height="8" rx="4" fill="#DDD6E8"/>
+      <circle cx="162" cy="96" r="15" fill="#3F7F62"/>
+      <path d="M155 96 L160 101 L169 91" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <!-- typography card -->
+    <g transform="translate(1300 110) rotate(7)">
+      <rect width="180" height="130" rx="18" fill="url(#card)" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="22" y="56" font-family="Georgia, 'Times New Roman', serif" font-size="40" font-style="italic" fill="#5B4B8A">Aa</text>
+      <rect x="22" y="74" width="110" height="8" rx="4" fill="#C9C0D9"/>
+      <rect x="22" y="92" width="80" height="8" rx="4" fill="#DDD6E8"/>
+      <circle cx="152" cy="104" r="15" fill="#3F7F62"/>
+      <path d="M145 104 L150 109 L159 99" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <!-- document card -->
+    <g transform="translate(640 400) rotate(5)">
+      <rect width="170" height="140" rx="18" fill="url(#card)" stroke="#FFFFFF" stroke-width="2"/>
+      <path d="M24 20 L64 20 L80 36 L80 86 L24 86 Z" fill="#FBE6DA" stroke="#F2B89D" stroke-width="2"/>
+      <rect x="34" y="48" width="34" height="5" rx="2.5" fill="#F2B89D"/>
+      <rect x="34" y="62" width="28" height="5" rx="2.5" fill="#F2B89D"/>
+      <rect x="24" y="104" width="96" height="8" rx="4" fill="#DDD6E8"/>
+      <circle cx="140" cy="112" r="15" fill="#3F7F62"/>
+      <path d="M133 112 L138 117 L147 107" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <!-- video card -->
+    <g transform="translate(1340 420) rotate(-6)">
+      <rect width="180" height="124" rx="18" fill="url(#card)" stroke="#FFFFFF" stroke-width="2"/>
+      <rect x="22" y="20" width="96" height="56" rx="10" fill="#E3EEF8" stroke="#9DBCDD" stroke-width="2"/>
+      <path d="M62 36 L80 48 L62 60 Z" fill="#6E93BE"/>
+      <rect x="22" y="90" width="96" height="8" rx="4" fill="#DDD6E8"/>
+      <circle cx="150" cy="96" r="15" fill="#3F7F62"/>
+      <path d="M143 96 L148 101 L157 91" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <!-- mini chart panel -->
+    <g transform="translate(600 600) rotate(-3)">
+      <rect width="150" height="92" rx="16" fill="url(#card)" stroke="#FFFFFF" stroke-width="2"/>
+      <rect x="24" y="52" width="14" height="22" rx="3" fill="#C9B8EE"/>
+      <rect x="46" y="40" width="14" height="34" rx="3" fill="#B9A6E6"/>
+      <rect x="68" y="28" width="14" height="46" rx="3" fill="#8FC6A9"/>
+      <rect x="90" y="18" width="14" height="56" rx="3" fill="#F2B89D"/>
+    </g>
+  </g>
+
+  <!-- sparkles -->
+  <g fill="#FFFFFF">
+    <circle cx="920" cy="210" r="4"/><circle cx="1260" cy="560" r="3"/><circle cx="1500" cy="300" r="3.5"/><circle cx="860" cy="560" r="3"/><circle cx="1180" cy="120" r="3"/>
+  </g>
+  <g fill="#B9A6E6" opacity=".6">
+    <circle cx="1460" cy="640" r="3"/><circle cx="700" cy="340" r="2.5"/><circle cx="1560" cy="200" r="2"/>
+  </g>
+</svg>

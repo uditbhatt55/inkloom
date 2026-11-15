@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,7 @@ export function LoginForm({ next }: { next: string }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ kind: "error" | "info"; text: string } | null>(null);
   const supabase = createClient();
+  const emailRef = useRef<HTMLInputElement>(null);
 
   if (!supabase) {
     return (
@@ -43,11 +44,25 @@ export function LoginForm({ next }: { next: string }) {
     }
   }
 
+  /** Passwordless sign-in for existing accounts. The reply is the same either way, so it never reveals whether an address has an account. */
+  async function sendMagicLink() {
+    const input = emailRef.current;
+    if (!input || !input.reportValidity()) return;
+    setBusy(true);
+    setMessage(null);
+    await supabase!.auth.signInWithOtp({
+      email: input.value.trim(),
+      options: { shouldCreateUser: false, emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}` },
+    });
+    setBusy(false);
+    setMessage({ kind: "info", text: "If that address has an account, a sign-in link is on its way. Open it on this device." });
+  }
+
   return (
     <form onSubmit={onSubmit} className="space-y-4" aria-describedby={message ? "login-message" : undefined}>
       <div className="space-y-2">
         <Label htmlFor="email">Work email</Label>
-        <Input id="email" name="email" type="email" autoComplete="email" required />
+        <Input ref={emailRef} id="email" name="email" type="email" autoComplete="email" required />
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>
@@ -61,6 +76,11 @@ export function LoginForm({ next }: { next: string }) {
       <Button type="submit" className="w-full" disabled={busy}>
         {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
       </Button>
+      {mode === "signin" && (
+        <Button type="button" variant="outline" className="w-full" disabled={busy} onClick={sendMagicLink}>
+          Email me a sign-in link
+        </Button>
+      )}
       <p className="text-center text-sm text-muted-foreground">
         {mode === "signin" ? "New to INKLOOM?" : "Already have an account?"}{" "}
         <button type="button" className="font-medium text-foreground underline underline-offset-4" onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setMessage(null); }}>

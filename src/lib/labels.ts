@@ -29,3 +29,26 @@ export function ruleSourceLabel(code: string | null): string | null {
   if (code.startsWith("PACK-")) return `Wording rule ${code}`;
   return code;
 }
+
+/** How each role is named in the UI (§8.1 roles; labels only). */
+export const ROLE_LABEL: Record<E["member_role"], string> = {
+  owner: "Brand owner", reviewer: "Reviewer", creator: "Creator", agency: "Agency", viewer: "Viewer",
+};
+
+/** Badge colours per item status (DESIGN.md §2). Soft background + dark text, all ≥4.5:1. */
+export const STATUS_STYLE: Record<E["item_status"], string> = {
+  draft: "bg-zinc-100 text-zinc-700",
+  ai_audited: "bg-sky-100 text-sky-900",
+  in_review: "bg-indigo-100 text-indigo-800",
+  changes_requested: "bg-amber-100 text-amber-900",
+  rejected: "bg-red-100 text-red-800",
+  approved: "bg-green-100 text-green-800",
+};
+
+/** Solid severity badge colours (DESIGN.md §2), white text ≥4.5:1. */
+export const SEVERITY_STYLE: Record<E["severity"], string> = {
+  critical: "bg-critical text-white",
+  major: "bg-major text-white",
+  minor: "bg-minor text-white",
+  info: "bg-info text-white",
+};
