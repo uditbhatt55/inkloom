@@ -34,7 +34,7 @@ export async function loadBrandHealth(db: Db, orgId: string, today: string) {
     const item = run && itemById.get(itemOfVersion.get(run.version_id) ?? "");
     if (!run || !item) continue;
     healthFindings.push({
-      ruleCode: f.rule_code, status: f.status, quote: f.quote, channel: item.channel,
+      itemId: item.id, ruleCode: f.rule_code, status: f.status, quote: f.quote, channel: item.channel,
       creatorRole: roleOf.get(item.owner_id) ?? null, at: run.created_at,
     });
   }

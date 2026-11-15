@@ -4,6 +4,8 @@
  */
 
 export type HealthFinding = {
+  /** the content item the finding belongs to, so one post is counted once per rule however many versions repeat it */
+  itemId: string;
   ruleCode: string | null; status: string; quote: string;
   channel: string | null; creatorRole: string | null;
   /** when the audit run that produced it was created (ISO) */
@@ -30,15 +32,21 @@ const tally = (values: (string | null)[]) => {
 export type Recurring = { ruleCode: string; count: number; byChannel: [string, number][]; byRole: [string, number][] };
 
 /**
- * Detector 1, recurring mistakes: findings per rule in the last `days` days, with the channels and creator roles they
- * came from. Dismissed and waived findings are not mistakes, so they are left out; a creator's rejection still counts
- * (decision D1). Findings with no rule code (unverified claims) are left out: they have no rule to fix.
+ * Detector 1, recurring mistakes: posts that broke each rule in the last `days` days, with the channels and creator roles
+ * they came from. A post counts once per rule: the same mistake in version 1 and again in version 2 is one mistake, and
+ * several findings of one rule in one version are one post too. Dismissed and waived findings are not mistakes, so they
+ * are left out; a creator's rejection still counts (decision D1). Findings with no rule code (unverified claims) are left
+ * out: they have no rule to fix.
  */
 export function recurringMistakes(findings: HealthFinding[], today: string, days = 30, top = 10): Recurring[] {
   const since = addDays(today, -days);
   const byRule = new Map<string, HealthFinding[]>();
+  const seen = new Set<string>();
   for (const f of findings) {
     if (!f.ruleCode || OVERRULED.has(f.status) || f.at.slice(0, 10) < since) continue;
+    const key = `${f.itemId}|${f.ruleCode}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
     byRule.set(f.ruleCode, [...(byRule.get(f.ruleCode) ?? []), f]);
   }
   return [...byRule.entries()]

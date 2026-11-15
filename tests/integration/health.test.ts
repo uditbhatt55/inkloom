@@ -27,7 +27,7 @@ beforeAll(async () => {
 /** The same joins loadBrandHealth makes through supabase-js, in SQL. */
 async function rows(q: Pick<PGlite, "query"> = db) {
   const findings = (await q.query<HealthFinding>(`
-    select f.rule_code as "ruleCode", f.status::text, f.quote, i.channel, m.role::text as "creatorRole", r.created_at::text as at
+    select i.id as "itemId", f.rule_code as "ruleCode", f.status::text, f.quote, i.channel, m.role::text as "creatorRole", r.created_at::text as at
     from findings f join audit_runs r on r.id = f.run_id join content_versions v on v.id = r.version_id
     join content_items i on i.id = v.item_id left join memberships m on m.user_id = i.owner_id and m.org_id = i.org_id`)).rows;
   const links = (await q.query<{ factId: string; itemId: string; itemTitle: string; approvedAt: string | null }>(`
