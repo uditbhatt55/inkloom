@@ -35,6 +35,16 @@ describe("validateRewrite", () => {
     // "four" is a word, but a figure from the notes is fine
     expect(validateRewrite({ ...good, text: "Do not call uptime guaranteed; a 4 hour reply promise is fine." }, CLAUSE, [{ quote: "4 hours", reason: null }])).toMatchObject({ ok: true });
   });
+  it("rejects an internal term, and a banned term the current rule did not already mention", () => {
+    const terms = [{ term: "Project Atlas", kind: "internal" }, { term: "NB Sync", kind: "banned" }];
+    expect(validateRewrite({ ...good, text: "Do not call uptime guaranteed; Project Atlas customers may quote the SLA." }, CLAUSE, NOTES, terms))
+      .toMatchObject({ ok: false, reason: expect.stringMatching(/banned or internal/) });
+    expect(validateRewrite({ ...good, text: "Do not call uptime guaranteed; NB Sync users may quote the SLA." }, CLAUSE, NOTES, terms)).toMatchObject({ ok: false });
+    expect(validateRewrite({ ...good, why: "Hidden Pro​ject Atlas mention." }, CLAUSE, NOTES, terms)).toMatchObject({ ok: false });
+    // the current rule already names the banned term (a rule about it), so the rewrite may keep it
+    const rule = 'Never call the product "NB Sync"; refer to the SLA.';
+    expect(validateRewrite({ ...good, text: 'Never call the product "NB Sync" in public copy; refer to the SLA.' }, rule, [], terms)).toMatchObject({ ok: true });
+  });
   it("turns an empty example into null", () => {
     expect(validateRewrite({ ...good, example_do: "  " }, CLAUSE, NOTES)).toMatchObject({ ok: true, value: { example_do: null } });
   });

@@ -20,7 +20,7 @@ test("M5: owner sees recurring mistakes, an expired fact with its approved item,
   await expect(page.getByRole("heading", { level: 1, name: "Brand Health" })).toBeVisible();
 
   // recurring mistakes: the banned product name is the rule broken most often in the seeded history
-  const recurring = page.getByRole("table", { name: /Findings per rule in the last 30 days/ });
+  const recurring = page.getByRole("table", { name: /Posts that broke each rule in the last 30 days/ });
   await expect(recurring.getByRole("rowheader").first()).toHaveText("TERM-02");
 
   // fact impact: the June email was approved while INR 499 (FACT-05) was current; that fact has expired since

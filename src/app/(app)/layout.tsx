@@ -14,9 +14,10 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         Skip to content
       </a>
       <header className="border-b bg-background">
-        <div className="mx-auto flex h-14 max-w-6xl items-center gap-6 px-4">
+        {/* On a phone the links drop to their own row, so Sign out stays on screen next to the name */}
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-1 px-4 py-2 sm:h-14 sm:flex-nowrap sm:py-0">
           <Link href="/dashboard" className="font-semibold tracking-tight">INKLOOM AI</Link>
-          <nav aria-label="Main" className="flex gap-4 text-sm">
+          <nav aria-label="Main" className="order-last flex w-full gap-4 whitespace-nowrap text-sm sm:order-none sm:w-auto">
             <Link href="/dashboard" className="text-muted-foreground hover:text-foreground">Content</Link>
             <Link href="/audit/new" className="text-muted-foreground hover:text-foreground">New audit</Link>
             <Link href="/knowledge" className="text-muted-foreground hover:text-foreground">Knowledge</Link>

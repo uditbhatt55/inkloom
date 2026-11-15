@@ -2,8 +2,9 @@ import { describe, expect, it } from "vitest";
 import { addDays, conflictingTerms, factImpact, recurringMistakes, unclearRules, type HealthFinding } from "./detectors";
 
 const TODAY = "2026-11-14";
+let post = 0; // every finding is a different post unless a test says otherwise
 const f = (o: Partial<HealthFinding>): HealthFinding => ({
-  ruleCode: "TERM-02", status: "open", quote: "NB Sync", channel: "linkedin", creatorRole: "creator", at: "2026-11-10T10:00:00Z", ...o,
+  itemId: `item-${post++}`, ruleCode: "TERM-02", status: "open", quote: "NB Sync", channel: "linkedin", creatorRole: "creator", at: "2026-11-10T10:00:00Z", ...o,
 });
 
 describe("addDays", () => {
@@ -22,6 +23,21 @@ describe("recurringMistakes", () => {
     expect(r.map((x) => [x.ruleCode, x.count])).toEqual([["TERM-02", 3], ["CLAIM-02", 1]]);
     expect(r[0].byChannel).toEqual([["linkedin", 2], ["email", 1]]);
     expect(r[0].byRole).toEqual([["creator", 2], ["agency", 1]]);
+  });
+
+  it("counts a post once per rule, however many versions or findings repeat the mistake", () => {
+    const r = recurringMistakes([
+      f({ itemId: "p1", quote: "NB Sync" }), f({ itemId: "p1", quote: "NB Sync" }),            // version 1 and version 2 of one post
+      f({ itemId: "p1", ruleCode: "CLAIM-01", quote: "thousands" }), f({ itemId: "p1", ruleCode: "CLAIM-01", quote: "100%" }), // two findings, one rule, one post
+      f({ itemId: "p2", quote: "NB Sync", channel: "email" }),
+    ], TODAY);
+    expect(r.map((x) => [x.ruleCode, x.count])).toEqual([["TERM-02", 2], ["CLAIM-01", 1]]);
+    expect(r[0].byChannel).toEqual([["email", 1], ["linkedin", 1]]);
+  });
+
+  it("a post that was dismissed in one version but still breaks the rule in another still counts once", () => {
+    const r = recurringMistakes([f({ itemId: "p1", status: "dismissed" }), f({ itemId: "p1", status: "open" })], TODAY);
+    expect(r).toEqual([expect.objectContaining({ ruleCode: "TERM-02", count: 1 })]);
   });
 
   it("leaves out old, dismissed, waived and rule-less findings but keeps a creator rejection (D1)", () => {
