@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { chooseAiJson } from "@/lib/ai/json";
+import { maskForAi } from "@/lib/guard/guard";
 import { comparableClauses, CONFLICT_JSON_SCHEMA, conflictMessages, validateConflicts } from "@/lib/health/clause-conflicts";
 import { fail, requireOwnerOrReviewer } from "@/lib/health/access";
 
@@ -24,9 +25,14 @@ export async function POST(req: NextRequest) {
   const ai = chooseAiJson();
   if (!ai) return NextResponse.json({ mode: "simulated", checked: clauses.length, conflicts: null, message: "The AI conflict check needs the real model. The check of conflicting terms above is always on." });
 
+  // rule text is written by people: hide internal terms and personal data from the model, as for every other model call
+  const { data: internalRows } = await db.from("terminology").select("code, term").eq("org_id", orgId).eq("kind", "internal");
+  const internal = internalRows ?? [];
+
   let raw: unknown;
   try {
-    raw = await ai.call({ messages: conflictMessages(clauses), name: "clause_conflicts", schema: CONFLICT_JSON_SCHEMA });
+    const sent = clauses.map((c) => ({ ...c, text: maskForAi(c.text, internal) }));
+    raw = await ai.call({ messages: conflictMessages(sent), name: "clause_conflicts", schema: CONFLICT_JSON_SCHEMA });
   } catch (e) {
     console.error("clause conflict check failed", e instanceof Error ? e.message : e);
     return fail(502, "The AI could not be reached. Please try again.");

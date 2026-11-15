@@ -8,6 +8,7 @@ import { findInternalFactLeaks, maskSpans } from "@/lib/guard/internal-facts";
 import { contrastFinding, contrastRatio } from "@/lib/rules/contrast";
 import { checkExpiredFacts, linkFacts } from "@/lib/rules/facts";
 import { checkRulePack } from "@/lib/rules/rulepack";
+import { safeSuggestion } from "@/lib/rules/suggestion";
 import { checkTerms } from "@/lib/rules/terms";
 import { checkAltText, checkFonts, checkPalette, checkReadability, type ImageColour, type ImageRef } from "@/lib/rules/visual";
 import { computeScore, type ScoreResult } from "@/lib/score/score";
@@ -153,6 +154,12 @@ export async function runAudit(input: AuditInput): Promise<AuditResult> {
         rejected = [...rejected, ...v.rejected];
         // masked text has the same length, so offsets map straight back to the original quote
         aiFindings = v.accepted.map((f) => ({ ...f, quote: content.slice(f.start, f.end) }));
+        // a suggested fix that brings back a banned term or names an internal one is removed; the finding stays
+        const unsafe = aiFindings.filter((f) => f.suggestion && safeSuggestion(f.suggestion, knowledge.terms) === null);
+        if (unsafe.length) {
+          aiFindings = aiFindings.map((f) => (unsafe.includes(f) ? { ...f, suggestion: null } : f));
+          warnings.push(`${unsafe.length === 1 ? "One suggested fix was" : `${unsafe.length} suggested fixes were`} removed because ${unsafe.length === 1 ? "it" : "they"} used a banned or internal term.`);
+        }
         aiMode = ai.mode;
       }
     } catch (e) {

@@ -23,6 +23,57 @@ describe("findTerm edge cases", () => {
   });
 });
 
+describe("findTerm sees through hidden-codename tricks (red-team review: Unicode evasion)", () => {
+  const ZW = "​", SHY = "­";
+  const hits = (text: string, term = "Project Atlas") => findTerm(text, term).map((m) => text.slice(m.start, m.end));
+
+  it("invisible characters inside a word or between words", () => {
+    expect(hits(`call it Pro${ZW}ject Atlas.`)).toEqual([`Pro${ZW}ject Atlas`]);
+    expect(hits(`call it Project${ZW} Atlas.`)).toHaveLength(1);
+    expect(hits(`call it Pro${SHY}ject At${SHY}las.`)).toHaveLength(1);
+    expect(hits(`call it P‌‍⁠roject﻿ Atlas.`)).toHaveLength(1);
+    expect(hits(`call it Project‎Atlas.`)).toHaveLength(1); // an invisible mark is the only gap
+  });
+  it("Unicode dashes, a minus sign and a non-breaking space", () => {
+    for (const sep of ["‐", "‑", "–", "—", "−", " "]) expect(hits(`Project${sep}Atlas`)).toHaveLength(1);
+  });
+  it("full-width letters", () => {
+    expect(hits("call it Ｐroject Atlas")).toHaveLength(1);
+    expect(hits("Ｐｒｏｊｅｃｔ Ａｔｌａｓ")).toHaveLength(1);
+    expect(hits("Zone １２", "Zone 12")).toHaveLength(1);
+  });
+  it("Cyrillic and Greek lookalike letters, in any case", () => {
+    expect(hits("Prоject Atlаs")).toHaveLength(1);        // Cyrillic о and а
+    expect(hits("PRОJECT ATLАS")).toHaveLength(1);        // upper case Cyrillic О and А
+    expect(hits("Prοject Αtlas")).toHaveLength(1);        // Greek ο and Α
+    expect(hits("Proјect Atlas")).toHaveLength(1);              // Cyrillic ј for j
+  });
+  it("all tricks together, and the offsets still point at the original text", () => {
+    const text = `Hello! P${ZW}rоject–At${SHY}lаs is secret.`;
+    const [m] = findTerm(text, "Project Atlas");
+    expect(text.slice(m.start, m.end)).toBe(`P${ZW}rоject–At${SHY}lаs`);
+    expect(m.quote).toBe(text.slice(m.start, m.end));
+  });
+  it("still respects whole words and does not match unrelated text", () => {
+    expect(hits("Atlassian and Project Atlases")).toEqual([]);
+    expect(hits(`Project${ZW}Atlassian`)).toEqual([]);
+    expect(hits("Project Atl")).toEqual([]);
+    expect(hits("Prosect Atlas")).toEqual([]);
+    expect(hits("Проект Атлас")).toEqual([]); // Russian "Проект Атлас" is not "Project Atlas"
+  });
+  it("a term that itself has non-Latin letters or regex characters still works", () => {
+    expect(findTerm("प्रोजेक्ट अटलस", "प्रोजेक्ट")).toHaveLength(1);
+    expect(findTerm("We love C++ and AT&T (really).", "C++")).toHaveLength(1);
+    expect(findTerm("a[b]c", "a[b]c")).toHaveLength(1);
+  });
+  it("does not hang on a long run of invisible characters", () => {
+    const text = "Project" + ZW.repeat(50_000) + " Atlas" + SHY.repeat(50_000) + "x";
+    const t0 = Date.now();
+    expect(findTerm(text, "Project Atlas")).toHaveLength(1);
+    expect(Date.now() - t0).toBeLessThan(500);
+  });
+});
+
 describe("findFigure edge cases", () => {
   it("does not match inside a longer or decimal number", () => {
     expect(findFigure("99.99% uptime", "99.9%")).toEqual([]);
@@ -43,5 +94,11 @@ describe("maskTerms", () => {
     const out = maskTerms(text, ["Project Atlas"]);
     expect(out).toBe("*".repeat(13) + " and " + "*".repeat(13));
     expect(out).toHaveLength(text.length);
+  });
+  it("masks hidden variants too, with the same length, so nothing readable reaches the AI", () => {
+    const text = `a Pro​ject Atlas b Ｐroject-Atlas c Prоject Atlаs d`;
+    const out = maskTerms(text, ["Project Atlas"]);
+    expect(out).toHaveLength(text.length);
+    expect(out.replace(/\*/g, "")).toBe("a  b  c  d");
   });
 });
