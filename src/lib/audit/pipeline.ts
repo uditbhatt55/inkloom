@@ -48,7 +48,7 @@ function extractedContrast(colours: ImageColour[]): ContrastCheck | null {
   return worst;
 }
 /**
- * The AI gets one time budget for the whole audit, retry included. Routes run with maxDuration = 60 s on Vercel; 45 s
+ * The AI gets one time budget for the whole audit, retry included. Routes run with maxDuration = 60 s; 45 s
  * for the model leaves time to parse the upload and save the run, so a slow model ends in rule-only results, never a
  * 504 (§9.1). gpt-6-luna can need more than 25 s, so the budget is not split evenly: the first attempt may use all of it.
  */

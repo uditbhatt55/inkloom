@@ -22,7 +22,7 @@ export default function Home() {
           <Button asChild size="lg"><Link href="/login">Try the demo (no sign-up)</Link></Button>
           <Button asChild size="lg" variant="outline"><Link href="/login">Sign in</Link></Button>
         </div>
-        <p className="text-sm text-muted-foreground">The first page can take up to 15 seconds to load, and an audit about 40 seconds, because it runs on a live AI model.</p>
+        <p className="text-sm text-muted-foreground">An audit takes about 40 seconds because it runs on a live AI model.</p>
       </div>
       <ol className="grid gap-4 sm:grid-cols-2">
         {STEPS.map(([title, text], i) => (

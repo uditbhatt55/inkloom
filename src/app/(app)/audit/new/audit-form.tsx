@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { attachFile } from "@/lib/storage/stage-upload";
 
 type Org = { orgId: string; orgName: string };
 type Source = "text" | "file" | "url";
@@ -31,6 +32,8 @@ export function AuditForm({ orgs, item }: { orgs: Org[]; item: { id: string; tit
     setBusy(true);
     setError(null);
     try {
+      const file = fd.get("file");
+      if (file instanceof File && file.size > 0) await attachFile(fd, file);
       const res = await fetch("/api/audit", { method: "POST", body: fd });
       const body = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(typeof body.error === "string" ? body.error : "The audit could not be completed.");

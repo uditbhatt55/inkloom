@@ -81,11 +81,26 @@ describe("buildDraft", () => {
   });
 
   it("output that does not match the schema drafts nothing", () => {
-    for (const bad of [null, "text", { clauses: "x" }, { clauses: [{ category: "nonsense", text: "a", quote: "Brand Voice" }], terms: [], colours: [] }]) {
+    for (const bad of [null, "text", { clauses: "x" }]) {
       const { draft, dropped } = buildDraft(bad, DOC, STARTS, none);
       expect(draft).toEqual({ clauses: [], terms: [], colours: [] });
       expect(dropped[0]).toMatch(/did not match/);
     }
+  });
+
+  it("a colour with no name is named by its hex (palettes often list hex values only)", () => {
+    const { draft } = buildDraft(out({ colours: [{ name: "", hex: "#1b2a4a", quote: "#1B2A4A" }] }), DOC, STARTS, none);
+    expect(draft.colours.map((c) => [c.name, c.hex])).toEqual([["#1B2A4A", "#1B2A4A"]]);
+  });
+
+  it("one malformed item is dropped on its own; the rest of the draft is kept", () => {
+    const raw = {
+      clauses: [{ category: "nonsense", text: "a", quote: "Brand Voice" }, { category: "tone", text: "Use a plain voice.", quote: "Brand Voice" }, { category: "tone", text: "", quote: "" }],
+      terms: [], colours: [],
+    };
+    const { draft, dropped } = buildDraft(raw, DOC, STARTS, none);
+    expect(draft.clauses.map((c) => c.text)).toEqual(["Use a plain voice."]);
+    expect(dropped).toContain("2 guidelines were not in the expected format");
   });
 
   it("caps each list", () => {

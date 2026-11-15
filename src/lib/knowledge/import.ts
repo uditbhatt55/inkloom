@@ -16,11 +16,13 @@ const KINDS = ["preferred", "banned", "internal"] as const;
 export type TermKind = (typeof KINDS)[number];
 
 const text = (max: number) => z.string().trim().min(1).max(max);
-export const ImportOutputSchema = z.object({
-  clauses: z.array(z.object({ category: z.enum(CATEGORIES), text: text(1000), quote: text(1000) })),
-  terms: z.array(z.object({ term: text(200), kind: z.enum(KINDS), replacement: z.string().trim().max(200).nullable(), quote: text(1000) })),
-  colours: z.array(z.object({ name: text(120), hex: z.string().trim(), quote: text(1000) })),
-});
+const ClauseItem = z.object({ category: z.enum(CATEGORIES), text: text(1000), quote: text(1000) });
+const TermItem = z.object({ term: text(200), kind: z.enum(KINDS), replacement: z.string().trim().max(200).nullable(), quote: text(1000) });
+// many brand books list a palette with no colour names; an empty name falls back to the hex in buildDraft
+const ColourItem = z.object({ name: z.string().trim().max(120), hex: z.string().trim(), quote: text(1000) });
+export const ImportOutputSchema = z.object({ clauses: z.array(ClauseItem), terms: z.array(TermItem), colours: z.array(ColourItem) });
+/** The outer shape only: items are checked one by one, so one bad item from a long brand book does not lose the whole draft. */
+const LooseOutput = z.object({ clauses: z.array(z.unknown()), terms: z.array(z.unknown()), colours: z.array(z.unknown()) });
 export type ImportOutput = z.infer<typeof ImportOutputSchema>;
 
 /** Strict JSON schema for Azure Structured Outputs (all keys required, no extra keys). */
@@ -84,10 +86,20 @@ export function pageOf(offset: number, pageStarts: number[] | undefined): number
  * base as duplicates (shown unticked). Returns how many items were dropped and why, for the owner to see.
  */
 export function buildDraft(raw: unknown, documentText: string, pageStarts: number[] | undefined, existing: Existing): { draft: Draft; dropped: string[] } {
-  const parsed = ImportOutputSchema.safeParse(raw);
+  const loose = LooseOutput.safeParse(raw);
   const empty: Draft = { clauses: [], terms: [], colours: [] };
-  if (!parsed.success) return { draft: empty, dropped: ["The AI's answer did not match the expected format, so nothing was drafted."] };
+  if (!loose.success) return { draft: empty, dropped: ["The AI's answer did not match the expected format, so nothing was drafted."] };
   const dropped: string[] = [];
+  const valid = <T>(items: unknown[], schema: z.ZodType<T>, what: string): T[] => {
+    const ok = items.flatMap((i) => { const r = schema.safeParse(i); return r.success ? [r.data] : []; });
+    if (ok.length < items.length) dropped.push(`${items.length - ok.length} ${what} not in the expected format`);
+    return ok;
+  };
+  const parsed = { data: {
+    clauses: valid(loose.data.clauses, ClauseItem, "guidelines were"),
+    terms: valid(loose.data.terms, TermItem, "terms were"),
+    colours: valid(loose.data.colours, ColourItem, "colours were"),
+  } };
   const found = (quote: string, what: string) => {
     const at = locate(documentText, quote);
     if (at < 0) dropped.push(`${what}: its quote is not in the document`);
@@ -120,7 +132,7 @@ export function buildDraft(raw: unknown, documentText: string, pageStarts: numbe
     if (!isValidHex(hex)) { dropped.push(`Colour "${c.name}": "${c.hex}" is not a #RRGGBB value`); continue; }
     const at = found(c.quote, `Colour "${c.name}"`);
     if (at < 0 || !firstTime(`h:${hex}`)) continue;
-    draft.colours.push({ id: `h${draft.colours.length + 1}`, name: c.name, hex, quote: c.quote, page: pageOf(at, pageStarts), duplicate: haveHex.has(hex) });
+    draft.colours.push({ id: `h${draft.colours.length + 1}`, name: c.name || hex, hex, quote: c.quote, page: pageOf(at, pageStarts), duplicate: haveHex.has(hex) });
   }
   return { draft, dropped };
 }
