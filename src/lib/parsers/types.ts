@@ -12,7 +12,8 @@ export type ParsedContent = {
   images: ImageRef[];
   /** dominant colours with pixel share, for palette and contrast checks (images only) */
   colours: ImageColour[];
-  meta: { pages?: number; width?: number; height?: number; url?: string };
+  /** pageStarts: offset in `text` where each PDF page begins (page n starts at pageStarts[n-1]) */
+  meta: { pages?: number; pageStarts?: number[]; width?: number; height?: number; url?: string };
   warnings: string[];
 };
 

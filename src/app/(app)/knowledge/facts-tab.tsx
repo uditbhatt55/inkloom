@@ -19,7 +19,8 @@ const empty = { code: "", statement: "", evidence: "", owner: "", validFrom: "",
 /**
  * Approved facts (§5.1): every number or claim in public copy should match one. A fact past its "valid until" date is
  * flagged in audits (expired-fact rule). Internal facts feed the Confidential Guard and are never sent to the AI.
- * Facts are edited, not deleted: findings and claim links point at them.
+ * A fact can be deleted only while no audit finding cites it; once cited, it is retired with "Valid until" instead,
+ * so past findings keep their source.
  */
 export function FactsTab({ facts, orgId, isOwner }: { facts: FactRow[]; orgId: string; isOwner: boolean }) {
   const router = useRouter();
@@ -31,6 +32,7 @@ export function FactsTab({ facts, orgId, isOwner }: { facts: FactRow[]; orgId: s
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const today = todayISO();
+  const refresh = () => startTransition(() => router.refresh());
   const set = (k: keyof typeof empty) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setForm({ ...form, [k]: e.target.value });
 
   function openAdd() {
@@ -68,7 +70,25 @@ export function FactsTab({ facts, orgId, isOwner }: { facts: FactRow[]; orgId: s
     setBusy(false);
     if (err) return setError(err.code === "23505" ? `Code "${form.code.trim().toUpperCase()}" already exists for this organisation.` : friendlyDbError(err));
     setShowForm(false);
-    startTransition(() => router.refresh());
+    refresh();
+  }
+
+  async function handleDelete(f: FactRow) {
+    if (!window.confirm(`Delete ${f.code}? "${f.statement}"
+
+This cannot be undone.`)) return;
+    const supabase = createClient();
+    if (!supabase) return;
+    setBusy(true);
+    setError(null);
+    const { error: err } = await supabase.from("approved_facts").delete().eq("id", f.id);
+    setBusy(false);
+    if (err) {
+      return setError(err.code === "23503"
+        ? `${f.code} is cited by past audit findings, so it can't be deleted. Set "Valid until" to retire it instead.`
+        : friendlyDbError(err));
+    }
+    refresh();
   }
 
   const q = search.trim().toLowerCase();
@@ -132,6 +152,8 @@ export function FactsTab({ facts, orgId, isOwner }: { facts: FactRow[]; orgId: s
         </Card>
       )}
 
+      {error && !showForm && <Alert variant="destructive" role="alert"><AlertDescription>{error}</AlertDescription></Alert>}
+
       <div className="space-y-2">
         {filtered.length === 0 && <p className="py-4 text-center text-sm text-muted-foreground">{search ? "No facts match your search." : "No approved facts yet."}</p>}
         {filtered.map((f) => {
@@ -151,7 +173,12 @@ export function FactsTab({ facts, orgId, isOwner }: { facts: FactRow[]; orgId: s
                 {(f.evidence_ref || f.owner_name) && (
                   <p className="text-xs text-muted-foreground">{[f.owner_name && `Owner: ${f.owner_name}`, f.evidence_ref && `Evidence: ${f.evidence_ref}`].filter(Boolean).join(" · ")}</p>
                 )}
-                {isOwner && <Button size="sm" variant="ghost" className="h-7 text-xs" onClick={() => openEdit(f)} disabled={busy}>Edit</Button>}
+                {isOwner && (
+                  <div className="flex gap-1">
+                    <Button size="sm" variant="ghost" className="h-7 text-xs" onClick={() => openEdit(f)} disabled={busy}>Edit</Button>
+                    <Button size="sm" variant="ghost" className="h-7 text-xs text-muted-foreground" onClick={() => handleDelete(f)} disabled={busy} aria-label={`Delete ${f.code}`}>Delete</Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           );

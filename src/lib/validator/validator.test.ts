@@ -45,6 +45,14 @@ describe("validateAiFindings", () => {
     expect(accepted[0].explanation).toMatch(/^Unverified claim:/);
   });
 
+  it("does not repeat the prefix when the model already wrote it (any case or spacing)", () => {
+    for (const explanation of ["Unverified claim: no approved fact backs this.", "unverified claim : no approved fact backs this."]) {
+      const { accepted } = run(raw({ quote: "Trusted by 500 companies", ruleId: null, suggestion: null, explanation }));
+      expect(accepted[0].explanation).toBe(explanation);
+      expect(accepted[0].explanation.match(/unverified claim/gi)).toHaveLength(1);
+    }
+  });
+
   it("a non-claim finding with no source needs a human check", () => {
     expect(run(raw({ category: "messaging", ruleId: null })).accepted[0].label).toBe("needs_human_check");
   });
