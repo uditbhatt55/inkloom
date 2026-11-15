@@ -1,0 +1,644 @@
+{
+  "summary": {
+    "mode": "rules+ai",
+    "ai_model": "gpt-6-luna",
+    "today": "2026-11-15",
+    "cases": 48,
+    "expected": 67,
+    "found": 112,
+    "recall_pct": 86.6,
+    "precision_pct": 55.4,
+    "precision_high_confidence_pct": 66.7,
+    "codename_recall_pct": 100,
+    "internal_fact_recall_pct": 0,
+    "clean_cases": 12,
+    "clean_cases_with_findings": 6,
+    "ai_not_real": 0,
+    "by_category": {
+      "factual": {
+        "expected": 9,
+        "recall_pct": 55.6,
+        "found": 5,
+        "precision_pct": 100
+      },
+      "claim": {
+        "expected": 15,
+        "recall_pct": 100,
+        "found": 33,
+        "precision_pct": 48.5
+      },
+      "tone": {
+        "expected": 7,
+        "recall_pct": 100,
+        "found": 18,
+        "precision_pct": 44.4
+      },
+      "accessibility": {
+        "expected": 4,
+        "recall_pct": 100,
+        "found": 13,
+        "precision_pct": 46.2
+      },
+      "messaging": {
+        "expected": 6,
+        "recall_pct": 100,
+        "found": 20,
+        "precision_pct": 30
+      },
+      "terminology": {
+        "expected": 8,
+        "recall_pct": 100,
+        "found": 10,
+        "precision_pct": 80
+      },
+      "confidentiality": {
+        "expected": 13,
+        "recall_pct": 61.5,
+        "found": 8,
+        "precision_pct": 100
+      },
+      "visual": {
+        "expected": 5,
+        "recall_pct": 100,
+        "found": 5,
+        "precision_pct": 100
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "EV-CLAIM-01",
+      "found": 7,
+      "expected": 5,
+      "hit": 5,
+      "truePos": 5,
+      "extra": [
+        "claim/low: keep every file accessible",
+        "tone/medium: transform your"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CLAIM-02",
+      "found": 4,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 3,
+      "extra": [
+        "claim/low: complete confidence"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CLAIM-03",
+      "found": 7,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [
+        "accessibility/medium: Reading grade 14.8",
+        "messaging/high: In today's fast-moving digital environment, businesses need ",
+        "terminology/high: Northbeam Cloud",
+        "tone/medium: meaningful",
+        "terminology/high: Northbeam Cloud"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CLAIM-04",
+      "found": 1,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [
+        "claim/low: an accessible starting point"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CLAIM-05",
+      "found": 5,
+      "expected": 4,
+      "hit": 4,
+      "truePos": 4,
+      "extra": [
+        "accessibility/medium: Reading grade 16.7"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CLAIM-06",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-FACTUAL-01",
+      "found": 6,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 3,
+      "extra": [
+        "accessibility/medium: Reading grade 12.2",
+        "messaging/high: We are pleased to introduce Northbeam Vault, our cloud drive",
+        "claim/high: INR 499 per month"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-FACTUAL-02",
+      "found": 4,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [
+        "accessibility/medium: Reading grade 13.3",
+        "messaging/medium: Your business files deserve dependable protection and availa"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-FACTUAL-03",
+      "found": 1,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [
+        "messaging/medium: Northbeam Cloud provides two products designed for different"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-FACTUAL-04",
+      "found": 5,
+      "expected": 3,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [
+        "accessibility/medium: Reading grade 12.9",
+        "claim/high: INR 699",
+        "claim/high: 41 countries",
+        "claim/low: expanding international presence and growing customer adopti"
+      ],
+      "missed": [
+        "factual: Northbeam Vault starts at INR 699 per month",
+        "factual: used by teams in 41 countries"
+      ],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-FACTUAL-05",
+      "found": 3,
+      "expected": 3,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [
+        "accessibility/medium: Reading grade 15.7",
+        "messaging/high: Northbeam Mobile is available today, bringing the company's "
+      ],
+      "missed": [
+        "factual: Northbeam Mobile is available today",
+        "confidentiality: Northbeam Mobile"
+      ],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-FACTUAL-06",
+      "found": 1,
+      "expected": 1,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [
+        "claim/high: 41 countries"
+      ],
+      "missed": [
+        "factual: used by teams in 41 countries"
+      ],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TERM-01",
+      "found": 2,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [
+        "claim/low: The experience is designed for straightforward day-to-day co"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TERM-02",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TERM-03",
+      "found": 1,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [
+        "messaging/high: A file workflow becomes easier to manage when each product h"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TERM-04",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TERM-05",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TERM-06",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CONF-01",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CONF-02",
+      "found": 2,
+      "expected": 2,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [
+        "claim/low: One roadmap item is also worth watching: Northbeam Mobile la"
+      ],
+      "missed": [
+        "confidentiality: Northbeam Mobile launches in March 2027"
+      ],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CONF-03",
+      "found": 2,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CONF-04",
+      "found": 3,
+      "expected": 2,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [
+        "messaging/high: A clearer file workflow is taking shape at Northbeam Cloud.",
+        "claim/low: 12000 customers by Q3"
+      ],
+      "missed": [
+        "confidentiality: 12000 customers by Q3"
+      ],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CONF-05",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CONF-06",
+      "found": 4,
+      "expected": 3,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [
+        "claim/low: is shaping a future mobile experience.",
+        "claim/low: Northbeam Mobile launches in March 2027."
+      ],
+      "missed": [
+        "confidentiality: Northbeam Mobile launches in March 2027"
+      ],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TONE-01",
+      "found": 4,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 3,
+      "extra": [
+        "messaging/high: Big news from Northbeam Cloud!!!"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TONE-02",
+      "found": 2,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TONE-03",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TONE-04",
+      "found": 5,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 3,
+      "extra": [
+        "tone/medium: Stop babysitting files.",
+        "claim/low: instant access wherever work happens"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TONE-05",
+      "found": 4,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 3,
+      "extra": [
+        "tone/medium: exciting new chapter"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TONE-06",
+      "found": 1,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [
+        "tone/medium: people can continue work"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-MSG-01",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-MSG-02",
+      "found": 2,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-MSG-03",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-MSG-04",
+      "found": 2,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-MSG-05",
+      "found": 2,
+      "expected": 2,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [
+        "claim/low: Northbeam Mobile launches in March 2027."
+      ],
+      "missed": [
+        "confidentiality: Northbeam Mobile launches in March 2027."
+      ],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-MSG-06",
+      "found": 7,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [
+        "tone/medium: In an increasingly",
+        "tone/medium: dynamic",
+        "tone/medium: robust",
+        "claim/medium: seamless",
+        "tone/medium: synergy"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-VIS-01",
+      "found": 2,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [
+        "messaging/high: Your team should recognise Northbeam Sync at a glance."
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-VIS-02",
+      "found": 2,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [
+        "messaging/high: We are sharing a refreshed Northbeam Vault overview for team"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-VIS-03",
+      "found": 4,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [
+        "messaging/high: A consistent visual system helps readers recognise a product",
+        "claim/low: Northbeam Sync supports teams working across devices.",
+        "accessibility/high: The article image is designed as a simple title card"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-VIS-04",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-VIS-05",
+      "found": 1,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [
+        "messaging/high: Northbeam Cloud has prepared a refreshed visual introduction"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-VIS-06",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-ACC-01",
+      "found": 2,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-ACC-02",
+      "found": 2,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [
+        "messaging/high: Northbeam Cloud is sharing a short guide to Northbeam Vault.",
+        "tone/medium: meaningful"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-ACC-03",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-ACC-04",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-ACC-05",
+      "found": 3,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 2,
+      "extra": [
+        "messaging/high: about Northbeam Sync and the way it helps teams keep files i"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-ACC-06",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    }
+  ]
+}

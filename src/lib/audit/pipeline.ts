@@ -4,6 +4,7 @@ import { buildBrandPack, type Knowledge } from "@/lib/ai/brandpack";
 import { buildMessages, PROMPT_VERSION } from "@/lib/ai/prompt";
 import type { AiReviewer } from "@/lib/ai/reviewer";
 import { findLeaks, maskForAi, type InternalTerm } from "@/lib/guard/guard";
+import { findInternalFactLeaks, maskSpans } from "@/lib/guard/internal-facts";
 import { contrastFinding, contrastRatio } from "@/lib/rules/contrast";
 import { checkExpiredFacts, linkFacts } from "@/lib/rules/facts";
 import { checkRulePack } from "@/lib/rules/rulepack";
@@ -76,9 +77,16 @@ export async function runAudit(input: AuditInput): Promise<AuditResult> {
   const warnings: string[] = [];
   const internalTerms: InternalTerm[] = knowledge.terms.filter((t) => t.kind === "internal").map((t) => ({ code: t.code, term: t.term }));
 
+  // internal facts (not terms) restated in public copy; their spans are also hidden from the model below
+  const publicText = [...knowledge.facts.filter((f) => f.visibility === "public").map((f) => f.statement), ...knowledge.clauses.map((c) => c.text),
+    ...knowledge.terms.filter((t) => t.kind !== "internal").flatMap((t) => [t.term, t.replacement ?? ""])].join(" ");
+  const factLeaks = input.audience === "public"
+    ? findInternalFactLeaks(content, knowledge.facts.filter((f) => f.visibility === "internal"), publicText) : [];
+
   // 1. deterministic checks (Confidential Guard only for public content)
   const ruleFindings: Finding[] = [
     ...(input.audience === "public" ? findLeaks(content, internalTerms) : []),
+    ...factLeaks,
     ...checkTerms(content, knowledge.terms),
     ...checkExpiredFacts(content, knowledge.facts.map((f) => ({ code: f.code, statement: f.statement, validUntil: f.validUntil })), today),
     ...checkRulePack(content, undefined, new Set(knowledge.disabledPackRules ?? [])),
@@ -112,7 +120,7 @@ export async function runAudit(input: AuditInput): Promise<AuditResult> {
   const ai = input.ai;
   if (ai) {
     try {
-      const masked = maskForAi(content, internalTerms);
+      const masked = maskSpans(maskForAi(content, internalTerms), factLeaks);
       const pack = buildBrandPack(knowledge, today);
       const messages = buildMessages({ brandPack: pack.text, channel: input.channel, audience: input.audience, content: masked });
 
