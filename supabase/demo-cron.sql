@@ -6,6 +6,8 @@
 --   Stop it:          select cron.unschedule('demo-reset');
 --   Run it now:       select private.reset_demo();
 -- If you change supabase/seed.sql or demo-history.sql, update this file too and run it again.
+-- Uploaded files in Storage are NOT removed (Supabase blocks deleting storage objects from SQL); with the posts gone they
+-- can no longer be opened by anyone. shortcut: orphan files stay until removed with the Storage API, fine for a small demo.
 
 create extension if not exists pg_cron;
 

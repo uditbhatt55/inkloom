@@ -12,6 +12,8 @@ export type ParsedContent = {
   images: ImageRef[];
   /** dominant colours with pixel share, for palette and contrast checks (images only) */
   colours: ImageColour[];
+  /** images only: the foreground colour with the lowest contrast on the background, guessed from pixels (no OCR) */
+  textPair?: { fg: string; bg: string; share: number; strokeLike: boolean } | null;
   meta: { pages?: number; width?: number; height?: number; url?: string };
   warnings: string[];
 };

@@ -25,8 +25,8 @@ export type TermRow = Pick<
 >;
 export type AssetRow = Pick<
   T["brand_assets"]["Row"],
-  "id" | "name" | "type" | "hex" | "font_name" | "rules"
->;
+  "id" | "name" | "type" | "hex" | "font_name" | "rules" | "file_path"
+> & { /** short-lived link to the logo image, for logos only */ url?: string | null };
 
 export function KnowledgeTabs({
   clauses,

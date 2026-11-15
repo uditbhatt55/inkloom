@@ -28,8 +28,14 @@ export default async function KnowledgePage({ searchParams }: { searchParams: Pr
     db.from("guideline_clause_history").select("id, clause_id, version, text, changed_at").eq("org_id", orgId).order("version", { ascending: false }),
     db.from("approved_facts").select("id, code, statement, valid_from, valid_until, visibility, owner_name, evidence_ref").eq("org_id", orgId).order("code"),
     db.from("terminology").select("id, code, term, kind, replacement, owner_name").eq("org_id", orgId).order("code"),
-    db.from("brand_assets").select("id, name, type, hex, font_name, rules").eq("org_id", orgId).order("type").order("name"),
+    db.from("brand_assets").select("id, name, type, hex, font_name, rules, file_path").eq("org_id", orgId).order("type").order("name"),
   ]);
+
+  // logo images live in a private bucket: one short-lived link each, for members of the organisation only (storage RLS)
+  const logoPaths = (assets ?? []).flatMap((a) => (a.file_path ? [a.file_path] : []));
+  const signed = logoPaths.length ? (await db.storage.from("brand-assets").createSignedUrls(logoPaths, 3600)).data ?? [] : [];
+  const urlOf = new Map(signed.map((x) => [x.path, x.signedUrl]));
+  const assetRows = (assets ?? []).map((a) => ({ ...a, url: a.file_path ? urlOf.get(a.file_path) ?? null : null }));
 
   return (
     <div className="space-y-6">
@@ -58,7 +64,7 @@ export default async function KnowledgePage({ searchParams }: { searchParams: Pr
         history={history ?? []}
         facts={facts ?? []}
         terms={terms ?? []}
-        assets={assets ?? []}
+        assets={assetRows}
         orgId={orgId}
         isOwner={isOwner}
       />

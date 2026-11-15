@@ -7,6 +7,8 @@
 -- Users and memberships are kept, so the "Try the demo" buttons keep working. Other organisations are never touched.
 -- Deleting the posts cascades to versions, audit runs, findings, claim links, comments and decisions; deleting the rules
 -- cascades to their version history. Safe to run twice.
+-- Uploaded files in Storage are NOT removed (Supabase blocks deleting storage objects from SQL); with the posts gone they
+-- can no longer be opened by anyone. shortcut: orphan files stay until removed with the Storage API, fine for a small demo.
 
 do $$
 declare v_org constant uuid := '00000000-0000-4000-8000-000000000001';

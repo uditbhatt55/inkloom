@@ -5,6 +5,7 @@ import { SupabaseAuditStore } from "@/lib/audit/store";
 import { BURST_MESSAGE, gateForRequest } from "@/lib/audit/usage-cap";
 import { createNextVersion } from "@/lib/audit/versions";
 import { fetchPage, ParseError, parseUpload, type ParsedContent } from "@/lib/parsers";
+import { CONTENT_BUCKET, contentFilePath, originalMime } from "@/lib/storage/files";
 import { ConfigError, createServiceClient, createUserClient, type Db } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
@@ -12,8 +13,8 @@ export const maxDuration = 60;
 
 const fail = (status: number, error: string) => NextResponse.json({ error }, { status });
 
-async function parseSource(f: AuditForm): Promise<ParsedContent> {
-  if (f.file) return parseUpload(new Uint8Array(await f.file.arrayBuffer()), { altText: f.altText ?? null, label: f.file.name.slice(0, 80) });
+async function parseSource(f: AuditForm, fileBytes: Uint8Array | null): Promise<ParsedContent> {
+  if (f.file && fileBytes) return parseUpload(fileBytes, { altText: f.altText ?? null, label: f.file.name.slice(0, 80) });
   if (f.url) return fetchPage(f.url);
   return parseUpload(new TextEncoder().encode(f.text!));
 }
@@ -33,6 +34,23 @@ async function createVersion(db: Db, userId: string, f: AuditForm, text: string)
     item = data;
   }
   return { item, version: await createNextVersion(db, item, text, userId) };
+}
+
+/**
+ * Keeps the uploaded file next to its version (private bucket, server-only write) so people can open the original later.
+ * Best effort: the audit works on the parsed text, so a storage problem is logged and never fails the audit.
+ */
+async function keepOriginal(service: ReturnType<typeof createServiceClient>, orgId: string, versionId: string, name: string, bytes: Uint8Array, parsed: ParsedContent) {
+  try {
+    const path = contentFilePath(orgId, versionId, name);
+    const type = originalMime(parsed.kind, bytes);
+    const up = await service.storage.from(CONTENT_BUCKET).upload(path, bytes, { contentType: type, upsert: false });
+    if (up.error) throw new Error(up.error.message);
+    const { error } = await service.from("content_versions").update({ file_path: path, file_name: name.slice(0, 120), file_type: type }).eq("id", versionId);
+    if (error) throw new Error(error.message);
+  } catch (e) {
+    console.error("could not keep the original file:", e instanceof Error ? e.message : "unknown");
+  }
 }
 
 /**
@@ -62,8 +80,10 @@ export async function POST(req: NextRequest) {
     const gate = await gateForRequest(service, orgId ?? "", auth.user.id);
     if (gate.kind === "burst") return fail(429, BURST_MESSAGE);
 
-    const parsed = await parseSource(form);
+    const fileBytes = form.file ? new Uint8Array(await form.file.arrayBuffer()) : null;
+    const parsed = await parseSource(form, fileBytes);
     const { item, version } = await createVersion(userDb, auth.user.id, form, parsed.text);
+    if (form.file && fileBytes) await keepOriginal(service, item.org_id, version.id, form.file.name, fileBytes, parsed);
 
     const colours = form.textColour && form.bgColour
       ? [{ fg: form.textColour, bg: form.bgColour, label: "Text on image", large: form.largeText === "true", confidence: "high" as const }]

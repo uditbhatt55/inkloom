@@ -32,10 +32,11 @@ The demo accounts are shared, so you may see other judges' posts. The demo data 
 
 - Importing a whole brand-book PDF into rules is **not built**; rules and terms are entered or imported from Vale files.
 - Accuracy on our own 48 labelled cases (`npm run eval`; one labeller so far, so treat as a first measurement): with the real model, 95% of high-confidence findings are correct and 84% of the labelled issues are found; rule checks alone find 43% and are 100% correct on high confidence. All seeded codenames are found. Results are in `eval/results/`. Precision over all confidence levels is lower (68%) because medium and low findings include reasonable extras the labels did not list.
-- Contrast measured from an image is an estimate and is marked low confidence; type the text and background colours in the upload form for an exact check.
-- Files are not stored; only their text is audited again after a fix.
+- Contrast measured from an image is an estimate (the weakest foreground colour on the main background, no text reading) and is marked low confidence; type the text and background colours in the upload form for an exact check.
+- Uploaded files are kept (private Storage bucket) and can be opened again from the post; after a fix only the text is audited again, not the file.
 - The approval gate checks the version belongs to the item, not that it is the latest one.
-- Logo upload is not supported (colours, fonts and rules only).
+- An internal fact reworded with neither its figure nor its name (and spelled-out numbers) is not caught; reworded figures are flagged as a hint to check.
+- Logos are stored for the team but not yet checked against content (no logo recognition).
 
 ## Stack
 

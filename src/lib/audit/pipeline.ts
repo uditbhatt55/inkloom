@@ -24,7 +24,7 @@ export type AuditInput = {
   /** TOTAL time the AI may take, retry included; default AI_BUDGET_MS. Must fit inside the route's maxDuration. */
   timeoutMs?: number;
   /** what the parser found besides text (src/lib/parsers): fonts, images with alt text, dominant colours */
-  parsed?: { fonts: string[]; images: ImageRef[]; colours: ImageColour[] };
+  parsed?: { fonts: string[]; images: ImageRef[]; colours: ImageColour[]; textPair?: { fg: string; bg: string; share: number; strokeLike: boolean } | null };
   /** Flesch–Kincaid target for this channel; default 12 */
   maxReadingGrade?: number;
 };
@@ -99,13 +99,14 @@ export async function runAudit(input: AuditInput): Promise<AuditResult> {
     ruleFindings.push(...checkFonts(parsed.fonts, assets.filter((a) => a.type === "font").map((a) => ({ name: a.fontName || a.name }))));
     ruleFindings.push(...checkPalette(parsed.colours, assets.filter((a) => a.type === "color" && a.hex).map((a) => ({ name: a.name, hex: a.hex! }))));
   }
-  const contrastChecks = input.colours?.length ? input.colours : parsed?.colours.length ? [extractedContrast(parsed.colours)].filter((c): c is ContrastCheck => !!c) : [];
+  const estimated: ContrastCheck | null = parsed?.textPair ? { fg: parsed.textPair.fg, bg: parsed.textPair.bg, label: "Image (estimated colours)", confidence: "low" } : parsed?.colours.length ? extractedContrast(parsed.colours) : null;
+  const contrastChecks = input.colours?.length ? input.colours : estimated ? [estimated] : [];
   for (const c of contrastChecks) {
     try {
       const f = contrastFinding(c);
       if (f && c.confidence === "low") {
         f.label = "needs_human_check";
-        f.explanation += " This pair was guessed from the image's most common colours and may not be text on its background. Type the exact text and background colours on the upload form for a precise check.";
+        f.explanation += " This pair was estimated from the image's pixels (the weakest foreground colour on the main background) and may be an icon or a logo rather than text. Type the exact text and background colours on the upload form for a precise check.";
       }
       if (f) ruleFindings.push(f);
     } catch {
