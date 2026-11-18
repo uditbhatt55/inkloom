@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addDays, conflictingTerms, factImpact, recurringMistakes, unclearRules, type HealthFinding } from "./detectors";
+import { addDays, conflictingTerms, expiringFacts, factImpact, isSmallSample, recurringMistakes, ruleChangeImpact, unclearRules, weeklyTrend, type HealthFinding } from "./detectors";
 
 const TODAY = "2026-11-14";
 let post = 0; // every finding is a different post unless a test says otherwise
@@ -113,5 +113,46 @@ describe("factImpact", () => {
   it("stays quiet when nothing relies on the fact or the fact is current and unchanged", () => {
     expect(factImpact([fact({ validUntil: "2026-01-01" })], [], TODAY)).toEqual([]);
     expect(factImpact([fact()], [link()], TODAY)).toEqual([]);
+  });
+});
+
+describe("Round 3 detectors", () => {
+  const fact = (code: string, validUntil: string | null) => ({ id: code, code, statement: `${code} statement`, validUntil, updatedAt: "2026-11-01T00:00:00Z" });
+
+  it("expiringFacts lists expired and soon-expiring facts, soonest first, with days left", () => {
+    const out = expiringFacts([fact("F1", "2026-12-20"), fact("F2", "2026-11-10"), fact("F3", "2026-11-20"), fact("F4", null)], "2026-11-17");
+    expect(out.map((f) => [f.code, f.daysLeft])).toEqual([["F2", -7], ["F3", 3]]);
+  });
+
+  it("weeklyTrend counts audited posts and mistakes (once per post and rule) per Monday week, empty weeks included", () => {
+    const run = (itemId: string, at: string) => ({ itemId, itemTitle: itemId, at, ruleCodes: [] });
+    const f = (itemId: string, ruleCode: string, at: string, status = "open") => ({ itemId, ruleCode, status, quote: "q", channel: null, creatorRole: null, at });
+    const out = weeklyTrend(
+      [run("a", "2026-11-17T10:00:00Z"), run("b", "2026-11-16T10:00:00Z"), run("c", "2026-11-03T10:00:00Z")],
+      [f("a", "R1", "2026-11-17T10:00:00Z"), f("a", "R1", "2026-11-17T11:00:00Z"), f("b", "R2", "2026-11-16T10:00:00Z", "dismissed")],
+      "2026-11-17", 3,
+    );
+    // 17 Nov 2026 is a Tuesday: its week starts Monday 16 Nov; 3 Nov (Tuesday) belongs to the week of 2 Nov
+    expect(out).toEqual([
+      { weekStart: "2026-11-02", posts: 1, mistakes: 0 },
+      { weekStart: "2026-11-09", posts: 0, mistakes: 0 },
+      { weekStart: "2026-11-16", posts: 2, mistakes: 1 },
+    ]);
+  });
+
+  it("ruleChangeImpact compares the last run before a change with the first run after it, per post", () => {
+    const r = (itemId: string, at: string, ruleCodes: string[]) => ({ itemId, itemTitle: `Post ${itemId}`, at, ruleCodes });
+    const out = ruleChangeImpact([{ code: "CLAIM-02", changedAt: "2026-11-15T00:00:00Z", version: 2 }], [
+      r("a", "2026-11-10T00:00:00Z", []), r("a", "2026-11-16T00:00:00Z", ["CLAIM-02"]),           // newly flagged
+      r("b", "2026-11-10T00:00:00Z", ["CLAIM-02"]), r("b", "2026-11-16T00:00:00Z", []),           // no longer raised
+      r("c", "2026-11-10T00:00:00Z", ["CLAIM-02"]), r("c", "2026-11-16T00:00:00Z", ["CLAIM-02"]), // unchanged
+      r("d", "2026-11-10T00:00:00Z", ["CLAIM-02"]),                                                 // never re-audited: not compared
+    ]);
+    expect(out).toEqual([{ code: "CLAIM-02", changedAt: "2026-11-15T00:00:00Z", version: 2, compared: 3,
+      newlyFlagged: [{ id: "a", title: "Post a" }], noLongerRaised: [{ id: "b", title: "Post b" }] }]);
+  });
+
+  it("a signal on fewer than 10 cases is a small sample", () => {
+    expect([isSmallSample(5), isSmallSample(9), isSmallSample(10)]).toEqual([true, true, false]);
   });
 });

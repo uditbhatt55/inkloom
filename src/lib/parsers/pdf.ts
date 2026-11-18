@@ -3,7 +3,7 @@ import { extractText, getDocumentProxy } from "unpdf";
 import { empty, normaliseText, ParseError, type ParsedContent } from "@/lib/parsers/types";
 
 /**
- * Font names as written in the file (`/BaseFont /ABCDEF+Inter-Bold`). pdf.js only exposes substitute fonts,
+ * Font names from the file (`/BaseFont /ABCDEF+Inter-Bold` → `Inter-Bold`). pdf.js only exposes substitute fonts,
  * so the names are read from the raw bytes, including Flate-compressed object streams where modern PDFs keep font dictionaries.
  */
 export function pdfFontNames(bytes: Uint8Array): string[] {
@@ -21,7 +21,8 @@ export function pdfFontNames(bytes: Uint8Array): string[] {
     }
   }
   const names = new Set<string>();
-  for (const c of chunks) for (const f of c.matchAll(/\/BaseFont\s*\/([^\s/<>[\]()]+)/g)) names.add(f[1].replace(/#([0-9a-f]{2})/gi, (_, h) => String.fromCharCode(parseInt(h, 16))));
+  // the six-letter subset tag ("ABCDEF+") is not part of the font's name, and two subsets of one font are one font
+  for (const c of chunks) for (const f of c.matchAll(/\/BaseFont\s*\/([^\s/<>[\]()]+)/g)) names.add(f[1].replace(/#([0-9a-f]{2})/gi, (_, h) => String.fromCharCode(parseInt(h, 16))).replace(/^[A-Z]{6}\+/, ""));
   return [...names];
 }
 

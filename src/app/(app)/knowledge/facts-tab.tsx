@@ -14,7 +14,11 @@ import { friendlyDbError } from "@/lib/review/errors";
 import { createClient } from "@/lib/supabase/browser";
 import type { FactRow } from "./knowledge-tabs";
 
-const empty = { code: "", statement: "", evidence: "", owner: "", validFrom: "", validUntil: "", visibility: "public" as "public" | "internal" };
+const empty = {
+  code: "", statement: "", evidence: "", owner: "", validFrom: "", validUntil: "", visibility: "public" as "public" | "internal",
+  // structured fields (Round 3): optional; when set, audits compare figures by value, currency, period and region
+  metric: "", value: "", unit: "", period: "", currency: "", region: "", product: "", condition: "",
+};
 
 /**
  * Approved facts (§5.1): every number or claim in public copy should match one. A fact past its "valid until" date is
@@ -46,6 +50,8 @@ export function FactsTab({ facts, orgId, isOwner }: { facts: FactRow[]; orgId: s
     setForm({
       code: f.code, statement: f.statement, evidence: f.evidence_ref ?? "", owner: f.owner_name ?? "",
       validFrom: f.valid_from ?? "", validUntil: f.valid_until ?? "", visibility: f.visibility,
+      metric: f.metric ?? "", value: f.value === null ? "" : String(f.value), unit: f.unit ?? "", period: f.period ?? "",
+      currency: f.currency ?? "", region: f.region ?? "", product: f.product ?? "", condition: f.condition ?? "",
     });
     setEditing(f);
     setError(null);
@@ -56,6 +62,10 @@ export function FactsTab({ facts, orgId, isOwner }: { facts: FactRow[]; orgId: s
     e.preventDefault();
     const range = validateDateRange(form.validFrom || null, form.validUntil || null);
     if (!range.valid) return setError(range.message ?? "Check the dates.");
+    const value = form.value.trim() === "" ? null : Number(form.value.replace(/,/g, ""));
+    if (value !== null && !Number.isFinite(value)) return setError("Value must be a number, such as 99.9 or 599.");
+    const currency = form.currency.trim().toUpperCase() || null;
+    if (currency && !/^[A-Z]{3}$/.test(currency)) return setError("Currency is a three-letter code, such as INR or USD.");
     const supabase = createClient();
     if (!supabase) return;
     setBusy(true);
@@ -63,6 +73,8 @@ export function FactsTab({ facts, orgId, isOwner }: { facts: FactRow[]; orgId: s
     const fields = {
       statement: form.statement.trim(), evidence_ref: form.evidence.trim() || null, owner_name: form.owner.trim() || null,
       valid_from: form.validFrom || null, valid_until: form.validUntil || null, visibility: form.visibility,
+      metric: form.metric.trim() || null, value, unit: form.unit.trim() || null, period: form.period || null, currency,
+      region: form.region.trim() || null, product: form.product.trim() || null, condition: form.condition.trim() || null,
     };
     const { error: err } = editing
       ? await supabase.from("approved_facts").update(fields).eq("id", editing.id)
@@ -142,6 +154,27 @@ This cannot be undone.`)) return;
                 </div>
                 <p className="text-xs text-muted-foreground">Internal facts are checked by the Confidential Guard, hidden from creators and agencies, and never sent to the AI.</p>
               </fieldset>
+              <details className="rounded-md border p-3" open={!!(form.metric || form.value)}>
+                <summary className="cursor-pointer text-sm font-medium">Structured fields (optional)</summary>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Fill these so audits compare figures by value, currency, period and region, not just by text. Example: product Northbeam Sync, metric uptime, value 99.9, unit %, period month.
+                </p>
+                <div className="mt-3 grid gap-3 sm:grid-cols-4">
+                  <div className="space-y-1 sm:col-span-2"><Label htmlFor="fact-product">Product</Label><Input id="fact-product" value={form.product} onChange={set("product")} maxLength={120} placeholder="Northbeam Sync" /></div>
+                  <div className="space-y-1 sm:col-span-2"><Label htmlFor="fact-metric">Metric</Label><Input id="fact-metric" value={form.metric} onChange={set("metric")} maxLength={60} placeholder="uptime, price, countries" /></div>
+                  <div className="space-y-1"><Label htmlFor="fact-value">Value</Label><Input id="fact-value" inputMode="decimal" value={form.value} onChange={set("value")} placeholder="99.9" /></div>
+                  <div className="space-y-1"><Label htmlFor="fact-unit">Unit</Label><Input id="fact-unit" value={form.unit} onChange={set("unit")} maxLength={30} placeholder="%, countries" /></div>
+                  <div className="space-y-1"><Label htmlFor="fact-currency">Currency</Label><Input id="fact-currency" value={form.currency} onChange={set("currency")} maxLength={3} placeholder="INR" /></div>
+                  <div className="space-y-1">
+                    <Label htmlFor="fact-period">Period</Label>
+                    <select id="fact-period" value={form.period} onChange={set("period")} className="h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs">
+                      <option value="">None</option><option value="day">Per day</option><option value="week">Per week</option><option value="month">Per month</option><option value="year">Per year</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1 sm:col-span-2"><Label htmlFor="fact-region">Region</Label><Input id="fact-region" value={form.region} onChange={set("region")} maxLength={60} placeholder="India" /></div>
+                  <div className="space-y-1 sm:col-span-2"><Label htmlFor="fact-condition">Condition</Label><Input id="fact-condition" value={form.condition} onChange={set("condition")} maxLength={300} placeholder="Annual plans only" /></div>
+                </div>
+              </details>
               {error && <Alert variant="destructive" role="alert"><AlertDescription>{error}</AlertDescription></Alert>}
               <div className="flex gap-2">
                 <Button type="submit" size="sm" disabled={busy}>{editing ? "Save changes" : "Add fact"}</Button>

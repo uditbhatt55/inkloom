@@ -3,7 +3,8 @@ import type { Term } from "@/lib/rules/terms";
 
 export type Knowledge = {
   clauses: { code: string; category: string; text: string; status: string }[];
-  facts: { code: string; statement: string; validFrom: string | null; validUntil: string | null; visibility: "public" | "internal" }[];
+  /** structured fields (Round 3) are optional: a fact without them is checked by its sentence only */
+  facts: { code: string; statement: string; validFrom: string | null; validUntil: string | null; visibility: "public" | "internal"; metric?: string | null; value?: number | null; unit?: string | null; period?: string | null; currency?: string | null; region?: string | null; product?: string | null; condition?: string | null }[];
   terms: Term[];
   /** brand_assets rows: palette colours and approved fonts feed the visual checks (never sent to the model) */
   assets?: { type: "color" | "font" | "logo"; name: string; hex: string | null; fontName: string | null }[];

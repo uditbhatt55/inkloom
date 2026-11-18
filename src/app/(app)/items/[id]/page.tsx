@@ -19,6 +19,8 @@ import { applyAcceptedFixes } from "@/lib/audit/apply-fixes";
 import { ApplyFixesButton } from "./apply-fixes-button";
 import { CommentsBox } from "./comments-box";
 import { DecisionPanel } from "./decision-panel";
+import { ReauditButton } from "./reaudit-button";
+import { coverageOf } from "@/lib/audit/coverage";
 import { FindingCard, type CitedSource } from "./finding-card";
 import { ScoreRing } from "./score-ring";
 
@@ -57,17 +59,28 @@ export default async function ItemPage({
     ? (await db.storage.from("content-files").createSignedUrl(version.file_path, 600)).data?.signedUrl ?? null
     : null;
 
-  const { data: run } = await db
+  const [{ data: run }, { data: org }] = await Promise.all([db
     .from("audit_runs")
-    .select("id, mode, model, prompt_ver, score, warnings, created_at")
+    .select("id, mode, model, prompt_ver, score, warnings, created_at, knowledge_rev")
     .eq("version_id", version.id)
     .order("created_at", { ascending: false })
     .limit(1)
-    .maybeSingle();
-  const { data: rows } = run
-    ? await db.from("findings").select("*").eq("run_id", run.id)
-    : { data: [] };
-  const findings = [...(rows ?? [])].sort(bySeverity);
+    .maybeSingle(),
+    db.from("organizations").select("knowledge_rev").eq("id", item.org_id).maybeSingle(),
+  ]);
+  // guidelines, facts or terms changed after this audit (migration 20261117000100): the database refuses approval
+  const stale = !!run && !!org && run.knowledge_rev !== org.knowledge_rev;
+  // what this run checked and skipped; a partial run is never shown as a clean pass
+  const coverage = run ? coverageOf(run, version, item.audience) : null;
+  // the database returns at most 1,000 rows per request, so a run with more findings is read page by page
+  const PAGE = 1000;
+  const rows = [];
+  for (let from = 0; run; from += PAGE) {
+    const { data } = await db.from("findings").select("*").eq("run_id", run.id).order("id").range(from, from + PAGE - 1);
+    rows.push(...(data ?? []));
+    if (!data || data.length < PAGE) break;
+  }
+  const findings = rows.sort(bySeverity);
 
   // fetch comments and decisions in parallel under RLS
   const [{ data: comments }, { data: decisions }] = await Promise.all([
@@ -82,6 +95,20 @@ export default async function ItemPage({
       .eq("item_id", id)
       .order("created_at", { ascending: false }),
   ]);
+
+  // a waiver whose expiry date has passed no longer clears its finding (migration 20261117000300; the database gate agrees)
+  const waiverEnds = new Map<string, string | null>();
+  for (const d of decisions ?? []) if (d.decision === "waive" && d.finding_id && !waiverEnds.has(d.finding_id)) waiverEnds.set(d.finding_id, d.expires_at);
+  const day = new Intl.DateTimeFormat("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Kolkata" });
+  const nowMs = new Date().getTime();
+  for (const f of findings) {
+    const end = f.status === "waived" ? waiverEnds.get(f.id) : null;
+    if (!end) continue;
+    if (Date.parse(end) <= nowMs) {
+      f.status = "open";
+      f.reason = `Waiver expired on ${day.format(new Date(end))}. ${f.reason ?? ""}`.trim();
+    } else f.reason = `${f.reason ?? ""} (waived until ${day.format(new Date(end))})`.trim();
+  }
 
   // cited clauses / facts / terms, read under RLS: internal ones come back empty for creators and agencies
   const ids = (k: "clause_id" | "fact_id" | "term_id") => [
@@ -209,6 +236,24 @@ export default async function ItemPage({
         </Alert>
       ) : (
         <>
+          {coverage?.partial && (
+            <Alert>
+              <AlertTitle>Partial audit</AlertTitle>
+              <AlertDescription>
+                Some checks did not run ({coverage.checks.filter((c) => c.status === "skipped").map((c) => `${c.name.split(":")[0]}: ${c.note}`).concat(coverage.truncated ? ["only part of the text was audited"] : []).join("; ")}).
+                {" "}Findings below come from the checks that ran; no findings here does not mean the content is clean.
+              </AlertDescription>
+            </Alert>
+          )}
+          {stale && (
+            <Alert>
+              <AlertTitle>This audit is out of date</AlertTitle>
+              <AlertDescription>
+                <p>Guidelines, facts or terms changed after this audit, so it may miss new problems or flag old ones. It cannot be approved until it is audited again.</p>
+                {isLatest && role && canSubmit(role) && <div className="mt-2"><ReauditButton itemId={item.id} /></div>}
+              </AlertDescription>
+            </Alert>
+          )}
           {live.blocked && (
             <Alert variant="destructive">
               <AlertTitle>Approval blocked</AlertTitle>
@@ -290,7 +335,7 @@ export default async function ItemPage({
                   <div className="flex items-center gap-4">
                     <ScoreRing score={live.score} tone={live.blocked ? "critical" : live.score >= 80 ? "success" : "primary"} />
                     <p className="text-sm text-muted-foreground">
-                      {live.blocked ? "Blocked: an open Critical finding stops approval." : "Live score with today's decisions."}
+                      {live.blocked ? "Blocked: an open Critical finding stops approval." : coverage?.partial ? "Partial audit: some checks did not run." : "Live score with today's decisions."}
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-2 text-xs">
@@ -321,9 +366,35 @@ export default async function ItemPage({
                 </CardContent>
               </Card>
 
+              <Card className="gap-2 py-4">
+                <CardHeader className="px-4">
+                  <h2 className="text-sm font-medium text-muted-foreground">What this audit checked</h2>
+                </CardHeader>
+                <CardContent className="px-4 text-sm">
+                  <ul className="space-y-1">
+                    {coverage!.checks.map((c) => (
+                      <li key={c.name} className="flex gap-2">
+                        <span aria-hidden="true" className={c.status === "skipped" ? "text-amber-600" : c.status === "done" ? "text-emerald-600" : "text-muted-foreground"}>
+                          {c.status === "done" ? "✓" : c.status === "skipped" ? "!" : "–"}
+                        </span>
+                        <span>
+                          {c.name}
+                          <span className="sr-only">: {c.status === "done" ? "checked" : c.status === "skipped" ? "skipped" : "not needed"}</span>
+                          {c.note && <span className="text-muted-foreground"> ({c.note})</span>}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {coverage!.blocks} text block{coverage!.blocks === 1 ? "" : "s"}, {coverage!.chars.toLocaleString("en-IN")} characters{coverage!.truncated ? " (only part was audited)" : ", all audited"}.
+                  </p>
+                </CardContent>
+              </Card>
+
               <DecisionPanel
                 item={item}
                 versionId={version.id}
+                approveBlockedReason={!isLatest ? "Only the latest version can be approved." : stale ? "This audit is out of date. Audit it again before approving." : null}
                 findings={findings}
                 role={role}
                 currentUserId={viewer.userId}

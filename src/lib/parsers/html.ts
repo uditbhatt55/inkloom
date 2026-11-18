@@ -25,12 +25,47 @@ function contentRoot(body: Node): Node {
   return body;
 }
 
+/** Why an element is not shown to readers, from its own attributes; null when it is shown. */
+function hiddenBecause(el: Node): string | null {
+  if (el.hasAttribute?.("hidden")) return "hidden attribute";
+  const style = (el.getAttribute?.("style") ?? "").toLowerCase().replace(/\s+/g, "");
+  if (/display:none/.test(style)) return "display: none";
+  if (/visibility:hidden/.test(style)) return "visibility: hidden";
+  if (/font-size:0(?![.\d])/.test(style)) return "font size 0";
+  if (/opacity:0(?![.\d])/.test(style)) return "opacity 0";
+  return null;
+}
+
+/**
+ * Text a reader never sees but that is still in the page (Round 3, improvement 1): it can carry codenames or claims
+ * nobody reviewed. Outermost hidden elements only; very short bits (icons, single characters) are ignored.
+ * shortcut: inline styles and the hidden attribute only, not stylesheet classes; screen-reader-only text and
+ * aria-hidden elements are deliberate accessibility patterns and are not reported.
+ */
+function hiddenBlocks(scope: Node): { text: string; why: string }[] {
+  const out: { text: string; why: string }[] = [];
+  const visit = (n: Node) => {
+    for (const child of n.childNodes) {
+      if (child.nodeType !== 1) continue;
+      const el = child as Node;
+      const why = hiddenBecause(el);
+      const text = why ? el.text.replace(/\s+/g, " ").trim() : "";
+      if (why && text.length >= 3) out.push({ text: text.slice(0, 500), why });
+      else if (!why) visit(el);
+    }
+  };
+  visit(scope);
+  return out;
+}
+
 /** Visible text with block breaks, image alt texts, and nothing from scripts/styles/templates or navigation menus. */
 export function parseHtmlContent(html: string, url?: string): ParsedContent {
   const root = parseHtml(html, { comment: false, blockTextElements: { script: false, style: false, noscript: false, template: false } });
   for (const el of root.querySelectorAll("script,style,noscript,template,svg,iframe,nav,[role=navigation]")) el.remove();
   const out = empty("html", "");
   const scope = contentRoot(root.querySelector("body") ?? root);
+  out.hidden = hiddenBlocks(scope);
+  if (out.hidden.length) out.warnings.push(`${out.hidden.length} block${out.hidden.length === 1 ? " of text is" : "s of text are"} in the page but hidden from readers; they are audited and flagged.`);
 
   const parts: string[] = [];
   const walk = (node: ReturnType<typeof parseHtml>) => {

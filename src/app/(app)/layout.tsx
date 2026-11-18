@@ -11,6 +11,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const signedIn = viewer.state === "signed_in";
   const first = signedIn ? viewer.memberships[0] : undefined;
   const roles = signedIn ? viewer.memberships.map((m) => m.role) : [];
+  const unread = signedIn
+    ? (await viewer.db.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null)).count ?? 0
+    : 0;
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -26,6 +29,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           // Brand Health is for owners and reviewers (§8.1); the page itself also checks.
           showHealth={!signedIn || roles.some((r) => r === "owner" || r === "reviewer")}
           showNewAudit={!signedIn || roles.some(canSubmit)}
+          unread={unread}
         />
         <main id="main" className="min-w-0 flex-1 px-4 pt-6 pb-24 sm:px-6 md:px-8 md:pt-8 md:pb-12">
           <div className="mx-auto w-full max-w-6xl">

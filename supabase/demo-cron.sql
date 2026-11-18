@@ -17,7 +17,8 @@ create or replace function private.demo_post(
 ) returns void language plpgsql set search_path = public as $fn$
 declare
   v_org constant uuid := '00000000-0000-4000-8000-000000000001';
-  v_at timestamptz := now() - make_interval(days => p_days_ago);
+  -- demo dates never go before the project's start (12 Nov 2026): ages are squeezed into 13 Nov..today
+  v_at timestamptz := now() - make_interval(days => least(greatest(0, current_date - date '2026-11-13'), round(p_days_ago * greatest(0, current_date - date '2026-11-13') / 26.0)::int));
   v_item uuid; v_version uuid; v_run uuid; f jsonb;
 begin
   insert into content_items (org_id, title, channel, owner_id, status, created_at)
@@ -90,16 +91,19 @@ begin
     ('VIS-01', 'visual', 'Use only the brand palette and the Inter typeface.', array[]::text[], array[]::text[])
   ) as c(code, category, text, dos, donts);
 
-  insert into approved_facts (org_id, code, statement, evidence_ref, owner_name, valid_from, valid_until, visibility, updated_at)
-  select v_org, f.code, f.statement, f.evidence, f.owner, f.vfrom::date, f.vuntil::date, f.vis::visibility, now() - interval '200 days' from (values
-    ('FACT-03', 'Northbeam Sync is used by teams in 14 countries', 'CRM export 2026-10', 'Sales Ops', '2026-10-01', '2027-03-31', 'public'),
-    ('FACT-05', 'Northbeam Vault starts at INR 499 per month', 'Pricing page v3', 'Marketing', '2025-01-01', '2026-06-30', 'public'),
-    ('FACT-06', 'Northbeam Vault starts at INR 599 per month', 'Pricing page v4', 'Marketing', '2026-07-01', null, 'public'),
-    ('FACT-07', 'Northbeam Sync SLA: 99.9% monthly uptime', 'SLA v2, clause 4.1', 'Legal', '2026-04-01', '2027-03-31', 'public'),
-    ('FACT-08', 'Files are encrypted at rest with AES-256', 'Security whitepaper 2026', 'Security', '2026-01-01', null, 'public'),
-    ('FACT-90', 'Internal target: 12000 customers by Q3', 'Board deck', 'CEO office', null, null, 'internal'),
-    ('FACT-91', 'Northbeam Mobile launches in March 2027', 'Roadmap', 'Product', null, null, 'internal')
-  ) as f(code, statement, evidence, owner, vfrom, vuntil, vis);
+  -- structured fields (migration 20261117000500) are set in the insert itself, so updated_at keeps its seeded age
+  insert into approved_facts (org_id, code, statement, evidence_ref, owner_name, valid_from, valid_until, visibility, updated_at,
+                              metric, value, unit, period, currency, region, product)
+  select v_org, f.code, f.statement, f.evidence, f.owner, f.vfrom::date, f.vuntil::date, f.vis::visibility, now() - interval '200 days',
+         f.metric, f.val::numeric, f.unit, f.period, f.currency, f.region, f.product from (values
+    ('FACT-03', 'Northbeam Sync is used by teams in 14 countries', 'CRM export 2026-10', 'Sales Ops', '2026-10-01', '2027-03-31', 'public', 'countries', '14', 'countries', null, null, null, 'Northbeam Sync'),
+    ('FACT-05', 'Northbeam Vault starts at INR 499 per month', 'Pricing page v3', 'Marketing', '2025-01-01', '2026-06-30', 'public', 'price', '499', null, 'month', 'INR', 'India', 'Northbeam Vault'),
+    ('FACT-06', 'Northbeam Vault starts at INR 599 per month', 'Pricing page v4', 'Marketing', '2026-07-01', null, 'public', 'price', '599', null, 'month', 'INR', 'India', 'Northbeam Vault'),
+    ('FACT-07', 'Northbeam Sync SLA: 99.9% monthly uptime', 'SLA v2, clause 4.1', 'Legal', '2026-04-01', '2027-03-31', 'public', 'uptime', '99.9', '%', 'month', null, null, 'Northbeam Sync'),
+    ('FACT-08', 'Files are encrypted at rest with AES-256', 'Security whitepaper 2026', 'Security', '2026-01-01', null, 'public', null, null, null, null, null, null, null),
+    ('FACT-90', 'Internal target: 12000 customers by Q3', 'Board deck', 'CEO office', null, null, 'internal', null, null, null, null, null, null, null),
+    ('FACT-91', 'Northbeam Mobile launches in March 2027', 'Roadmap', 'Product', null, null, 'internal', null, null, null, null, null, null, null)
+  ) as f(code, statement, evidence, owner, vfrom, vuntil, vis, metric, val, unit, period, currency, region, product);
 
   insert into terminology (org_id, code, term, kind, replacement, owner_name)
   select v_org, t.code, t.term, t.kind::term_kind, t.repl, t.owner from (values

@@ -56,7 +56,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
             <LoginForm next={safeNext(next)} />
           </div>
         </div>
-        <p className="text-xs text-muted-foreground">AI review runs on Azure AI Foundry when enabled. Demo results are labelled “Simulated analysis”.</p>
+        <p className="text-xs text-muted-foreground">AI review runs on Azure AI Foundry when enabled. If the AI is switched off, results are labelled “Simulated analysis”.</p>
       </main>
       <aside aria-hidden="true" className="hidden flex-1 p-6 lg:flex">
         <div className="auth-scene flex flex-1 items-end rounded-3xl border p-10">

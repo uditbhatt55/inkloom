@@ -20,6 +20,7 @@ type ItemRow = Database["public"]["Tables"]["content_items"]["Row"];
 export function DecisionPanel({
   item,
   versionId,
+  approveBlockedReason = null,
   findings,
   role,
   currentUserId,
@@ -27,6 +28,8 @@ export function DecisionPanel({
 }: {
   item: Pick<ItemRow, "id" | "org_id" | "title" | "status" | "owner_id">;
   versionId: string;
+  /** a reason the database will refuse approval that the findings do not show (older version, stale audit) */
+  approveBlockedReason?: string | null;
   findings: FindingRow[];
   role: Role | undefined;
   currentUserId: string;
@@ -36,6 +39,7 @@ export function DecisionPanel({
   const [busy, setBusy] = useState(false);
   const [activeForm, setActiveForm] = useState<"request_changes" | "reject" | "waive" | null>(null);
   const [reason, setReason] = useState("");
+  const [expiresOn, setExpiresOn] = useState(""); // optional waiver end date, YYYY-MM-DD
   const [selectedFindingId, setSelectedFindingId] = useState<string>(
     findings.find((f) => f.severity === "critical" && f.status === "open")?.id ?? findings[0]?.id ?? ""
   );
@@ -43,13 +47,14 @@ export function DecisionPanel({
 
   const isItemAuthor = item.owner_id === currentUserId;
   const decidePerm = canUserDecideItem({ role, isItemAuthor });
-  const approveCheck = isApproveBlocked(
+  const findingCheck = isApproveBlocked(
     findings.map((f) => ({
       severity: f.severity,
       confidence: f.confidence,
       status: f.status,
     }))
   );
+  const approveCheck = approveBlockedReason ? { blocked: true, message: approveBlockedReason } : findingCheck;
 
   async function handleApprove() {
     if (!decidePerm.allowed || approveCheck.blocked) return;
@@ -95,6 +100,8 @@ export function DecisionPanel({
         finding_id: selectedFindingId,
         decision: "waive",
         reason: reason.trim(),
+        // the waiver holds until the end of that day in India
+        expires_at: expiresOn ? `${expiresOn}T23:59:59+05:30` : null,
         author_id: currentUserId,
       });
       setBusy(false);
@@ -233,6 +240,17 @@ export function DecisionPanel({
                         </option>
                       ))}
                     </select>
+                    <label htmlFor="waive-expires" className="block pt-1 text-xs text-muted-foreground">
+                      Waiver ends on (optional; after this date the finding counts as open again):
+                    </label>
+                    <input
+                      id="waive-expires"
+                      type="date"
+                      min={new Date(Date.now() + 86_400_000).toISOString().slice(0, 10)}
+                      value={expiresOn}
+                      onChange={(e) => setExpiresOn(e.target.value)}
+                      className="h-9 w-full rounded-md border border-input bg-transparent px-3 text-xs shadow-xs"
+                    />
                   </div>
                 )}
 

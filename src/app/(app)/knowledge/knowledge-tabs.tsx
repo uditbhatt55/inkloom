@@ -22,6 +22,7 @@ export type ClauseHistoryRow = Pick<T["guideline_clause_history"]["Row"], "id" |
 export type FactRow = Pick<
   T["approved_facts"]["Row"],
   "id" | "code" | "statement" | "valid_from" | "valid_until" | "visibility" | "owner_name" | "evidence_ref"
+  | "metric" | "value" | "unit" | "period" | "currency" | "region" | "product" | "condition"
 >;
 export type TermRow = Pick<
   T["terminology"]["Row"],

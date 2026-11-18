@@ -1,0 +1,816 @@
+{
+  "measured_at": "2026-11-17T05:38:03.361Z",
+  "model": "gpt-6-luna",
+  "runs_per_case": 3,
+  "conflicts": {
+    "sets": 29,
+    "labelled_by": [
+      "Claude (draft)"
+    ],
+    "tp": 42,
+    "fp": 0,
+    "fn": 0,
+    "failed": 0,
+    "cleanSets": 45,
+    "cleanSetsFlagged": 0,
+    "precision": 1,
+    "recall": 1,
+    "false_alarm_rate": 0,
+    "by_group": {
+      "easy": {
+        "tp": 27,
+        "fp": 0,
+        "fn": 0,
+        "failed": 0,
+        "cleanSets": 24,
+        "cleanSetsFlagged": 0,
+        "precision": 1,
+        "recall": 1,
+        "false_alarm_rate": 0
+      },
+      "hard": {
+        "tp": 15,
+        "fp": 0,
+        "fn": 0,
+        "failed": 0,
+        "cleanSets": 21,
+        "cleanSetsFlagged": 0,
+        "precision": 1,
+        "recall": 1,
+        "false_alarm_rate": 0
+      }
+    }
+  },
+  "rewrites": {
+    "cases": 12,
+    "labelled_by": [
+      "Claude (draft)"
+    ],
+    "runs": 36,
+    "accepted": 35,
+    "keptIntent": 35,
+    "gaveExample": 35,
+    "accepted_rate": 0.972,
+    "kept_intent_rate": 0.972,
+    "example_rate": 0.972,
+    "by_group": {
+      "easy": {
+        "runs": 24,
+        "accepted": 24,
+        "keptIntent": 24,
+        "gaveExample": 24,
+        "accepted_rate": 1,
+        "kept_intent_rate": 1
+      },
+      "hard": {
+        "runs": 12,
+        "accepted": 11,
+        "keptIntent": 11,
+        "gaveExample": 11,
+        "accepted_rate": 0.917,
+        "kept_intent_rate": 0.917
+      }
+    }
+  },
+  "details": {
+    "conflictRuns": [
+      {
+        "id": "CF-01",
+        "run": 1,
+        "got": [
+          "TONE-A|TONE-B"
+        ]
+      },
+      {
+        "id": "CF-01",
+        "run": 2,
+        "got": [
+          "TONE-A|TONE-B"
+        ]
+      },
+      {
+        "id": "CF-01",
+        "run": 3,
+        "got": [
+          "TONE-A|TONE-B"
+        ]
+      },
+      {
+        "id": "CF-02",
+        "run": 1,
+        "got": [
+          "CLAIM-A|CLAIM-B"
+        ]
+      },
+      {
+        "id": "CF-02",
+        "run": 2,
+        "got": [
+          "CLAIM-A|CLAIM-B"
+        ]
+      },
+      {
+        "id": "CF-02",
+        "run": 3,
+        "got": [
+          "CLAIM-A|CLAIM-B"
+        ]
+      },
+      {
+        "id": "CF-03",
+        "run": 1,
+        "got": [
+          "TERM-A|TERM-B"
+        ]
+      },
+      {
+        "id": "CF-03",
+        "run": 2,
+        "got": [
+          "TERM-A|TERM-B"
+        ]
+      },
+      {
+        "id": "CF-03",
+        "run": 3,
+        "got": [
+          "TERM-A|TERM-B"
+        ]
+      },
+      {
+        "id": "CF-04",
+        "run": 1,
+        "got": [
+          "MSG-A|MSG-B"
+        ]
+      },
+      {
+        "id": "CF-04",
+        "run": 2,
+        "got": [
+          "MSG-A|MSG-B"
+        ]
+      },
+      {
+        "id": "CF-04",
+        "run": 3,
+        "got": [
+          "MSG-A|MSG-B"
+        ]
+      },
+      {
+        "id": "CF-05",
+        "run": 1,
+        "got": [
+          "CLAIM-A|CLAIM-B"
+        ]
+      },
+      {
+        "id": "CF-05",
+        "run": 2,
+        "got": [
+          "CLAIM-A|CLAIM-B"
+        ]
+      },
+      {
+        "id": "CF-05",
+        "run": 3,
+        "got": [
+          "CLAIM-A|CLAIM-B"
+        ]
+      },
+      {
+        "id": "CF-06",
+        "run": 1,
+        "got": [
+          "TONE-A|TONE-B"
+        ]
+      },
+      {
+        "id": "CF-06",
+        "run": 2,
+        "got": [
+          "TONE-A|TONE-B"
+        ]
+      },
+      {
+        "id": "CF-06",
+        "run": 3,
+        "got": [
+          "TONE-A|TONE-B"
+        ]
+      },
+      {
+        "id": "CF-07",
+        "run": 1,
+        "got": [
+          "VIS-A|VIS-B"
+        ]
+      },
+      {
+        "id": "CF-07",
+        "run": 2,
+        "got": [
+          "VIS-A|VIS-B"
+        ]
+      },
+      {
+        "id": "CF-07",
+        "run": 3,
+        "got": [
+          "VIS-A|VIS-B"
+        ]
+      },
+      {
+        "id": "CF-08",
+        "run": 1,
+        "got": [
+          "MSG-A|MSG-B"
+        ]
+      },
+      {
+        "id": "CF-08",
+        "run": 2,
+        "got": [
+          "MSG-A|MSG-B"
+        ]
+      },
+      {
+        "id": "CF-08",
+        "run": 3,
+        "got": [
+          "MSG-A|MSG-B"
+        ]
+      },
+      {
+        "id": "NC-01",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "NC-01",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "NC-01",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "NC-02",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "NC-02",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "NC-02",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "NC-03",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "NC-03",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "NC-03",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "NC-04",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "NC-04",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "NC-04",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "NC-05",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "NC-05",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "NC-05",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "NC-06",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "NC-06",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "NC-06",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "NC-07",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "NC-07",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "NC-07",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "NC-08",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "NC-08",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "NC-08",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "MX-01",
+        "run": 1,
+        "got": [
+          "TONE-B|TONE-C"
+        ]
+      },
+      {
+        "id": "MX-01",
+        "run": 2,
+        "got": [
+          "TONE-B|TONE-C"
+        ]
+      },
+      {
+        "id": "MX-01",
+        "run": 3,
+        "got": [
+          "TONE-B|TONE-C"
+        ]
+      },
+      {
+        "id": "HC-01",
+        "run": 1,
+        "got": [
+          "TONE-A|TONE-B"
+        ]
+      },
+      {
+        "id": "HC-01",
+        "run": 2,
+        "got": [
+          "TONE-A|TONE-B"
+        ]
+      },
+      {
+        "id": "HC-01",
+        "run": 3,
+        "got": [
+          "TONE-A|TONE-B"
+        ]
+      },
+      {
+        "id": "HC-02",
+        "run": 1,
+        "got": [
+          "CLAIM-A|CLAIM-B"
+        ]
+      },
+      {
+        "id": "HC-02",
+        "run": 2,
+        "got": [
+          "CLAIM-A|CLAIM-B"
+        ]
+      },
+      {
+        "id": "HC-02",
+        "run": 3,
+        "got": [
+          "CLAIM-A|CLAIM-B"
+        ]
+      },
+      {
+        "id": "HC-03",
+        "run": 1,
+        "got": [
+          "MSG-A|MSG-B"
+        ]
+      },
+      {
+        "id": "HC-03",
+        "run": 2,
+        "got": [
+          "MSG-A|MSG-B"
+        ]
+      },
+      {
+        "id": "HC-03",
+        "run": 3,
+        "got": [
+          "MSG-A|MSG-B"
+        ]
+      },
+      {
+        "id": "HC-04",
+        "run": 1,
+        "got": [
+          "TERM-A|TERM-B"
+        ]
+      },
+      {
+        "id": "HC-04",
+        "run": 2,
+        "got": [
+          "TERM-A|TERM-B"
+        ]
+      },
+      {
+        "id": "HC-04",
+        "run": 3,
+        "got": [
+          "TERM-A|TERM-B"
+        ]
+      },
+      {
+        "id": "HC-05",
+        "run": 1,
+        "got": [
+          "VIS-A|VIS-B"
+        ]
+      },
+      {
+        "id": "HC-05",
+        "run": 2,
+        "got": [
+          "VIS-A|VIS-B"
+        ]
+      },
+      {
+        "id": "HC-05",
+        "run": 3,
+        "got": [
+          "VIS-A|VIS-B"
+        ]
+      },
+      {
+        "id": "HN-01",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "HN-01",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "HN-01",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "HN-02",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "HN-02",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "HN-02",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "HN-03",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "HN-03",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "HN-03",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "HN-04",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "HN-04",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "HN-04",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "HN-05",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "HN-05",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "HN-05",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "SEED-CLAIM",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "SEED-CLAIM",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "SEED-CLAIM",
+        "run": 3,
+        "got": []
+      },
+      {
+        "id": "SEED-TONE",
+        "run": 1,
+        "got": []
+      },
+      {
+        "id": "SEED-TONE",
+        "run": 2,
+        "got": []
+      },
+      {
+        "id": "SEED-TONE",
+        "run": 3,
+        "got": []
+      }
+    ],
+    "rewriteRuns": [
+      {
+        "id": "RW-01",
+        "run": 1,
+        "text": "Do not use “guaranteed” for general claims; it may be used for support response times when the wording is contractual or legally approved as SLA wording.",
+        "refused": null
+      },
+      {
+        "id": "RW-01",
+        "run": 2,
+        "text": "Do not use the word “guaranteed” except when describing a contractual or legally approved support response-time commitment.",
+        "refused": null
+      },
+      {
+        "id": "RW-01",
+        "run": 3,
+        "text": "Do not use “guaranteed” for claims unless it describes a contractual or legally approved response-time commitment.",
+        "refused": null
+      },
+      {
+        "id": "RW-02",
+        "run": 1,
+        "text": "Avoid exclamation marks, except in festive greetings and customer milestone posts.",
+        "refused": null
+      },
+      {
+        "id": "RW-02",
+        "run": 2,
+        "text": "Avoid exclamation marks except in festive greetings and customer milestone congratulations.",
+        "refused": null
+      },
+      {
+        "id": "RW-02",
+        "run": 3,
+        "text": "Do not use exclamation marks, except in festive greetings and customer milestone posts.",
+        "refused": null
+      },
+      {
+        "id": "RW-03",
+        "run": 1,
+        "text": "Do not abbreviate customer-facing copy, except for standard industry acronyms such as API and SSO.",
+        "refused": null
+      },
+      {
+        "id": "RW-03",
+        "run": 2,
+        "text": "Do not abbreviate customer-facing copy, except for standard industry acronyms or acronyms customers search for, such as API and SSO.",
+        "refused": null
+      },
+      {
+        "id": "RW-03",
+        "run": 3,
+        "text": "Do not abbreviate customer-facing copy, except for industry acronyms and standard acronyms that customers search for, such as API and SSO.",
+        "refused": null
+      },
+      {
+        "id": "RW-04",
+        "run": 1,
+        "text": "Do not mention competitors except when identifying a source for migration or naming an integration.",
+        "refused": null
+      },
+      {
+        "id": "RW-04",
+        "run": 2,
+        "text": "Do not mention competitors except when naming a source in a migration guide or naming an integration.",
+        "refused": null
+      },
+      {
+        "id": "RW-04",
+        "run": 3,
+        "text": "Do not mention competitors except when naming a source for migration or identifying an integration.",
+        "refused": null
+      },
+      {
+        "id": "RW-05",
+        "run": 1,
+        "text": "Every post must include a call to action, except service notices and status updates.",
+        "refused": null
+      },
+      {
+        "id": "RW-05",
+        "run": 2,
+        "text": "Include a call to action in posts that promote an offering or seek audience engagement. Service notices and status updates, such as office closures or scheduled maintenance, do not require one.",
+        "refused": null
+      },
+      {
+        "id": "RW-05",
+        "run": 3,
+        "text": "Posts intended to promote an offering or prompt audience action must include a call to action. Informational service notices and status updates may omit one.",
+        "refused": null
+      },
+      {
+        "id": "RW-06",
+        "run": 1,
+        "text": "Do not use “free” in an offer unless it is an approved offer; it may be used in non-pricing descriptions.",
+        "refused": null
+      },
+      {
+        "id": "RW-06",
+        "run": 2,
+        "text": "Do not use the word “free” to describe an offer or price unless the offer is approved. The word may also be used in non-pricing descriptions, such as “gluten-free snacks at the event.”",
+        "refused": null
+      },
+      {
+        "id": "RW-06",
+        "run": 3,
+        "text": "Do not use “free” in pricing or promotional claims unless the offer is approved. It may be used in non-pricing descriptions.",
+        "refused": null
+      },
+      {
+        "id": "RW-07",
+        "run": 1,
+        "text": "Do not use images of text, except for logos and product screenshots.",
+        "refused": null
+      },
+      {
+        "id": "RW-07",
+        "run": 2,
+        "text": "Avoid images of text, except for logos and product-interface screenshots used to illustrate the product.",
+        "refused": null
+      },
+      {
+        "id": "RW-07",
+        "run": 3,
+        "text": "Do not use images of text, except for logos and product screenshots.",
+        "refused": null
+      },
+      {
+        "id": "RW-08",
+        "run": 1,
+        "text": "Do not state percentages in marketing copy unless they are an approved fact or an approved promotion.",
+        "refused": null
+      },
+      {
+        "id": "RW-08",
+        "run": 2,
+        "text": "Do not state percentages in marketing copy unless they are an approved fact or an approved promotion.",
+        "refused": null
+      },
+      {
+        "id": "RW-08",
+        "run": 3,
+        "text": "Do not state percentages in marketing copy unless they are an approved fact or an approved promotion.",
+        "refused": null
+      },
+      {
+        "id": "RW-09",
+        "run": 1,
+        "text": "Describe service levels as guaranteed only when the applicable contract or legally approved SLA permits that wording; otherwise, refer to the SLA.",
+        "refused": null
+      },
+      {
+        "id": "RW-09",
+        "run": 2,
+        "text": null,
+        "refused": "the suggestion uses a banned or internal term"
+      },
+      {
+        "id": "RW-09",
+        "run": 3,
+        "text": "Do not describe service levels as guaranteed unless the applicable contract or SLA expressly permits that wording; otherwise, refer to the SLA.",
+        "refused": null
+      },
+      {
+        "id": "RW-10",
+        "run": 1,
+        "text": "Use professional, plain language and avoid slang or hype-driven exclamation marks in B2B channels. A brief friendly exclamation is allowed in customer onboarding when welcoming a new customer.",
+        "refused": null
+      },
+      {
+        "id": "RW-10",
+        "run": 2,
+        "text": "Use professional, plain language in B2B channels; avoid slang and hype-driven exclamation marks, while allowing warm greetings such as “Welcome aboard!” in customer onboarding messages.",
+        "refused": null
+      },
+      {
+        "id": "RW-10",
+        "run": 3,
+        "text": "Use professional, plain language in B2B channels; avoid slang and exclamation marks used for hype, but allow warm, sincere exclamations in routine customer messages such as onboarding.",
+        "refused": null
+      },
+      {
+        "id": "RW-11",
+        "run": 1,
+        "text": "Numerical claims about uptime, customers, savings, speed, or other performance or business results in public copy must match an approved fact. This does not apply to support schedules or numbers used only to order or count items, such as steps in a list.",
+        "refused": null
+      },
+      {
+        "id": "RW-11",
+        "run": 2,
+        "text": "Numbers in public copy that state or imply an uptime, customer, savings, speed, or other performance claim must match an approved fact. Numbers used only to describe a support schedule or label steps in a list do not require an approved fact.",
+        "refused": null
+      },
+      {
+        "id": "RW-11",
+        "run": 3,
+        "text": "Every number in public copy that states a performance or business claim (such as uptime, customers, savings, or speed) must match an approved fact. Numbers used only to describe a support schedule or the order or count of steps in a list do not need approval as claims.",
+        "refused": null
+      },
+      {
+        "id": "RW-12",
+        "run": 1,
+        "text": "Address the customer as “you” in marketing copy and avoid “users” when referring to the audience, except in product document names or verbatim customer quotes.",
+        "refused": null
+      },
+      {
+        "id": "RW-12",
+        "run": 2,
+        "text": "In marketing copy, address the customer as “you” and avoid “users”; retain “user” wording when it is part of a product document name or an exact customer quote.",
+        "refused": null
+      },
+      {
+        "id": "RW-12",
+        "run": 3,
+        "text": "In marketing copy, address the customer as “you” and avoid referring to customers as “users”; retain “user” when it is part of a product document name or an exact customer quote.",
+        "refused": null
+      }
+    ]
+  }
+}

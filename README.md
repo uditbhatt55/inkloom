@@ -39,7 +39,6 @@ The demo accounts are shared, so you may see other judges' posts. The demo data 
 - Logos are stored for the team but not yet checked against content (no logo recognition).
 - Usability: so far one guided walkthrough by a person from outside the team, who completed the basic flow and the file tests; it led to the web page fix below. No timings or ratings yet; the five-person test in `docs/usability/kit.md` is planned for Round 3. Notes: [`docs/usability/results-round2.md`](docs/usability/results-round2.md).
 - A web page is audited from its main content (`<main>`, or the page's only `<article>`); menus are skipped. A page with neither is read whole, so very busy pages (many images, long language lists) can still give noisy results.
-- A post page lists at most 1,000 findings (the database returns 1,000 rows per request); the score of a post with more is still capped per category and the approval gate in the database sees all of them. The per-account limit of 20 audits in 10 minutes counts finished audits, so many requests sent at the same moment can pass it.
 - If text tries to instruct the AI ("ignore all previous instructions…"), Azure's jailbreak filter refuses the request; the audit then returns the rule checks only, with a note that AI checks were skipped.
 
 ## Stack

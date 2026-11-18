@@ -11,7 +11,7 @@ export class SupabaseAuditStore implements AuditStore {
   async loadKnowledge(orgId: string): Promise<Knowledge> {
     const [clauses, facts, terms, assets] = await Promise.all([
       this.db.from("guideline_clauses").select("code, category, text, status").eq("org_id", orgId),
-      this.db.from("approved_facts").select("code, statement, valid_from, valid_until, visibility").eq("org_id", orgId),
+      this.db.from("approved_facts").select("code, statement, valid_from, valid_until, visibility, metric, value, unit, period, currency, region, product, condition").eq("org_id", orgId),
       this.db.from("terminology").select("code, term, kind, replacement").eq("org_id", orgId),
       this.db.from("brand_assets").select("type, name, hex, font_name").eq("org_id", orgId),
     ]);

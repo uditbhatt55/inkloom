@@ -135,3 +135,78 @@ export function factImpact(facts: FactRow[], links: ApprovedLink[], today: strin
   const order = { expired: 0, expiring: 1, changed: 2 };
   return out.sort((a, b) => order[a.reason] - order[b.reason] || a.code.localeCompare(b.code));
 }
+
+/* ---------------------------------------------------------------- Round 3 (improvement 3) */
+
+/** A signal resting on fewer cases than this is shown with a "small sample" badge. */
+export const SOLID_SAMPLE = 10;
+export const isSmallSample = (n: number) => n < SOLID_SAMPLE;
+
+export type ExpiringFact = { code: string; statement: string; validUntil: string; daysLeft: number };
+
+/**
+ * Facts that have expired or expire within `soonDays`, whether or not approved content uses them yet, so the owner can
+ * renew or retire a fact before writers rely on it. Soonest first.
+ */
+export function expiringFacts(facts: FactRow[], today: string, soonDays = 30): ExpiringFact[] {
+  const limit = addDays(today, soonDays);
+  const days = (d: string) => Math.round((Date.parse(`${d}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86_400_000);
+  return facts
+    .filter((f): f is FactRow & { validUntil: string } => !!f.validUntil && f.validUntil <= limit)
+    .map((f) => ({ code: f.code, statement: f.statement, validUntil: f.validUntil, daysLeft: days(f.validUntil) }))
+    .sort((a, b) => a.daysLeft - b.daysLeft || a.code.localeCompare(b.code));
+}
+
+export type AuditedRun = { itemId: string; itemTitle: string; at: string; ruleCodes: string[] };
+export type WeekPoint = { weekStart: string; posts: number; mistakes: number };
+
+/**
+ * Trend: per week (Monday start, UTC), how many posts were audited and how many rule mistakes they had, counted once
+ * per post and rule like detector 1. `runs` gives the audited posts (also those with no findings).
+ */
+export function weeklyTrend(runs: AuditedRun[], findings: HealthFinding[], today: string, weeks = 8): WeekPoint[] {
+  const monday = (d: string) => addDays(d, -((new Date(`${d}T00:00:00Z`).getUTCDay() + 6) % 7));
+  const first = addDays(monday(today), -7 * (weeks - 1));
+  const out = new Map<string, { posts: Set<string>; mistakes: Set<string> }>();
+  for (let i = 0; i < weeks; i++) out.set(addDays(first, 7 * i), { posts: new Set(), mistakes: new Set() });
+  for (const r of runs) out.get(monday(r.at.slice(0, 10)))?.posts.add(r.itemId);
+  for (const f of findings) {
+    if (!f.ruleCode || OVERRULED.has(f.status)) continue;
+    out.get(monday(f.at.slice(0, 10)))?.mistakes.add(`${f.itemId}|${f.ruleCode}`);
+  }
+  return [...out.entries()].map(([weekStart, w]) => ({ weekStart, posts: w.posts.size, mistakes: w.mistakes.size }));
+}
+
+export type ClauseChange = { code: string; changedAt: string; version: number };
+export type RuleImpact = ClauseChange & {
+  /** posts audited both before and after the change */
+  compared: number;
+  newlyFlagged: { id: string; title: string }[];
+  noLongerRaised: { id: string; title: string }[];
+};
+
+/**
+ * Rule-change impact: for each clause change, the posts that were audited before AND after it (a stale audit's
+ * re-audit), comparing the last run before with the first run after. Measured from real audits, not simulated: a post
+ * never re-audited is not counted. Newest change first.
+ */
+export function ruleChangeImpact(changes: ClauseChange[], runs: AuditedRun[]): RuleImpact[] {
+  const byItem = new Map<string, AuditedRun[]>();
+  for (const r of runs) byItem.set(r.itemId, [...(byItem.get(r.itemId) ?? []), r]);
+  for (const rs of byItem.values()) rs.sort((a, b) => a.at.localeCompare(b.at));
+  return changes
+    .map((c) => {
+      const impact: RuleImpact = { ...c, compared: 0, newlyFlagged: [], noLongerRaised: [] };
+      for (const rs of byItem.values()) {
+        const before = rs.filter((r) => r.at < c.changedAt).at(-1);
+        const after = rs.find((r) => r.at >= c.changedAt);
+        if (!before || !after) continue;
+        impact.compared++;
+        const was = before.ruleCodes.includes(c.code), now = after.ruleCodes.includes(c.code);
+        if (!was && now) impact.newlyFlagged.push({ id: after.itemId, title: after.itemTitle });
+        if (was && !now) impact.noLongerRaised.push({ id: after.itemId, title: after.itemTitle });
+      }
+      return impact;
+    })
+    .sort((a, b) => b.changedAt.localeCompare(a.changedAt));
+}

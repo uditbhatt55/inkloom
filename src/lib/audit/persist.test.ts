@@ -42,7 +42,11 @@ describe("rowsToKnowledge", () => {
       terms: [{ code: "T", term: "Project Atlas", kind: "internal", replacement: null }],
       assets: [{ type: "font", name: "Inter", hex: null, font_name: "Inter" }, { type: "video", name: "x", hex: null, font_name: null }],
     });
-    expect(k.facts[0]).toEqual({ code: "F", statement: "s", validFrom: null, validUntil: "2027-03-31", visibility: "internal" });
+    expect(k.facts[0]).toEqual({
+      code: "F", statement: "s", validFrom: null, validUntil: "2027-03-31", visibility: "internal",
+      // structured fields (Round 3) default to null when the row has none
+      metric: null, value: null, unit: null, period: null, currency: null, region: null, product: null, condition: null,
+    });
     expect(k.assets).toEqual([{ type: "font", name: "Inter", hex: null, fontName: "Inter" }]);
   });
 });

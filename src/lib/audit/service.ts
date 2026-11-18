@@ -26,7 +26,7 @@ export async function auditVersion(store: AuditStore, ai: AiReviewer | null, i: 
   const knowledge = await store.loadKnowledge(i.orgId);
   const input: AuditInput = {
     content: i.parsed.text, channel: i.channel, audience: i.audience, today: i.today, knowledge, ai,
-    colours: i.colours, parsed: { fonts: i.parsed.fonts, images: i.parsed.images, colours: i.parsed.colours, textPair: i.parsed.textPair },
+    colours: i.colours, parsed: { fonts: i.parsed.fonts, images: i.parsed.images, colours: i.parsed.colours, textPair: i.parsed.textPair, hidden: i.parsed.hidden },
   };
   const result = await runAudit(input);
   result.warnings.push(...i.parsed.warnings, ...(i.notes ?? []));

@@ -9,7 +9,12 @@ export type AiRequest = { messages: Message[]; content: string };
  */
 export type AiReviewer = { mode: "real" | "simulated"; model: string; review(req: AiRequest): Promise<unknown | null> };
 
-export type AzureConfig = { endpoint: string; apiKey: string; deployment: string; timeoutMs?: number };
+/**
+ * reasoningEffort: how long a reasoning model may think before answering. Measured on 17 Nov 2026 (gpt-6-luna): the
+ * default spent over 90% of its output on reasoning and took 26–55 s per audit, past the 45 s budget on some posts;
+ * "low" took 11–22 s. Unset = the model's default. Set with AZURE_REASONING_EFFORT.
+ */
+export type AzureConfig = { endpoint: string; apiKey: string; deployment: string; timeoutMs?: number; reasoningEffort?: string };
 
 /** Azure OpenAI v1 endpoint, e.g. https://<resource>.openai.azure.com/openai/v1. The key is sent only in the api-key header. */
 export function azureReviewer(cfg: AzureConfig, fetchImpl: typeof fetch = fetch): AiReviewer {
@@ -28,6 +33,7 @@ export function azureReviewer(cfg: AzureConfig, fetchImpl: typeof fetch = fetch)
           body: JSON.stringify({
             model: cfg.deployment,
             messages,
+            ...(cfg.reasoningEffort ? { reasoning_effort: cfg.reasoningEffort } : {}),
             response_format: { type: "json_schema", json_schema: { name: "audit_findings", strict: true, schema: AI_JSON_SCHEMA } },
           }),
           signal: ctl.signal,

@@ -3,6 +3,9 @@ on:
   push:
     branches: [main]
   pull_request:
+  # weekly, so a newly published advisory fails the build even when nobody pushes
+  schedule:
+    - cron: "30 3 * * 1"
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -24,7 +27,8 @@ jobs:
       - run: npm run build
         env:
           DEMO_MODE: "true"
-      - run: npm audit --omit=dev --audit-level=critical
+      # production dependencies must have no high or critical advisory (dev-only tools are tracked by Dependabot)
+      - run: npm audit --omit=dev --audit-level=high
 
   e2e:
     runs-on: ubuntu-latest

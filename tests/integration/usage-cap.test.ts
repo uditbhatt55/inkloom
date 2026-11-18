@@ -2,7 +2,7 @@ import type { PGlite } from "@electric-sql/pglite";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { AiReviewer } from "@/lib/ai/reviewer";
 import { gateAudit, type Counter } from "@/lib/audit/usage-cap";
-import { createDb } from "../db/harness";
+import { asUser, createDb } from "../db/harness";
 
 // The real counts, in SQL, as supabaseCounter makes them through supabase-js: audit_runs rows by user and by organisation.
 const A = "00000000-0000-4000-8000-00000000000a";
@@ -36,15 +36,23 @@ beforeAll(async () => {
 }, 120_000);
 
 const counter = (org: string, user: string): Counter => ({
-  userRuns: async (since) => (await db.query<{ n: number }>("select count(*)::int as n from audit_runs where requested_by = $1 and created_at >= $2", [user, since.toISOString()])).rows[0].n,
+  userAttempts: async (since) => (await db.query<{ n: number }>("select public.record_audit_attempt($1, $2) as n", [user, since.toISOString()])).rows[0].n,
   orgRealRuns: async (since) => (await db.query<{ n: number }>("select count(*)::int as n from audit_runs where org_id = $1 and mode = 'real' and created_at >= $2", [org, since.toISOString()])).rows[0].n,
 });
 
-describe("usage cap counts (audit_runs)", () => {
-  it("refuses the account that is over the burst limit, not the other account", async () => {
+describe("usage cap counts (audit_attempts, audit_runs)", () => {
+  it("records every attempt and refuses the account once it is over the burst limit, not the other account", async () => {
     const limits = { burstMax: 3, burstMinutes: 10, dailyMax: 100 };
+    for (let i = 0; i < 3; i++) expect((await gateAudit(counter(A, U1), real, limits, NOW)).kind).toBe("ok");
     expect((await gateAudit(counter(A, U1), real, limits, NOW)).kind).toBe("burst");
     expect((await gateAudit(counter(A, U2), real, limits, NOW)).kind).toBe("ok");
+    // an attempt older than the window does not count
+    expect((await db.query<{ n: number }>("select public.record_audit_attempt($1, now() + interval '1 minute') as n", [U1])).rows[0].n).toBe(0);
+  });
+
+  it("audit_attempts and record_audit_attempt are server only: signed-in users can neither read nor call them", async () => {
+    expect((await asUser(db, U1, (tx) => tx.query("select * from audit_attempts").then(() => "read", (e: Error) => e.message)))).toMatch(/permission denied/);
+    expect((await asUser(db, U1, (tx) => tx.query(`select public.record_audit_attempt('${U1}', now())`).then(() => "called", (e: Error) => e.message)))).toMatch(/permission denied/);
   });
 
   it("the daily limit counts real runs of ONE organisation in the last 24 hours only", async () => {

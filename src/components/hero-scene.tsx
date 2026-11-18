@@ -96,8 +96,8 @@ export function HeroScene({ children }: { children: React.ReactNode }) {
             <Card where={{ left: "0%", top: "50%" }} r={5} delay={-3} label="Document" detail="facts and claims cited">
               <svg viewBox="0 0 58 68" width="46" height="54"><path d="M2 2 L40 2 L56 18 L56 66 L2 66 Z" fill="#FBE6DA" stroke="#F2B89D" strokeWidth="2" /><rect x="12" y="28" width="32" height="5" rx="2.5" fill="#F2B89D" /><rect x="12" y="42" width="26" height="5" rx="2.5" fill="#F2B89D" /></svg>
             </Card>
-            <Card where={{ right: "0%", top: "48%" }} r={-6} delay={-4.5} label="Video" detail="captions and claims reviewed">
-              <svg viewBox="0 0 96 58" width="80" height="48"><rect x="1" y="1" width="94" height="56" rx="10" fill="#E3EEF8" stroke="#9DBCDD" strokeWidth="2" /><path d="M40 16 L60 29 L40 42 Z" fill="#6E93BE" /></svg>
+            <Card where={{ right: "0%", top: "48%" }} r={-6} delay={-4.5} label="Web page" detail="main content checked">
+              <svg viewBox="0 0 96 58" width="80" height="48"><rect x="1" y="1" width="94" height="56" rx="10" fill="#E3EEF8" stroke="#9DBCDD" strokeWidth="2" /><rect x="1" y="1" width="94" height="14" rx="8" fill="#C9DCEF" /><rect x="12" y="26" width="48" height="5" rx="2.5" fill="#6E93BE" /><rect x="12" y="38" width="66" height="5" rx="2.5" fill="#9DBCDD" /></svg>
             </Card>
             <div className="hs-float" style={{ left: "12%", top: "76%", animationDelay: "-2.2s" }}>
               <div className="hs-card" style={{ "--r": "-3deg" } as React.CSSProperties}>
