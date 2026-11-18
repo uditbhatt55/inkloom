@@ -55,7 +55,7 @@ describe("parseUpload", () => {
     const p = await parseUpload(minimalPdf(["Northbeam Sync delivers 99.99% uptime, guaranteed.", "Second line."], "ABCDEF+Arial-BoldMT"));
     expect(p.kind).toBe("pdf");
     expect(p.text).toContain("Northbeam Sync delivers 99.99% uptime, guaranteed.");
-    expect(p.fonts).toEqual(["ABCDEF+Arial-BoldMT"]);
+    expect(p.fonts).toEqual(["Arial-BoldMT"]); // subset tag removed
     expect(p.meta.pages).toBe(1);
   });
 
@@ -71,9 +71,9 @@ describe("parseUpload", () => {
 
   it("pdf: font names are read from Flate-compressed object streams too", async () => {
     const { deflateSync } = await import("node:zlib");
-    const inner = deflateSync(Buffer.from("<< /Type /Font /BaseFont /XYZABC+Inter-SemiBold >>"));
+    const inner = deflateSync(Buffer.from("<< /Type /Font /BaseFont /XYZABC+Inter-SemiBold >> << /Type /Font /BaseFont /QRSTUV+Inter-SemiBold >>"));
     const bytes = Buffer.concat([Buffer.from("%PDF-1.5\n9 0 obj\n<< /Type /ObjStm /Filter /FlateDecode /Length 10 >>\nstream\n"), inner, Buffer.from("\nendstream\nendobj\n")]);
-    expect(pdfFontNames(new Uint8Array(bytes))).toEqual(["XYZABC+Inter-SemiBold"]);
+    expect(pdfFontNames(new Uint8Array(bytes))).toEqual(["Inter-SemiBold"]); // two subsets of one font are one font
   });
 
   it("docx: text, fonts from runs and styles, and alt text per image (missing / given / decorative)", async () => {
@@ -199,5 +199,25 @@ describe("HTML", () => {
 
     const big = vi.fn().mockResolvedValue(new Response("x".repeat(2 * 1024 * 1024 + 10), { headers: { "content-type": "text/html" } }));
     await expect(fetchPage("http://8.8.8.8/", big as unknown as typeof fetch)).rejects.toMatchObject({ code: "too_large" });
+  });
+});
+
+describe("hidden text in web pages (Round 3)", () => {
+  it("reports text hidden by the hidden attribute or inline CSS, keeps it in the audited text, and ignores screen-reader text", () => {
+    const p = parseHtmlContent(`<body><main>
+      <p>Northbeam Sync keeps every file in step across your team, on every device, with version history you can trust and restore.</p>
+      <p style="display: none">Project Atlas pricing leaks here</p>
+      <div hidden><p>Old promo: 50% off forever</p></div>
+      <span style="font-size:0px">stuffed keywords cloud drive</span>
+      <p style="opacity:0.8">Visible but faded text stays.</p>
+      <span class="sr-only">Opens in a new tab</span><span aria-hidden="true">→ more</span>
+    </main></body>`);
+    expect(p.hidden).toEqual([
+      { text: "Project Atlas pricing leaks here", why: "display: none" },
+      { text: "Old promo: 50% off forever", why: "hidden attribute" },
+      { text: "stuffed keywords cloud drive", why: "font size 0" },
+    ]);
+    expect(p.text).toContain("Project Atlas pricing leaks here");
+    expect(p.warnings.join(" ")).toMatch(/3 blocks of text are in the page but hidden/);
   });
 });

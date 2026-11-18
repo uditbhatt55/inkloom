@@ -3,10 +3,11 @@ import { AiOutputSchema } from "@/lib/ai/schema";
 import { buildBrandPack, type Knowledge } from "@/lib/ai/brandpack";
 import { buildMessages, PROMPT_VERSION } from "@/lib/ai/prompt";
 import type { AiReviewer } from "@/lib/ai/reviewer";
-import { findLeaks, maskForAi, type InternalTerm } from "@/lib/guard/guard";
+import { findLeaks, findSecrets, hiddenTextFindings, maskForAi, type InternalTerm } from "@/lib/guard/guard";
 import { findInternalFactLeaks, maskSpans } from "@/lib/guard/internal-facts";
 import { contrastFinding, contrastRatio } from "@/lib/rules/contrast";
 import { checkExpiredFacts, linkFacts } from "@/lib/rules/facts";
+import { checkStructuredFacts } from "@/lib/rules/structured-facts";
 import { checkRulePack } from "@/lib/rules/rulepack";
 import { safeSuggestion } from "@/lib/rules/suggestion";
 import { checkTerms } from "@/lib/rules/terms";
@@ -25,7 +26,7 @@ export type AuditInput = {
   /** TOTAL time the AI may take, retry included; default AI_BUDGET_MS. Must fit inside the route's maxDuration. */
   timeoutMs?: number;
   /** what the parser found besides text (src/lib/parsers): fonts, images with alt text, dominant colours */
-  parsed?: { fonts: string[]; images: ImageRef[]; colours: ImageColour[]; textPair?: { fg: string; bg: string; share: number; strokeLike: boolean } | null };
+  parsed?: { fonts: string[]; images: ImageRef[]; colours: ImageColour[]; textPair?: { fg: string; bg: string; share: number; strokeLike: boolean } | null; hidden?: { text: string; why: string }[] };
   /** Flesch–Kincaid target for this channel; default 12 */
   maxReadingGrade?: number;
 };
@@ -87,15 +88,22 @@ export async function runAudit(input: AuditInput): Promise<AuditResult> {
   // 1. deterministic checks (Confidential Guard only for public content)
   const ruleFindings: Finding[] = [
     ...(input.audience === "public" ? findLeaks(content, internalTerms) : []),
+    ...(input.audience === "public" ? findSecrets(content) : []),
     ...factLeaks,
     ...checkTerms(content, knowledge.terms),
     ...checkExpiredFacts(content, knowledge.facts.map((f) => ({ code: f.code, statement: f.statement, validUntil: f.validUntil })), today),
+    // structured facts: public ones only, since a finding quotes the fact's statement
+    ...checkStructuredFacts(content, knowledge.facts.filter((f) => f.visibility === "public").map((f) => ({
+      code: f.code, statement: f.statement, validUntil: f.validUntil, metric: f.metric ?? null, value: f.value ?? null, unit: f.unit ?? null,
+      period: f.period ?? null, currency: f.currency ?? null, region: f.region ?? null, product: f.product ?? null, condition: f.condition ?? null,
+    })), today),
     ...checkRulePack(content, undefined, new Set(knowledge.disabledPackRules ?? [])),
     ...checkReadability(content, input.maxReadingGrade),
   ];
   const assets = knowledge.assets ?? [];
   const parsed = input.parsed;
   if (parsed) {
+    ruleFindings.push(...hiddenTextFindings(content, parsed.hidden ?? []));
     ruleFindings.push(...checkAltText(parsed.images));
     ruleFindings.push(...checkFonts(parsed.fonts, assets.filter((a) => a.type === "font").map((a) => ({ name: a.fontName || a.name }))));
     ruleFindings.push(...checkPalette(parsed.colours, assets.filter((a) => a.type === "color" && a.hex).map((a) => ({ name: a.name, hex: a.hex! }))));

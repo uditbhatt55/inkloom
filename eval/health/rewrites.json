@@ -1,0 +1,222 @@
+{
+  "about": "Labelled 'unclear rule' cases for the 'Suggest a rewrite' helper: a clause reviewers often overrule, the overruled quotes with the reviewers' reasons, and words the rewrite must keep so the rule keeps its intent. Drafted by Claude (Claude Code) on 17 Nov 2026; to be reviewed by a team member. RW-09 to RW-12 are hard cases added after the first run: notes that mention an internal codename (the draft must not repeat it) or figures, and a rule with only one overruled example.",
+  "labelled_by": [
+    "Claude (draft)"
+  ],
+  "cases": [
+    {
+      "id": "RW-01",
+      "code": "CLAIM-02",
+      "text": "Do not use the word guaranteed.",
+      "notes": [
+        {
+          "quote": "guaranteed within one business day",
+          "reason": "support response time is contractual"
+        },
+        {
+          "quote": "response times are guaranteed",
+          "reason": "legal approved this SLA wording"
+        }
+      ],
+      "must_keep": [
+        "guarantee"
+      ]
+    },
+    {
+      "id": "RW-02",
+      "code": "TONE-03",
+      "text": "Never use exclamation marks.",
+      "notes": [
+        {
+          "quote": "Happy Diwali!",
+          "reason": "festive greeting is allowed"
+        },
+        {
+          "quote": "Congratulations!",
+          "reason": "customer milestone post"
+        }
+      ],
+      "must_keep": [
+        "exclamation"
+      ]
+    },
+    {
+      "id": "RW-03",
+      "code": "TERM-05",
+      "text": "Never abbreviate anything in customer copy.",
+      "notes": [
+        {
+          "quote": "API",
+          "reason": "industry acronym, not a product name"
+        },
+        {
+          "quote": "SSO",
+          "reason": "standard acronym our customers search for"
+        }
+      ],
+      "must_keep": [
+        "abbreviat"
+      ]
+    },
+    {
+      "id": "RW-04",
+      "code": "CLAIM-06",
+      "text": "Do not mention competitors.",
+      "notes": [
+        {
+          "quote": "migrate from Dropbox",
+          "reason": "the migration guide has to name the source"
+        },
+        {
+          "quote": "import from Google Drive",
+          "reason": "this is an integration name"
+        }
+      ],
+      "must_keep": [
+        "competitor"
+      ]
+    },
+    {
+      "id": "RW-05",
+      "code": "MSG-02",
+      "text": "Every post must include a call to action.",
+      "notes": [
+        {
+          "quote": "Our office is closed on 25 Dec",
+          "reason": "service notice, nothing to sell"
+        },
+        {
+          "quote": "Scheduled maintenance at 02:00 IST",
+          "reason": "status update"
+        }
+      ],
+      "must_keep": [
+        "call to action"
+      ]
+    },
+    {
+      "id": "RW-06",
+      "code": "TONE-07",
+      "text": "Do not use the word free.",
+      "notes": [
+        {
+          "quote": "free trial",
+          "reason": "approved offer"
+        },
+        {
+          "quote": "gluten-free snacks at the event",
+          "reason": "not a pricing claim"
+        }
+      ],
+      "must_keep": [
+        "free"
+      ]
+    },
+    {
+      "id": "RW-07",
+      "code": "A11Y-04",
+      "text": "Do not use images of text.",
+      "notes": [
+        {
+          "quote": "logo",
+          "reason": "logos are exempt under WCAG"
+        },
+        {
+          "quote": "screenshot of the dashboard",
+          "reason": "product screenshot"
+        }
+      ],
+      "must_keep": [
+        "text"
+      ]
+    },
+    {
+      "id": "RW-08",
+      "code": "CLAIM-09",
+      "text": "Never state percentages in marketing copy.",
+      "notes": [
+        {
+          "quote": "99.9% monthly uptime",
+          "reason": "approved fact FACT-07"
+        },
+        {
+          "quote": "20% off",
+          "reason": "approved promotion"
+        }
+      ],
+      "must_keep": [
+        "percent"
+      ]
+    },
+    {
+      "id": "RW-09",
+      "code": "CLAIM-02",
+      "text": "Do not describe service levels as guaranteed; refer to the SLA.",
+      "notes": [
+        {
+          "quote": "guaranteed for Project Atlas pilot customers",
+          "reason": "pilot contract for Project Atlas allows it"
+        },
+        {
+          "quote": "guaranteed response within 4 hours",
+          "reason": "enterprise SLA wording approved by legal"
+        }
+      ],
+      "must_keep": [
+        "guarantee",
+        "SLA"
+      ]
+    },
+    {
+      "id": "RW-10",
+      "code": "TONE-01",
+      "text": "Professional and plain: no slang, no exclamation-mark hype in B2B channels.",
+      "notes": [
+        {
+          "quote": "Welcome aboard!",
+          "reason": "onboarding email to a new customer, warm but fine"
+        }
+      ],
+      "must_keep": [
+        "slang",
+        "B2B"
+      ]
+    },
+    {
+      "id": "RW-11",
+      "code": "CLAIM-01",
+      "text": "Every number in public copy (uptime, customers, savings, speed) must match an approved fact.",
+      "notes": [
+        {
+          "quote": "24/7 support",
+          "reason": "a support schedule, not a performance figure"
+        },
+        {
+          "quote": "step 1 of 3",
+          "reason": "a list number, not a claim"
+        }
+      ],
+      "must_keep": [
+        "approved fact"
+      ]
+    },
+    {
+      "id": "RW-12",
+      "code": "TONE-02",
+      "text": "Speak to the customer as \"you\"; avoid \"users\" in marketing copy.",
+      "notes": [
+        {
+          "quote": "user guide",
+          "reason": "product document name"
+        },
+        {
+          "quote": "users of Acme Retail",
+          "reason": "case study quote from the customer"
+        }
+      ],
+      "must_keep": [
+        "you"
+      ]
+    }
+  ]
+}

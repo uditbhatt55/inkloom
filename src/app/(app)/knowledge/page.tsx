@@ -26,7 +26,7 @@ export default async function KnowledgePage({ searchParams }: { searchParams: Pr
   const [{ data: clauses }, { data: history }, { data: facts }, { data: terms }, { data: assets }] = await Promise.all([
     db.from("guideline_clauses").select("id, code, category, text, examples_do, examples_dont, status, version, source_page").eq("org_id", orgId).order("code"),
     db.from("guideline_clause_history").select("id, clause_id, version, text, changed_at").eq("org_id", orgId).order("version", { ascending: false }),
-    db.from("approved_facts").select("id, code, statement, valid_from, valid_until, visibility, owner_name, evidence_ref").eq("org_id", orgId).order("code"),
+    db.from("approved_facts").select("id, code, statement, valid_from, valid_until, visibility, owner_name, evidence_ref, metric, value, unit, period, currency, region, product, condition").eq("org_id", orgId).order("code"),
     db.from("terminology").select("id, code, term, kind, replacement, owner_name").eq("org_id", orgId).order("code"),
     db.from("brand_assets").select("id, name, type, hex, font_name, rules, file_path").eq("org_id", orgId).order("type").order("name"),
   ]);

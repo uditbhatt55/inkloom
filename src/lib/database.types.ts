@@ -17,19 +17,19 @@ export type Database = {
   public: {
     Tables: {
       activity_log: {
-        Row: { action: string; actor_id: string | null; at: string; id: number; org_id: string; target_id: string | null; target_table: string }
+        Row: { action: string; actor_id: string | null; at: string; detail: Json | null; id: number; org_id: string; target_id: string | null; target_table: string }
         Insert: { action: string; actor_id?: string | null; at?: string; id?: never; org_id: string; target_id?: string | null; target_table: string }
         Update: { action?: string; actor_id?: string | null; at?: string; id?: never; org_id?: string; target_id?: string | null; target_table?: string }
         Relationships: Rel[]
       }
       approved_facts: {
-        Row: { code: string; created_at: string; evidence_ref: string | null; id: string; org_id: string; owner_name: string | null; statement: string; updated_at: string; valid_from: string | null; valid_until: string | null; visibility: E["visibility"] }
-        Insert: { code: string; created_at?: string; evidence_ref?: string | null; id?: string; org_id: string; owner_name?: string | null; statement: string; updated_at?: string; valid_from?: string | null; valid_until?: string | null; visibility?: E["visibility"] }
-        Update: { code?: string; created_at?: string; evidence_ref?: string | null; id?: string; org_id?: string; owner_name?: string | null; statement?: string; updated_at?: string; valid_from?: string | null; valid_until?: string | null; visibility?: E["visibility"] }
+        Row: { currency: string | null; metric: string | null; period: string | null; product: string | null; region: string | null; unit: string | null; value: number | null; condition: string | null; code: string; created_at: string; evidence_ref: string | null; id: string; org_id: string; owner_name: string | null; statement: string; updated_at: string; valid_from: string | null; valid_until: string | null; visibility: E["visibility"] }
+        Insert: { currency?: string | null; metric?: string | null; period?: string | null; product?: string | null; region?: string | null; unit?: string | null; value?: number | null; condition?: string | null; code: string; created_at?: string; evidence_ref?: string | null; id?: string; org_id: string; owner_name?: string | null; statement: string; updated_at?: string; valid_from?: string | null; valid_until?: string | null; visibility?: E["visibility"] }
+        Update: { currency?: string | null; metric?: string | null; period?: string | null; product?: string | null; region?: string | null; unit?: string | null; value?: number | null; condition?: string | null; code?: string; created_at?: string; evidence_ref?: string | null; id?: string; org_id?: string; owner_name?: string | null; statement?: string; updated_at?: string; valid_from?: string | null; valid_until?: string | null; visibility?: E["visibility"] }
         Relationships: Rel[]
       }
       audit_runs: {
-        Row: { ai_available: boolean; created_at: string; id: string; mode: string; model: string | null; org_id: string; prompt_ver: string | null; requested_by: string | null; score: number | null; version_id: string; warnings: string[] }
+        Row: { ai_available: boolean; created_at: string; id: string; knowledge_rev: number | null; mode: string; model: string | null; org_id: string; prompt_ver: string | null; requested_by: string | null; score: number | null; version_id: string; warnings: string[] }
         Insert: { ai_available?: boolean; created_at?: string; id?: string; mode: string; model?: string | null; org_id: string; prompt_ver?: string | null; requested_by?: string | null; score?: number | null; version_id: string; warnings?: string[] }
         Update: { ai_available?: boolean; created_at?: string; id?: string; mode?: string; model?: string | null; org_id?: string; prompt_ver?: string | null; requested_by?: string | null; score?: number | null; version_id?: string; warnings?: string[] }
         Relationships: Rel[]
@@ -65,8 +65,8 @@ export type Database = {
         Relationships: Rel[]
       }
       decisions: {
-        Row: { author_id: string; created_at: string; decision: E["decision_kind"]; finding_id: string | null; id: string; item_id: string; org_id: string; reason: string | null; version_id: string }
-        Insert: { author_id: string; created_at?: string; decision: E["decision_kind"]; finding_id?: string | null; id?: string; item_id: string; org_id: string; reason?: string | null; version_id: string }
+        Row: { author_id: string; content_sha256: string | null; created_at: string; decision: E["decision_kind"]; expires_at: string | null; finding_id: string | null; id: string; item_id: string; knowledge_rev: number | null; org_id: string; reason: string | null; run_id: string | null; version_id: string }
+        Insert: { author_id: string; created_at?: string; decision: E["decision_kind"]; expires_at?: string | null; finding_id?: string | null; id?: string; item_id: string; org_id: string; reason?: string | null; version_id: string }
         Update: { author_id?: string; created_at?: string; decision?: E["decision_kind"]; finding_id?: string | null; id?: string; item_id?: string; org_id?: string; reason?: string | null; version_id?: string }
         Relationships: Rel[]
       }
@@ -94,8 +94,14 @@ export type Database = {
         Update: { org_id?: string; role?: E["member_role"]; user_id?: string }
         Relationships: Rel[]
       }
+      notifications: {
+        Row: { body: string; created_at: string; id: number; item_id: string | null; kind: string; org_id: string; read_at: string | null; user_id: string }
+        Insert: { body: string; created_at?: string; id?: never; item_id?: string | null; kind: string; org_id: string; read_at?: string | null; user_id: string }
+        Update: { read_at?: string | null }
+        Relationships: Rel[]
+      }
       organizations: {
-        Row: { created_at: string; demo: boolean; id: string; name: string }
+        Row: { created_at: string; demo: boolean; id: string; knowledge_rev: number; name: string }
         Insert: { created_at?: string; demo?: boolean; id?: string; name: string }
         Update: { created_at?: string; demo?: boolean; id?: string; name?: string }
         Relationships: Rel[]
@@ -110,6 +116,7 @@ export type Database = {
     Views: { [_ in never]: never }
     Functions: {
       save_audit: { Args: { p: Json }; Returns: string }
+      record_audit_attempt: { Args: { p_user: string; p_since: string }; Returns: number }
     }
     Enums: {
       confidence: "high" | "medium" | "low"

@@ -8,7 +8,7 @@ const limits = { burstMax: 3, burstMinutes: 10, dailyMax: 5 };
 const NOW = new Date("2026-11-14T12:00:00Z");
 const counter = (user: number, org: number): Counter & { calls: Date[] } => {
   const calls: Date[] = [];
-  return { calls, userRuns: async (s) => { calls.push(s); return user; }, orgRealRuns: async (s) => { calls.push(s); return org; } };
+  return { calls, userAttempts: async (s) => { calls.push(s); return user; }, orgRealRuns: async (s) => { calls.push(s); return org; } };
 };
 
 describe("gateAudit", () => {
@@ -42,7 +42,7 @@ describe("gateAudit", () => {
 
   it("a counting error never blocks anyone: the audit runs on the chosen reviewer and the error is logged", async () => {
     const log = vi.spyOn(console, "error").mockImplementation(() => {});
-    const broken: Counter = { userRuns: async () => { throw new Error("db down"); }, orgRealRuns: async () => 0 };
+    const broken: Counter = { userAttempts: async () => { throw new Error("db down"); }, orgRealRuns: async () => 0 };
     expect(await gateAudit(broken, real, limits, NOW)).toEqual({ kind: "ok", ai: real, notes: [] });
     expect(log).toHaveBeenCalled();
     log.mockRestore();

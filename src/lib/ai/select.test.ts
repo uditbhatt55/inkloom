@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import recording from "./recordings/northbeam-post.json";
-import { chooseReviewer } from "./select";
+import { chooseReviewer, effort } from "./select";
 
 const azure = { AZURE_OPENAI_ENDPOINT: "https://x.openai.azure.com/openai/v1", AZURE_OPENAI_API_KEY: "test-key", AZURE_DEPLOYMENT_DEFAULT: "gpt-6-luna" };
 
@@ -19,5 +19,11 @@ describe("chooseReviewer", () => {
     const r = chooseReviewer({});
     expect(await r.review({ messages: [], content: recording.content })).toEqual(recording.response);
     expect(await r.review({ messages: [], content: "something new" })).toBeNull();
+  });
+});
+
+describe("reasoning effort setting", () => {
+  it("passes only low, medium or high to the API, case-insensitive; anything else uses the model's default", () => {
+    expect([effort("low"), effort("HIGH"), effort("fast"), effort(undefined)]).toEqual(["low", "high", undefined, undefined]);
   });
 });

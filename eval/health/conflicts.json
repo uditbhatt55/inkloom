@@ -1,0 +1,345 @@
+{
+  "about": "Labelled clause sets for the 'Compare rules with AI' helper. Each set is one category; 'expected' lists the pairs that truly contradict (following one breaks the other). Overlap, repetition and compatible rules are NOT conflicts. Cases CF/NC/MX are easy controls; HC (hard conflicts), HN (hard non-conflicts, near misses) and SEED (the demo organisation's real clauses) were added after the easy set scored 100%. Drafted by Claude (Claude Code) on 17 Nov 2026; to be reviewed by a team member.",
+  "labelled_by": [
+    "Claude (draft)"
+  ],
+  "cases": [
+    {
+      "id": "CF-01",
+      "category": "tone",
+      "clauses": {
+        "TONE-A": "Always use a formal tone and never use contractions.",
+        "TONE-B": "Write in a casual, friendly voice and use contractions such as we're and you'll."
+      },
+      "expected": [
+        [
+          "TONE-A",
+          "TONE-B"
+        ]
+      ]
+    },
+    {
+      "id": "CF-02",
+      "category": "claim",
+      "clauses": {
+        "CLAIM-A": "Never promise an uptime figure in marketing copy; link to the SLA page instead.",
+        "CLAIM-B": "Every product page must state our 99.9% uptime guarantee in the first paragraph."
+      },
+      "expected": [
+        [
+          "CLAIM-A",
+          "CLAIM-B"
+        ]
+      ]
+    },
+    {
+      "id": "CF-03",
+      "category": "terminology",
+      "clauses": {
+        "TERM-A": "Always write the product name in full as Northbeam Sync, every time it appears.",
+        "TERM-B": "After the first mention, shorten the product name to Sync."
+      },
+      "expected": [
+        [
+          "TERM-A",
+          "TERM-B"
+        ]
+      ]
+    },
+    {
+      "id": "CF-04",
+      "category": "messaging",
+      "clauses": {
+        "MSG-A": "Open every customer email with the customer's problem, not with our news.",
+        "MSG-B": "Open every customer email with our latest product announcement."
+      },
+      "expected": [
+        [
+          "MSG-A",
+          "MSG-B"
+        ]
+      ]
+    },
+    {
+      "id": "CF-05",
+      "category": "claim",
+      "clauses": {
+        "CLAIM-A": "Do not name competitors in any content.",
+        "CLAIM-B": "Comparison tables must name the top three competitors and their prices."
+      },
+      "expected": [
+        [
+          "CLAIM-A",
+          "CLAIM-B"
+        ]
+      ]
+    },
+    {
+      "id": "CF-06",
+      "category": "tone",
+      "clauses": {
+        "TONE-A": "Use British spelling (colour, organise).",
+        "TONE-B": "Use American spelling (color, organize) everywhere."
+      },
+      "expected": [
+        [
+          "TONE-A",
+          "TONE-B"
+        ]
+      ]
+    },
+    {
+      "id": "CF-07",
+      "category": "visual",
+      "clauses": {
+        "VIS-A": "The logo may only sit on a plain white or navy background.",
+        "VIS-B": "In hero banners, place the logo on the brand gradient."
+      },
+      "expected": [
+        [
+          "VIS-A",
+          "VIS-B"
+        ]
+      ]
+    },
+    {
+      "id": "CF-08",
+      "category": "messaging",
+      "clauses": {
+        "MSG-A": "Every social post must end with exactly one call to action.",
+        "MSG-B": "Social posts must not contain any call to action; they are for awareness only."
+      },
+      "expected": [
+        [
+          "MSG-A",
+          "MSG-B"
+        ]
+      ]
+    },
+    {
+      "id": "NC-01",
+      "category": "tone",
+      "clauses": {
+        "TONE-A": "Use the active voice.",
+        "TONE-B": "Keep sentences under 25 words."
+      },
+      "expected": []
+    },
+    {
+      "id": "NC-02",
+      "category": "claim",
+      "clauses": {
+        "CLAIM-A": "Do not use the word guaranteed.",
+        "CLAIM-B": "Cite a source for every statistic."
+      },
+      "expected": []
+    },
+    {
+      "id": "NC-03",
+      "category": "terminology",
+      "clauses": {
+        "TERM-A": "Write Northbeam Sync in full on first mention.",
+        "TERM-B": "After the first mention, Sync on its own is allowed."
+      },
+      "expected": []
+    },
+    {
+      "id": "NC-04",
+      "category": "messaging",
+      "clauses": {
+        "MSG-A": "End every email with one call to action.",
+        "MSG-B": "Mention the free trial in onboarding emails."
+      },
+      "expected": []
+    },
+    {
+      "id": "NC-05",
+      "category": "accessibility",
+      "clauses": {
+        "A11Y-A": "Text contrast must meet WCAG AA.",
+        "A11Y-B": "Do not convey meaning by colour alone."
+      },
+      "expected": []
+    },
+    {
+      "id": "NC-06",
+      "category": "claim",
+      "clauses": {
+        "CLAIM-A": "Avoid absolute words such as always and never in product claims.",
+        "CLAIM-B": "Do not promise delivery dates."
+      },
+      "expected": []
+    },
+    {
+      "id": "NC-07",
+      "category": "tone",
+      "clauses": {
+        "TONE-A": "Avoid jargon.",
+        "TONE-B": "Prefer plain words over technical jargon."
+      },
+      "expected": []
+    },
+    {
+      "id": "NC-08",
+      "category": "messaging",
+      "clauses": {
+        "MSG-A": "Lead with the customer's problem.",
+        "MSG-B": "Keep email subject lines under 60 characters.",
+        "MSG-C": "Use sentence case in headings."
+      },
+      "expected": []
+    },
+    {
+      "id": "MX-01",
+      "category": "tone",
+      "clauses": {
+        "TONE-A": "Use the active voice.",
+        "TONE-B": "Never use exclamation marks.",
+        "TONE-C": "End every promotional headline with an exclamation mark.",
+        "TONE-D": "Keep sentences short."
+      },
+      "expected": [
+        [
+          "TONE-B",
+          "TONE-C"
+        ]
+      ]
+    },
+    {
+      "id": "HC-01",
+      "category": "tone",
+      "clauses": {
+        "TONE-A": "Holiday emails must open with a festive emoji.",
+        "TONE-B": "Do not use emoji in any email."
+      },
+      "expected": [
+        [
+          "TONE-A",
+          "TONE-B"
+        ]
+      ]
+    },
+    {
+      "id": "HC-02",
+      "category": "claim",
+      "clauses": {
+        "CLAIM-A": "Quote customer counts only as rounded figures, such as 'over 500 customers'.",
+        "CLAIM-B": "Every customer count must be the exact number from the approved fact, never rounded."
+      },
+      "expected": [
+        [
+          "CLAIM-A",
+          "CLAIM-B"
+        ]
+      ]
+    },
+    {
+      "id": "HC-03",
+      "category": "messaging",
+      "clauses": {
+        "MSG-A": "Press releases are written in the third person.",
+        "MSG-B": "All external content speaks as 'we' and addresses the reader as 'you'."
+      },
+      "expected": [
+        [
+          "MSG-A",
+          "MSG-B"
+        ]
+      ]
+    },
+    {
+      "id": "HC-04",
+      "category": "terminology",
+      "clauses": {
+        "TERM-A": "Use 'sign in', never 'log in'.",
+        "TERM-B": "Buttons and help articles say 'Log in' to match the product screens."
+      },
+      "expected": [
+        [
+          "TERM-A",
+          "TERM-B"
+        ]
+      ]
+    },
+    {
+      "id": "HC-05",
+      "category": "visual",
+      "clauses": {
+        "VIS-A": "Headlines use the brand font Inter at weight 700.",
+        "VIS-B": "Use only regular (400) and medium (500) weights of Inter.",
+        "VIS-C": "Body text is Inter 400 at 16 px or larger."
+      },
+      "expected": [
+        [
+          "VIS-A",
+          "VIS-B"
+        ]
+      ]
+    },
+    {
+      "id": "HN-01",
+      "category": "tone",
+      "clauses": {
+        "TONE-A": "Never use exclamation marks in B2B copy.",
+        "TONE-B": "Consumer social posts may use one exclamation mark."
+      },
+      "expected": []
+    },
+    {
+      "id": "HN-02",
+      "category": "claim",
+      "clauses": {
+        "CLAIM-A": "Do not say guaranteed.",
+        "CLAIM-B": "Describe service levels by linking to the SLA page."
+      },
+      "expected": []
+    },
+    {
+      "id": "HN-03",
+      "category": "terminology",
+      "clauses": {
+        "TERM-A": "Write Northbeam Vault in full in headings.",
+        "TERM-B": "In body text, Vault on its own is fine after the first mention."
+      },
+      "expected": []
+    },
+    {
+      "id": "HN-04",
+      "category": "messaging",
+      "clauses": {
+        "MSG-A": "Every campaign email includes one call to action.",
+        "MSG-B": "Service notices and outage updates contain no call to action."
+      },
+      "expected": []
+    },
+    {
+      "id": "HN-05",
+      "category": "accessibility",
+      "clauses": {
+        "A11Y-A": "Every informative image needs alt text.",
+        "A11Y-B": "Purely decorative images use empty alt text so screen readers skip them."
+      },
+      "expected": []
+    },
+    {
+      "id": "SEED-CLAIM",
+      "category": "claim",
+      "clauses": {
+        "CLAIM-01": "Every number in public copy (uptime, customers, savings, speed) must match an approved fact.",
+        "CLAIM-02": "Do not describe service levels as guaranteed; refer to the SLA.",
+        "CLAIM-03": "Do not call Northbeam the best, #1 or market leader unless an approved fact supports it.",
+        "CLAIM-04": "Do not claim legal compliance (GDPR, DPDP, HIPAA). Describe the security feature instead."
+      },
+      "expected": []
+    },
+    {
+      "id": "SEED-TONE",
+      "category": "tone",
+      "clauses": {
+        "TONE-01": "Professional and plain: no slang, no exclamation-mark hype in B2B channels.",
+        "TONE-02": "Speak to the customer as \"you\"; avoid \"users\" in marketing copy."
+      },
+      "expected": []
+    }
+  ]
+}

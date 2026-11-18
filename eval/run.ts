@@ -12,6 +12,7 @@ import { readFileSync, readdirSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import type { Knowledge } from "@/lib/ai/brandpack";
 import { azureReviewer, type AiReviewer } from "@/lib/ai/reviewer";
+import { effort } from "@/lib/ai/select";
 import { runAudit, type AuditResult } from "@/lib/audit/pipeline";
 import type { Finding } from "@/lib/audit/types";
 
@@ -27,8 +28,11 @@ const useAi = process.argv.includes("--ai");
 const raw = JSON.parse(readFileSync("seed/northbeam/knowledge.json", "utf8"));
 const knowledge: Knowledge = {
   clauses: raw.clauses.map((c: { code: string; category: string; text: string }) => ({ code: c.code, category: c.category, text: c.text, status: "active" })),
-  facts: raw.facts.map((f: { code: string; statement: string; valid_from: string | null; valid_until: string | null; visibility: "public" | "internal" }) =>
-    ({ code: f.code, statement: f.statement, validFrom: f.valid_from, validUntil: f.valid_until, visibility: f.visibility })),
+  // structured fields (Round 3) are passed through when the seed has them
+  facts: raw.facts.map((f: { code: string; statement: string; valid_from: string | null; valid_until: string | null; visibility: "public" | "internal" } & Record<string, unknown>) =>
+    ({ code: f.code, statement: f.statement, validFrom: f.valid_from, validUntil: f.valid_until, visibility: f.visibility,
+      metric: f.metric ?? null, value: f.value ?? null, unit: f.unit ?? null, period: f.period ?? null, currency: f.currency ?? null,
+      region: f.region ?? null, product: f.product ?? null, condition: f.condition ?? null })),
   terms: raw.terms.map((t: { code: string; term: string; kind: "preferred" | "banned" | "internal"; replacement: string | null }) =>
     ({ code: t.code, term: t.term, kind: t.kind, replacement: t.replacement })),
   assets: [
@@ -42,7 +46,7 @@ function reviewer(): AiReviewer | null {
   try { process.loadEnvFile(".env.local"); } catch { /* variables may already be set */ }
   const { AZURE_OPENAI_ENDPOINT: endpoint, AZURE_OPENAI_API_KEY: apiKey, AZURE_DEPLOYMENT_DEFAULT: deployment } = process.env;
   if (!endpoint || !apiKey || !deployment) { console.error("--ai needs AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY and AZURE_DEPLOYMENT_DEFAULT in .env.local"); process.exit(2); }
-  return azureReviewer({ endpoint, apiKey, deployment });
+  return azureReviewer({ endpoint, apiKey, deployment, reasoningEffort: effort(process.env.AZURE_REASONING_EFFORT) });
 }
 
 const norm = (s: string) => s.toLowerCase().replace(/\s+/g, " ").trim();
@@ -70,7 +74,7 @@ async function audit(c: Case, ai: AiReviewer | null): Promise<AuditResult> {
   });
 }
 
-type Row = { id: string; found: number; expected: number; hit: number; truePos: number; extra: string[]; missed: string[]; aiMode: string };
+type Row = { id: string; found: number; expected: number; hit: number; truePos: number; extra: string[]; missed: string[]; aiMode: string; aiNote?: string };
 
 async function main() {
   const dir = "eval/cases";
@@ -86,6 +90,8 @@ async function main() {
     const r = await audit(c, ai);
     if (ai && r.aiMode !== "real") aiFailed++;
     const row: Row = { id: c.id, found: r.findings.length, expected: c.expected.length, hit: 0, truePos: 0, extra: [], missed: [], aiMode: r.aiMode };
+    // why the AI did not run on this case, so a failed run can be told apart from a weak one
+    if (r.aiMode !== "real") row.aiNote = r.warnings.find((w) => /AI/.test(w));
     for (const e of c.expected) {
       cat(e.category).expected++;
       const hit = r.findings.some((f) => matches(f, e, c.content));
@@ -106,7 +112,7 @@ async function main() {
   const sum = (k: "expected" | "hit" | "found" | "tp" | "foundHigh" | "tpHigh") => Object.values(perCat).reduce((a, x) => a + x[k], 0);
   const pct = (a: number, b: number) => (b ? Math.round((a / b) * 1000) / 10 : null);
   const summary = {
-    mode: ai ? "rules+ai" : "rules-only", ai_model: ai?.model ?? null, today: TODAY, cases: cases.length,
+    mode: ai ? "rules+ai" : "rules-only", ai_model: ai?.model ?? null, reasoning_effort: ai ? effort(process.env.AZURE_REASONING_EFFORT) ?? "default" : null, today: TODAY, cases: cases.length,
     expected: sum("expected"), found: sum("found"),
     recall_pct: pct(sum("hit"), sum("expected")),
     precision_pct: pct(sum("tp"), sum("found")),
@@ -118,7 +124,8 @@ async function main() {
   };
 
   mkdirSync("eval/results", { recursive: true });
-  const file = `eval/results/${summary.mode}.json`;
+  // a run with a non-default reasoning effort is written beside the default one, never over it
+  const file = `eval/results/${summary.mode}${summary.reasoning_effort && summary.reasoning_effort !== "default" ? `-effort-${summary.reasoning_effort}` : ""}.json`;
   writeFileSync(file, JSON.stringify({ summary, cases: rows }, null, 2) + "\n");
 
   console.log(`\nINKLOOM eval (${summary.mode}${ai ? `, ${ai.model}` : ""}), ${cases.length} cases, today = ${TODAY}\n`);

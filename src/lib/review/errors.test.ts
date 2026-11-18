@@ -15,6 +15,9 @@ describe("friendlyDbError", () => {
     expect(friendlyDbError({ code: "23505", message: "dup" })).toMatch(/already saved/);
     expect(friendlyDbError({ code: "PGRST301", message: "JWT expired" })).toMatch(/session has expired/);
     expect(friendlyDbError({ message: "TypeError: Failed to fetch" })).toMatch(/connection/);
+    expect(friendlyDbError({ code: "P0001", message: "approval blocked: not the latest version" })).toMatch(/latest version/);
+    expect(friendlyDbError({ code: "P0001", message: "approval blocked: version not audited" })).toMatch(/not been audited/);
+    expect(friendlyDbError({ code: "P0001", message: "approval blocked: audit is stale" })).toMatch(/Audit it again/);
   });
 
   it("never echoes raw database text", () => {

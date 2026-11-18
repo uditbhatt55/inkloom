@@ -5,9 +5,9 @@
     "today": "2026-11-15",
     "cases": 48,
     "expected": 69,
-    "found": 49,
-    "recall_pct": 52.2,
-    "precision_pct": 79.6,
+    "found": 51,
+    "recall_pct": 55.1,
+    "precision_pct": 80.4,
     "precision_high_confidence_pct": 100,
     "codename_recall_pct": 100,
     "internal_fact_recall_pct": 100,
@@ -17,8 +17,8 @@
     "by_category": {
       "factual": {
         "expected": 8,
-        "recall_pct": 25,
-        "found": 2,
+        "recall_pct": 50,
+        "found": 4,
         "precision_pct": 100
       },
       "claim": {
@@ -68,15 +68,14 @@
   "cases": [
     {
       "id": "EV-CLAIM-01",
-      "found": 1,
+      "found": 2,
       "expected": 5,
-      "hit": 0,
-      "truePos": 0,
+      "hit": 1,
+      "truePos": 1,
       "extra": [
         "tone/medium: transform your"
       ],
       "missed": [
-        "factual: 99.99% monthly uptime",
         "claim: guaranteed",
         "claim: India's #1 file-sync platform",
         "claim: the thousands of businesses",
@@ -188,15 +187,14 @@
     },
     {
       "id": "EV-FACTUAL-04",
-      "found": 2,
+      "found": 3,
       "expected": 3,
-      "hit": 1,
-      "truePos": 1,
+      "hit": 2,
+      "truePos": 2,
       "extra": [
         "accessibility/medium: Reading grade 12.9"
       ],
       "missed": [
-        "factual: Northbeam Vault starts at INR 699 per month",
         "factual: used by teams in 41 countries"
       ],
       "aiMode": "skipped"

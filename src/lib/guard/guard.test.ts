@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { findLeaks, maskForAi, maskPii } from "./guard";
+import { findLeaks, findSecrets, hiddenTextFindings, maskForAi, maskPii } from "./guard";
 
 const terms = [{ code: "TERM-31", term: "Project Atlas" }, { code: "TERM-40", term: "Acme Corp" }];
 
@@ -74,5 +74,33 @@ describe("maskForAi", () => {
     expect(out).toHaveLength(text.length);
     expect(out).not.toMatch(/Atlas|a@b/);
     expect(out).toContain("Northbeam Sync is great.");
+  });
+});
+
+describe("secrets and identity numbers (Round 3)", () => {
+  const text = "PAN ABCPE1234F, Aadhaar 2345 6789 0123, key sk-proj-abcdefghijklmnopqrstuvwxyz123456 and AKIAABCDEFGHIJKLMNOP.";
+
+  it("are masked before any model call, keeping the length", () => {
+    const out = maskForAi(text, []);
+    expect(out).toHaveLength(text.length);
+    for (const secret of ["ABCPE1234F", "2345 6789 0123", "sk-proj-abcdefghijklmnopqrstuvwxyz123456", "AKIAABCDEFGHIJKLMNOP"]) expect(out).not.toContain(secret);
+    expect(out).toContain("PAN ");
+  });
+
+  it("are Critical confidentiality findings with exact offsets; ordinary words and codes are not", () => {
+    const f = findSecrets(text);
+    expect(f.map((x) => x.ruleCode)).toEqual(["GUARD-PAN", "GUARD-KEY", "GUARD-KEY"]);
+    expect(f.every((x) => text.slice(x.start, x.end) === x.quote && x.severity === "critical")).toBe(true);
+    expect(findSecrets("Use code SAVE20NOW, order NB-2026-11, plan PRO and file report.pdf")).toEqual([]);
+  });
+});
+
+describe("hidden text (Round 3)", () => {
+  it("points at the hidden block in the audited text, or is whole-document when it cannot be found", () => {
+    const content = "Northbeam Sync keeps files in step.\nProject Atlas launches in March.";
+    const [a, b] = hiddenTextFindings(content, [{ text: "Project Atlas launches in March.", why: "display: none" }, { text: "not in the text", why: "hidden attribute" }]);
+    expect([a.start, a.end, content.slice(a.start, a.end), a.ruleCode, a.severity]).toEqual([36, 68, "Project Atlas launches in March.", "GUARD-HIDDEN", "major"]);
+    expect([b.start, b.end]).toEqual([-1, -1]);
+    expect(a.explanation).toMatch(/display: none/);
   });
 });

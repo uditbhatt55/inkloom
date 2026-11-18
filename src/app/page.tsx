@@ -66,7 +66,7 @@ export default function Home() {
               <Button asChild size="lg" className={`${pill} shadow-[0_8px_20px_-10px_rgb(91_75_138/.6)]`}><Link href="/login">Try the demo, no sign-up</Link></Button>
               <Button asChild size="lg" variant="outline" className={`${pill} ${soft}`}><Link href="/dashboard">Open INKLOOM</Link></Button>
             </div>
-            <p className="font-mono text-xs text-zinc-500">An audit takes about 40 seconds because it runs on a live AI model. Demo results are labelled “Simulated analysis”.</p>
+            <p className="font-mono text-xs text-zinc-500">An audit takes about 40 seconds because it runs on a live AI model. If the AI is switched off, results are labelled “Simulated analysis”.</p>
           </div>
         </div>
       </HeroScene>
@@ -161,7 +161,7 @@ export default function Home() {
       <footer className="border-t px-6 py-8">
         <div className="mx-auto flex max-w-[1200px] flex-wrap justify-between gap-6 text-sm text-muted-foreground">
           <p>INKLOOM AI · Team Specfix</p>
-          <p className="max-w-xl text-xs">AI review runs on Azure AI Foundry when enabled; rule checks run on our server. Demo results are labelled “Simulated analysis”.</p>
+          <p className="max-w-xl text-xs">AI review runs on Azure AI Foundry when enabled; rule checks run on our server. If the AI is switched off, results are labelled “Simulated analysis”.</p>
         </div>
       </footer>
     </div>

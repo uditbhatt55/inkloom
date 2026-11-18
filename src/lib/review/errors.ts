@@ -14,6 +14,10 @@ export function friendlyDbError(err: DbError): string {
     const n = Number(blocked[1]);
     return `Approval is blocked: ${n} critical finding${n === 1 ? " is" : "s are"} still open. Fix ${n === 1 ? "it" : "them"} in a new version, or waive with a written reason.`;
   }
+  if (msg.includes("not the latest version")) return "Only the latest version can be approved. Open the newest version and review that.";
+  if (msg.includes("version not audited")) return "This version has not been audited yet, so it cannot be approved.";
+  if (msg.includes("audit is stale")) return "Guidelines, facts or terms changed after this audit. Audit it again before approving.";
+  if (msg.includes("waiver expiry must be in the future")) return "The waiver end date must be after today.";
   if (msg.includes("version does not belong")) return "This version no longer matches the item. Reload the page and try again.";
   if (msg.includes("only a reviewer or owner")) return "Only a reviewer or owner who did not write this content can dismiss, waive or resolve a finding.";
   if (code === "42501" || msg.includes("row-level security") || msg.includes("permission denied")) return "You don't have permission to do that.";

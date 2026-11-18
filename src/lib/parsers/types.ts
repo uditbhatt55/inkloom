@@ -17,6 +17,8 @@ export type ParsedContent = {
   /** pageStarts: offset in `text` where each PDF page begins (page n starts at pageStarts[n-1]) */
   meta: { pages?: number; pageStarts?: number[]; width?: number; height?: number; url?: string };
   warnings: string[];
+  /** web pages: text that is in the page but not shown to readers (hidden attribute or inline CSS), with why */
+  hidden?: { text: string; why: string }[];
 };
 
 export type ParseErrorCode = "too_large" | "unsupported" | "no_text_layer" | "invalid" | "fetch_blocked" | "fetch_failed";

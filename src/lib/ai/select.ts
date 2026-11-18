@@ -8,6 +8,8 @@ export const DEMO_RECORDINGS: Record<string, unknown> = Object.fromEntries(RECOR
 export type AiEnv = {
   DEMO_MODE?: string; AZURE_OPENAI_ENDPOINT?: string; AZURE_OPENAI_API_KEY?: string;
   AZURE_DEPLOYMENT_DEFAULT?: string;
+  /** "low" | "medium" | "high"; unset = the model's default (src/lib/ai/reviewer.ts) */
+  AZURE_REASONING_EFFORT?: string;
 };
 
 /**
@@ -18,6 +20,9 @@ export type AiEnv = {
 export function chooseReviewer(env: AiEnv = process.env as AiEnv): AiReviewer {
   const demo = (env.DEMO_MODE ?? "true").toLowerCase() !== "false";
   const { AZURE_OPENAI_ENDPOINT: endpoint, AZURE_OPENAI_API_KEY: apiKey, AZURE_DEPLOYMENT_DEFAULT: deployment } = env;
-  if (!demo && endpoint && apiKey && deployment) return azureReviewer({ endpoint, apiKey, deployment });
+  if (!demo && endpoint && apiKey && deployment) return azureReviewer({ endpoint, apiKey, deployment, reasoningEffort: effort(env.AZURE_REASONING_EFFORT) });
   return simulatedReviewer(DEMO_RECORDINGS);
 }
+
+/** Only the values the API accepts; anything else falls back to the model's default. */
+export const effort = (v: string | undefined) => (v && ["low", "medium", "high"].includes(v.toLowerCase()) ? v.toLowerCase() : undefined);

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, FileText, HeartPulse, Plus } from "lucide-react";
+import { Bell, BookOpen, FileText, HeartPulse, Plus } from "lucide-react";
 import { cn } from "cn";
 import { SignOutButton } from "@/components/sign-out-button";
 
@@ -13,6 +13,8 @@ export type ShellProps = {
   email: string | null;
   showHealth: boolean;
   showNewAudit: boolean;
+  /** unread notifications, shown on the Activity link */
+  unread: number;
 };
 
 const NAV = [
@@ -20,7 +22,17 @@ const NAV = [
   { href: "/audit/new", label: "New audit", short: "Audit", icon: Plus, match: ["/audit"] },
   { href: "/knowledge", label: "Knowledge Centre", short: "Knowledge", icon: BookOpen, match: ["/knowledge"] },
   { href: "/health", label: "Brand Health", short: "Health", icon: HeartPulse, match: ["/health"] },
+  { href: "/activity", label: "Activity", short: "Activity", icon: Bell, match: ["/activity"] },
 ] as const;
+
+function Unread({ n }: { n: number }) {
+  return (
+    <span className="ml-auto rounded-full bg-primary px-1.5 text-[10px] font-semibold leading-4 text-primary-foreground">
+      {n > 9 ? "9+" : n}
+      <span className="sr-only"> unread</span>
+    </span>
+  );
+}
 
 function initials(name: string) {
   return name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]!.toUpperCase()).join("");
@@ -82,6 +94,7 @@ export function AppSidebar(p: ShellProps) {
               >
                 <Icon className="size-4 shrink-0" aria-hidden="true" />
                 <span className="md:sr-only lg:not-sr-only">{n.label}</span>
+                {n.href === "/activity" && p.unread > 0 && <Unread n={p.unread} />}
               </Link>
             );
           })}
@@ -125,6 +138,7 @@ export function AppSidebar(p: ShellProps) {
             >
               <Icon className="size-5" aria-hidden="true" />
               {n.short}
+              {n.href === "/activity" && p.unread > 0 && <Unread n={p.unread} />}
             </Link>
           );
         })}

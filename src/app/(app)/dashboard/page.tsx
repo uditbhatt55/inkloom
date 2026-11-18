@@ -155,16 +155,16 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
         </div>
       ) : (
         <div className="overflow-x-auto rounded-xl border bg-card">
-          <table className="w-full min-w-[720px] text-sm">
+          <table className="w-full text-sm sm:min-w-[720px]">
             <caption className="sr-only">Content items, newest first{filtered ? ", filtered" : ""}</caption>
             <thead className="border-b bg-muted/50 text-left text-xs text-muted-foreground">
               <tr>
                 <th scope="col" className="px-4 py-3 font-medium">Title</th>
-                <th scope="col" className="px-4 py-3 font-medium">Channel</th>
-                <th scope="col" className="px-4 py-3 font-medium">Version</th>
+                <th scope="col" className="hidden px-4 py-3 font-medium sm:table-cell">Channel</th>
+                <th scope="col" className="hidden px-4 py-3 font-medium sm:table-cell">Version</th>
                 <th scope="col" className="px-4 py-3 font-medium">Score</th>
                 <th scope="col" className="px-4 py-3 font-medium">Status</th>
-                <th scope="col" className="px-4 py-3 font-medium">Last audit</th>
+                <th scope="col" className="hidden px-4 py-3 font-medium sm:table-cell">Last audit</th>
               </tr>
             </thead>
             <tbody>
@@ -174,11 +174,11 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
                 return (
                   <tr key={i.id} className="border-b transition-colors duration-150 last:border-0 hover:bg-muted/40">
                     <td className="px-4 py-3.5"><Link href={`/items/${i.id}`} className="font-medium underline-offset-4 hover:underline">{i.title}</Link></td>
-                    <td className="px-4 py-3.5 text-muted-foreground">{i.channel ?? "—"}</td>
-                    <td className="px-4 py-3.5 font-mono text-xs">{v ? `v${v.n}` : "—"}</td>
+                    <td className="hidden px-4 py-3.5 text-muted-foreground sm:table-cell">{i.channel ?? "—"}</td>
+                    <td className="hidden px-4 py-3.5 font-mono text-xs sm:table-cell">{v ? `v${v.n}` : "—"}</td>
                     <td className="px-4 py-3.5 font-mono tabular-nums">{run?.score ?? "—"}</td>
                     <td className="px-4 py-3.5"><Badge className={STATUS_STYLE[i.status]}>{STATUS_LABEL[i.status]}</Badge></td>
-                    <td className="px-4 py-3.5 text-muted-foreground">{run ? <time dateTime={run.at}>{when.format(new Date(run.at))}</time> : "—"}</td>
+                    <td className="hidden px-4 py-3.5 text-muted-foreground sm:table-cell">{run ? <time dateTime={run.at}>{when.format(new Date(run.at))}</time> : "—"}</td>
                   </tr>
                 );
               })}

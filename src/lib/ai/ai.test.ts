@@ -98,6 +98,14 @@ describe("azureReviewer", () => {
     const hang: typeof fetch = (_u, init) => new Promise((_res, rej) => init!.signal!.addEventListener("abort", () => rej(new Error("aborted"))));
     await expect(azureReviewer({ ...cfg, timeoutMs: 20 }, hang).review(req)).rejects.toThrow("aborted");
   });
+
+  it("sends reasoning_effort only when it is set", async () => {
+    const bodies: Record<string, unknown>[] = [];
+    const spy: typeof fetch = async (_u, init) => { bodies.push(JSON.parse(String(init!.body))); return completion('{"findings":[]}'); };
+    await azureReviewer({ ...cfg, reasoningEffort: "low" }, spy).review(req);
+    await azureReviewer(cfg, spy).review(req);
+    expect([bodies[0].reasoning_effort, "reasoning_effort" in bodies[1]]).toEqual(["low", false]);
+  });
 });
 
 describe("simulatedReviewer", () => {
