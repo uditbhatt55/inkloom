@@ -8,6 +8,7 @@ import { findInternalFactLeaks, maskSpans } from "@/lib/guard/internal-facts";
 import { contrastFinding, contrastRatio } from "@/lib/rules/contrast";
 import { checkExpiredFacts, linkFacts } from "@/lib/rules/facts";
 import { checkStructuredFacts } from "@/lib/rules/structured-facts";
+import { checkAsciSgc } from "@/lib/rules/asci-sgc";
 import { checkRulePack } from "@/lib/rules/rulepack";
 import { safeSuggestion } from "@/lib/rules/suggestion";
 import { checkTerms } from "@/lib/rules/terms";
@@ -98,6 +99,7 @@ export async function runAudit(input: AuditInput): Promise<AuditResult> {
       period: f.period ?? null, currency: f.currency ?? null, region: f.region ?? null, product: f.product ?? null, condition: f.condition ?? null,
     })), today),
     ...checkRulePack(content, undefined, new Set(knowledge.disabledPackRules ?? [])),
+    ...checkAsciSgc(content, new Set(knowledge.disabledPackRules ?? [])),
     ...checkReadability(content, input.maxReadingGrade),
   ];
   const assets = knowledge.assets ?? [];

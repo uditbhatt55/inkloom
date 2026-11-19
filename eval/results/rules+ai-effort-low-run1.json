@@ -1,0 +1,575 @@
+{
+  "summary": {
+    "mode": "rules+ai",
+    "ai_model": "gpt-6-luna",
+    "reasoning_effort": "low",
+    "today": "2026-11-15",
+    "cases": 48,
+    "expected": 73,
+    "found": 80,
+    "recall_pct": 93.2,
+    "precision_pct": 91.3,
+    "precision_high_confidence_pct": 97.8,
+    "codename_recall_pct": 100,
+    "internal_fact_recall_pct": 100,
+    "clean_cases": 12,
+    "clean_cases_with_findings": 1,
+    "ai_not_real": 0,
+    "by_category": {
+      "factual": {
+        "expected": 8,
+        "recall_pct": 100,
+        "found": 9,
+        "precision_pct": 88.9
+      },
+      "claim": {
+        "expected": 15,
+        "recall_pct": 86.7,
+        "found": 15,
+        "precision_pct": 93.3
+      },
+      "tone": {
+        "expected": 10,
+        "recall_pct": 100,
+        "found": 16,
+        "precision_pct": 87.5
+      },
+      "accessibility": {
+        "expected": 8,
+        "recall_pct": 87.5,
+        "found": 10,
+        "precision_pct": 70
+      },
+      "terminology": {
+        "expected": 8,
+        "recall_pct": 100,
+        "found": 8,
+        "precision_pct": 100
+      },
+      "confidentiality": {
+        "expected": 13,
+        "recall_pct": 100,
+        "found": 13,
+        "precision_pct": 100
+      },
+      "messaging": {
+        "expected": 6,
+        "recall_pct": 66.7,
+        "found": 4,
+        "precision_pct": 100
+      },
+      "visual": {
+        "expected": 5,
+        "recall_pct": 100,
+        "found": 5,
+        "precision_pct": 100
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "EV-CLAIM-01",
+      "found": 5,
+      "expected": 6,
+      "hit": 5,
+      "truePos": 5,
+      "extra": [],
+      "missed": [
+        "claim: never lets you down"
+      ],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CLAIM-02",
+      "found": 3,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 3,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CLAIM-03",
+      "found": 4,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 3,
+      "extra": [
+        "tone/medium: meaningful"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CLAIM-04",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CLAIM-05",
+      "found": 5,
+      "expected": 5,
+      "hit": 4,
+      "truePos": 4,
+      "extra": [
+        "factual/high: 100% reliable"
+      ],
+      "missed": [
+        "claim: 100% reliable"
+      ],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CLAIM-06",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-FACTUAL-01",
+      "found": 4,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 3,
+      "extra": [
+        "accessibility/medium: Reading grade 12.2"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-FACTUAL-02",
+      "found": 3,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [
+        "accessibility/medium: Reading grade 13.3"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-FACTUAL-03",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-FACTUAL-04",
+      "found": 4,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 3,
+      "extra": [
+        "accessibility/medium: Reading grade 12.9"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-FACTUAL-05",
+      "found": 3,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 3,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-FACTUAL-06",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TERM-01",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TERM-02",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TERM-03",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TERM-04",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TERM-05",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TERM-06",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CONF-01",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CONF-02",
+      "found": 2,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CONF-03",
+      "found": 2,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CONF-04",
+      "found": 2,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CONF-05",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-CONF-06",
+      "found": 3,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 3,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TONE-01",
+      "found": 3,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 3,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TONE-02",
+      "found": 2,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TONE-03",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TONE-04",
+      "found": 4,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 4,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TONE-05",
+      "found": 2,
+      "expected": 3,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [
+        "messaging: Northbeam Cloud today announced an exciting new chapter for Northbeam Sync"
+      ],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-TONE-06",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-MSG-01",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-MSG-02",
+      "found": 1,
+      "expected": 2,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [
+        "messaging: Northbeam Vault starts at INR 499 per month. Northbeam Sync is used by teams in 14 countries, has a 99.9% monthly uptime backed by our SLA, and encrypts files at rest with AES-256."
+      ],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-MSG-03",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-MSG-04",
+      "found": 2,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-MSG-05",
+      "found": 2,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-MSG-06",
+      "found": 7,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 6,
+      "extra": [
+        "claim/medium: seamless"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-VIS-01",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-VIS-02",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-VIS-03",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-VIS-04",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-VIS-05",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-VIS-06",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-ACC-01",
+      "found": 1,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-ACC-02",
+      "found": 1,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [
+        "tone/medium: meaningful"
+      ],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-ACC-03",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-ACC-04",
+      "found": 0,
+      "expected": 1,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [
+        "accessibility: banner-low-contrast.png"
+      ],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-ACC-05",
+      "found": 2,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    },
+    {
+      "id": "EV-ACC-06",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "real"
+    }
+  ]
+}

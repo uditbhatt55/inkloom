@@ -5,11 +5,11 @@
     "reasoning_effort": "low",
     "today": "2026-11-15",
     "cases": 48,
-    "expected": 69,
-    "found": 77,
-    "recall_pct": 85.5,
-    "precision_pct": 83.1,
-    "precision_high_confidence_pct": 95.2,
+    "expected": 73,
+    "found": 79,
+    "recall_pct": 90.4,
+    "precision_pct": 88.6,
+    "precision_high_confidence_pct": 97.6,
     "codename_recall_pct": 100,
     "internal_fact_recall_pct": 100,
     "clean_cases": 12,
@@ -18,33 +18,33 @@
     "by_category": {
       "factual": {
         "expected": 8,
-        "recall_pct": 100,
-        "found": 10,
-        "precision_pct": 80
+        "recall_pct": 87.5,
+        "found": 8,
+        "precision_pct": 87.5
       },
       "claim": {
         "expected": 15,
-        "recall_pct": 60,
-        "found": 11,
-        "precision_pct": 90.9
+        "recall_pct": 86.7,
+        "found": 15,
+        "precision_pct": 93.3
       },
       "tone": {
-        "expected": 9,
-        "recall_pct": 88.9,
+        "expected": 10,
+        "recall_pct": 90,
         "found": 15,
-        "precision_pct": 80
+        "precision_pct": 86.7
       },
       "accessibility": {
-        "expected": 5,
-        "recall_pct": 80,
-        "found": 10,
-        "precision_pct": 40
+        "expected": 8,
+        "recall_pct": 87.5,
+        "found": 9,
+        "precision_pct": 66.7
       },
       "messaging": {
         "expected": 6,
         "recall_pct": 66.7,
-        "found": 5,
-        "precision_pct": 80
+        "found": 6,
+        "precision_pct": 66.7
       },
       "terminology": {
         "expected": 8,
@@ -69,21 +69,15 @@
   "cases": [
     {
       "id": "EV-CLAIM-01",
-      "found": 2,
-      "expected": 5,
-      "hit": 1,
-      "truePos": 1,
-      "extra": [
-        "tone/medium: transform your"
-      ],
+      "found": 5,
+      "expected": 6,
+      "hit": 5,
+      "truePos": 5,
+      "extra": [],
       "missed": [
-        "claim: guaranteed",
-        "claim: India's #1 file-sync platform",
-        "claim: the thousands of businesses",
         "claim: never lets you down"
       ],
-      "aiMode": "failed",
-      "aiNote": "AI review failed (This operation was aborted); showing rule-based results only."
+      "aiMode": "real"
     },
     {
       "id": "EV-CLAIM-02",
@@ -98,11 +92,10 @@
     {
       "id": "EV-CLAIM-03",
       "found": 4,
-      "expected": 2,
-      "hit": 2,
-      "truePos": 2,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 3,
       "extra": [
-        "accessibility/medium: Reading grade 14.8",
         "tone/medium: meaningful"
       ],
       "missed": [],
@@ -110,22 +103,23 @@
     },
     {
       "id": "EV-CLAIM-04",
-      "found": 0,
+      "found": 1,
       "expected": 0,
       "hit": 0,
       "truePos": 0,
-      "extra": [],
+      "extra": [
+        "messaging/medium: Northbeam Sync helps your team keep files in step across dev"
+      ],
       "missed": [],
       "aiMode": "real"
     },
     {
       "id": "EV-CLAIM-05",
       "found": 5,
-      "expected": 4,
-      "hit": 3,
-      "truePos": 3,
+      "expected": 5,
+      "hit": 4,
+      "truePos": 4,
       "extra": [
-        "accessibility/medium: Reading grade 16.7",
         "factual/high: 100% reliable"
       ],
       "missed": [
@@ -135,13 +129,11 @@
     },
     {
       "id": "EV-CLAIM-06",
-      "found": 1,
+      "found": 0,
       "expected": 0,
       "hit": 0,
       "truePos": 0,
-      "extra": [
-        "messaging/medium: Northbeam Sync helps teams keep files in step across devices"
-      ],
+      "extra": [],
       "missed": [],
       "aiMode": "real"
     },
@@ -194,24 +186,25 @@
     {
       "id": "EV-FACTUAL-05",
       "found": 3,
-      "expected": 2,
-      "hit": 2,
-      "truePos": 2,
-      "extra": [
-        "accessibility/medium: Reading grade 15.7"
-      ],
+      "expected": 3,
+      "hit": 3,
+      "truePos": 3,
+      "extra": [],
       "missed": [],
       "aiMode": "real"
     },
     {
       "id": "EV-FACTUAL-06",
-      "found": 1,
+      "found": 0,
       "expected": 1,
-      "hit": 1,
-      "truePos": 1,
+      "hit": 0,
+      "truePos": 0,
       "extra": [],
-      "missed": [],
-      "aiMode": "real"
+      "missed": [
+        "factual: used by teams in 41 countries"
+      ],
+      "aiMode": "failed",
+      "aiNote": "AI review failed (This operation was aborted); showing rule-based results only."
     },
     {
       "id": "EV-TERM-01",
@@ -409,14 +402,12 @@
     },
     {
       "id": "EV-MSG-02",
-      "found": 1,
+      "found": 2,
       "expected": 2,
-      "hit": 1,
-      "truePos": 1,
+      "hit": 2,
+      "truePos": 2,
       "extra": [],
-      "missed": [
-        "messaging: Northbeam Vault starts at INR 499 per month. Northbeam Sync is used by teams in 14 countries, has a 99.9% monthly uptime backed by our SLA, and encrypts files at rest with AES-256."
-      ],
+      "missed": [],
       "aiMode": "real"
     },
     {
@@ -433,14 +424,10 @@
       "id": "EV-MSG-04",
       "found": 2,
       "expected": 2,
-      "hit": 1,
-      "truePos": 1,
-      "extra": [
-        "factual/high: 100% reliable for every customer."
-      ],
-      "missed": [
-        "claim: the service is 100% reliable for every customer."
-      ],
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
       "aiMode": "real"
     },
     {
@@ -455,23 +442,27 @@
     },
     {
       "id": "EV-MSG-06",
-      "found": 7,
+      "found": 6,
       "expected": 3,
-      "hit": 3,
-      "truePos": 6,
+      "hit": 2,
+      "truePos": 5,
       "extra": [
         "claim/medium: seamless"
       ],
-      "missed": [],
+      "missed": [
+        "messaging: Introducing the next evolution of intelligent file orchestration for modern work. Northbeam Sync combines AES-256 encryption at rest, a 99.9% monthly uptime SLA and a cloud drive experience built for distributed teams."
+      ],
       "aiMode": "real"
     },
     {
       "id": "EV-VIS-01",
-      "found": 1,
+      "found": 2,
       "expected": 1,
       "hit": 1,
       "truePos": 1,
-      "extra": [],
+      "extra": [
+        "messaging/medium: Your team should recognise Northbeam Sync at a glance."
+      ],
       "missed": [],
       "aiMode": "real"
     },
@@ -571,10 +562,10 @@
     },
     {
       "id": "EV-ACC-05",
-      "found": 2,
+      "found": 1,
       "expected": 1,
       "hit": 1,
-      "truePos": 2,
+      "truePos": 1,
       "extra": [],
       "missed": [],
       "aiMode": "real"

@@ -43,6 +43,13 @@
         "quote": "never lets you down",
         "rule_id": "CLAIM-02",
         "why": "An absolute reliability promise; service levels should refer to the SLA instead."
+      },
+      {
+        "category": "tone",
+        "severity": "minor",
+        "quote": "transform your",
+        "rule_id": "PACK-EMPTY-VERB",
+        "why": "Empty verb: it does not say what changes. Added by UB on 19 Nov 2026 (eval/precision-review.md, B1)."
       }
     ]
   },
@@ -95,6 +102,13 @@
         "quote": "save every customer at least 40% in operating costs",
         "rule_id": "CLAIM-01",
         "why": "The knowledge base contains no approved evidence for this customer savings claim."
+      },
+      {
+        "category": "accessibility",
+        "severity": "minor",
+        "quote": "Reading grade",
+        "rule_id": "READABILITY",
+        "why": "Reads at about grade 14.8, well above the grade-12 target for public copy. Added by UB on 19 Nov 2026 (eval/precision-review.md, A)."
       }
     ]
   },
@@ -146,6 +160,13 @@
         "quote": "fully DPDP-compliant",
         "rule_id": "CLAIM-04",
         "why": "The guidelines prohibit claims of legal compliance. The actual security features should be described instead."
+      },
+      {
+        "category": "accessibility",
+        "severity": "minor",
+        "quote": "Reading grade",
+        "rule_id": "READABILITY",
+        "why": "Reads at about grade 16.7, well above the grade-12 target for public copy. Added by UB on 19 Nov 2026 (eval/precision-review.md, A)."
       }
     ]
   },
@@ -286,6 +307,13 @@
         "quote": "Project Atlas",
         "rule_id": "TERM-31",
         "why": "Project Atlas is an internal codename and must not be disclosed in public content."
+      },
+      {
+        "category": "accessibility",
+        "severity": "minor",
+        "quote": "Reading grade",
+        "rule_id": "READABILITY",
+        "why": "Reads at about grade 15.7, well above the grade-12 target for public copy. Added by UB on 19 Nov 2026 (eval/precision-review.md, A)."
       }
     ]
   },

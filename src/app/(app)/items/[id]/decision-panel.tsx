@@ -40,6 +40,7 @@ export function DecisionPanel({
   const [activeForm, setActiveForm] = useState<"request_changes" | "reject" | "waive" | null>(null);
   const [reason, setReason] = useState("");
   const [expiresOn, setExpiresOn] = useState(""); // optional waiver end date, YYYY-MM-DD
+  const [carryForward, setCarryForward] = useState(false); // waiver also covers later versions (migration 20261119000000)
   const [selectedFindingId, setSelectedFindingId] = useState<string>(
     findings.find((f) => f.severity === "critical" && f.status === "open")?.id ?? findings[0]?.id ?? ""
   );
@@ -102,6 +103,7 @@ export function DecisionPanel({
         reason: reason.trim(),
         // the waiver holds until the end of that day in India
         expires_at: expiresOn ? `${expiresOn}T23:59:59+05:30` : null,
+        carry_forward: carryForward,
         author_id: currentUserId,
       });
       setBusy(false);
@@ -251,6 +253,15 @@ export function DecisionPanel({
                       onChange={(e) => setExpiresOn(e.target.value)}
                       className="h-9 w-full rounded-md border border-input bg-transparent px-3 text-xs shadow-xs"
                     />
+                    <label className="flex items-start gap-2 pt-1 text-xs text-muted-foreground">
+                      <input
+                        type="checkbox"
+                        className="mt-0.5"
+                        checked={carryForward}
+                        onChange={(e) => setCarryForward(e.target.checked)}
+                      />
+                      Also waive it in later versions of this post if the same rule flags the same words again
+                    </label>
                   </div>
                 )}
 

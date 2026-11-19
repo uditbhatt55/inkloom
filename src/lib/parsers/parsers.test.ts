@@ -1,7 +1,7 @@
 import JSZip from "jszip";
 import sharp from "sharp";
 import { describe, expect, it, vi } from "vitest";
-import { minimalPdf } from "../../../tests/fixtures/make-pdf";
+import { minimalPdf, pdfFromContent } from "../../../tests/fixtures/make-pdf";
 import { fetchPage, isPrivateAddress, parseHtmlContent } from "./html";
 import { dominantColours } from "./image";
 import { parseUpload, sniff } from "./index";
@@ -219,5 +219,32 @@ describe("hidden text in web pages (Round 3)", () => {
     ]);
     expect(p.text).toContain("Project Atlas pricing leaks here");
     expect(p.warnings.join(" ")).toMatch(/3 blocks of text are in the page but hidden/);
+  });
+});
+
+describe("hidden text in PDFs (Round 3)", () => {
+  const visible = "BT /F1 12 Tf 72 720 Td (Northbeam Sync keeps every file in step across devices.) Tj ET";
+
+  it("reports invisible text mode, white text on a white page and text under 1 pt, and keeps it in the audited text", async () => {
+    const p = await parseUpload(pdfFromContent([
+      visible,
+      "q BT 3 Tr /F1 12 Tf 72 700 Td (Project Atlas launches in March) Tj ET Q",
+      "q BT 1 1 1 rg /F1 12 Tf 72 680 Td (cloud drive best file sync) Tj ET Q",
+      "BT /F1 12 Tf 72 660 Td (Visible again after restore.) Tj ET",
+      "BT /F1 0.5 Tf 72 640 Td (tiny stuffed keywords) Tj ET",
+    ].join("\n")));
+    expect(p.hidden).toEqual([
+      { text: "Project Atlas launches in March", why: "invisible text mode" },
+      { text: "cloud drive best file sync", why: "white text on a white page" },
+      { text: "tiny stuffed keywords", why: "text smaller than 1 pt" },
+    ]);
+    expect(p.text).toContain("Project Atlas launches in March");
+    expect(p.warnings.join(" ")).toMatch(/3 blocks of text are in the file but hidden/);
+  });
+
+  it("does not report white text on a coloured shape, or a normal PDF", async () => {
+    const banner = await parseUpload(pdfFromContent([visible, "q 0 0 0.5 rg 0 600 612 100 re f Q", "BT 1 g /F1 12 Tf 72 650 Td (White title on a navy banner) Tj ET"].join("\n")));
+    expect(banner.hidden).toEqual([]);
+    expect((await parseUpload(minimalPdf(["Northbeam Sync delivers 99.9% uptime.", "Second line."]))).hidden).toEqual([]);
   });
 });
