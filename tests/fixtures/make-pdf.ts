@@ -5,7 +5,11 @@
  */
 export function minimalPdf(lines: string[], font = "Helvetica"): Uint8Array {
   const esc = (s: string) => s.replace(/[()\\]/g, (c) => "\\" + c);
-  const content = lines.map((l, i) => `BT /F1 12 Tf 72 ${720 - i * 16} Td (${esc(l)}) Tj ET`).join("\n");
+  return pdfFromContent(lines.map((l, i) => `BT /F1 12 Tf 72 ${720 - i * 16} Td (${esc(l)}) Tj ET`).join("\n"), font);
+}
+
+/** Same one-page PDF, with the page's content stream written by the test (raw PDF operators, font /F1). */
+export function pdfFromContent(content: string, font = "Helvetica"): Uint8Array {
   const objs = [
     "<< /Type /Catalog /Pages 2 0 R >>",
     "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",

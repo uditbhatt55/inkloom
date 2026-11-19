@@ -65,8 +65,8 @@ export type Database = {
         Relationships: Rel[]
       }
       decisions: {
-        Row: { author_id: string; content_sha256: string | null; created_at: string; decision: E["decision_kind"]; expires_at: string | null; finding_id: string | null; id: string; item_id: string; knowledge_rev: number | null; org_id: string; reason: string | null; run_id: string | null; version_id: string }
-        Insert: { author_id: string; created_at?: string; decision: E["decision_kind"]; expires_at?: string | null; finding_id?: string | null; id?: string; item_id: string; org_id: string; reason?: string | null; version_id: string }
+        Row: { author_id: string; content_sha256: string | null; carry_forward: boolean; created_at: string; decision: E["decision_kind"]; expires_at: string | null; finding_id: string | null; id: string; item_id: string; knowledge_rev: number | null; org_id: string; reason: string | null; run_id: string | null; version_id: string }
+        Insert: { author_id: string; carry_forward?: boolean; created_at?: string; decision: E["decision_kind"]; expires_at?: string | null; finding_id?: string | null; id?: string; item_id: string; org_id: string; reason?: string | null; version_id: string }
         Update: { author_id?: string; created_at?: string; decision?: E["decision_kind"]; finding_id?: string | null; id?: string; item_id?: string; org_id?: string; reason?: string | null; version_id?: string }
         Relationships: Rel[]
       }

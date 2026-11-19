@@ -1,0 +1,617 @@
+{
+  "summary": {
+    "mode": "rules-only",
+    "ai_model": null,
+    "today": "2026-11-15",
+    "cases": 48,
+    "expected": 69,
+    "found": 51,
+    "recall_pct": 55.1,
+    "precision_pct": 80.4,
+    "precision_high_confidence_pct": 100,
+    "codename_recall_pct": 100,
+    "internal_fact_recall_pct": 100,
+    "clean_cases": 12,
+    "clean_cases_with_findings": 1,
+    "ai_not_real": 0,
+    "by_category": {
+      "factual": {
+        "expected": 8,
+        "recall_pct": 50,
+        "found": 4,
+        "precision_pct": 100
+      },
+      "claim": {
+        "expected": 15,
+        "recall_pct": 6.7,
+        "found": 3,
+        "precision_pct": 66.7
+      },
+      "tone": {
+        "expected": 9,
+        "recall_pct": 33.3,
+        "found": 9,
+        "precision_pct": 66.7
+      },
+      "accessibility": {
+        "expected": 5,
+        "recall_pct": 80,
+        "found": 9,
+        "precision_pct": 33.3
+      },
+      "terminology": {
+        "expected": 8,
+        "recall_pct": 100,
+        "found": 8,
+        "precision_pct": 100
+      },
+      "confidentiality": {
+        "expected": 13,
+        "recall_pct": 100,
+        "found": 13,
+        "precision_pct": 100
+      },
+      "messaging": {
+        "expected": 6,
+        "recall_pct": 0,
+        "found": 0,
+        "precision_pct": null
+      },
+      "visual": {
+        "expected": 5,
+        "recall_pct": 100,
+        "found": 5,
+        "precision_pct": 100
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "EV-CLAIM-01",
+      "found": 2,
+      "expected": 5,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [
+        "tone/medium: transform your"
+      ],
+      "missed": [
+        "claim: guaranteed",
+        "claim: India's #1 file-sync platform",
+        "claim: the thousands of businesses",
+        "claim: never lets you down"
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-CLAIM-02",
+      "found": 2,
+      "expected": 2,
+      "hit": 1,
+      "truePos": 2,
+      "extra": [],
+      "missed": [
+        "claim: the best platform"
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-CLAIM-03",
+      "found": 2,
+      "expected": 2,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [
+        "accessibility/medium: Reading grade 14.8",
+        "tone/medium: meaningful"
+      ],
+      "missed": [
+        "claim: 10x faster file collaboration",
+        "claim: save every customer at least 40% in operating costs"
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-CLAIM-04",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-CLAIM-05",
+      "found": 1,
+      "expected": 4,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [
+        "accessibility/medium: Reading grade 16.7"
+      ],
+      "missed": [
+        "claim: 100% reliable",
+        "claim: guaranteed to maintain uninterrupted availability",
+        "claim: the market leader",
+        "claim: fully DPDP-compliant"
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-CLAIM-06",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-FACTUAL-01",
+      "found": 4,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 3,
+      "extra": [
+        "accessibility/medium: Reading grade 12.2"
+      ],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-FACTUAL-02",
+      "found": 1,
+      "expected": 2,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [
+        "accessibility/medium: Reading grade 13.3"
+      ],
+      "missed": [
+        "factual: 99.99% monthly uptime",
+        "factual: AES-128"
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-FACTUAL-03",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-FACTUAL-04",
+      "found": 3,
+      "expected": 3,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [
+        "accessibility/medium: Reading grade 12.9"
+      ],
+      "missed": [
+        "factual: used by teams in 41 countries"
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-FACTUAL-05",
+      "found": 3,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [
+        "accessibility/medium: Reading grade 15.7"
+      ],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-FACTUAL-06",
+      "found": 0,
+      "expected": 1,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [
+        "factual: used by teams in 41 countries"
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-TERM-01",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-TERM-02",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-TERM-03",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-TERM-04",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-TERM-05",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-TERM-06",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-CONF-01",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-CONF-02",
+      "found": 2,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-CONF-03",
+      "found": 2,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-CONF-04",
+      "found": 2,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 2,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-CONF-05",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-CONF-06",
+      "found": 3,
+      "expected": 3,
+      "hit": 3,
+      "truePos": 3,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-TONE-01",
+      "found": 1,
+      "expected": 3,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [
+        "tone: Big news from Northbeam Cloud!!!",
+        "tone: Our users"
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-TONE-02",
+      "found": 0,
+      "expected": 2,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [
+        "tone: our users",
+        "tone: Our users"
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-TONE-03",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-TONE-04",
+      "found": 0,
+      "expected": 3,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [
+        "tone: Stop babysitting files",
+        "tone: It is stupidly simple to get moving, and the experience is a total no-brainer for busy teams.",
+        "claim: Northbeam Sync is 10x faster than ordinary sync tools"
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-TONE-05",
+      "found": 1,
+      "expected": 3,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [
+        "claim: the market-leading file sync experience",
+        "messaging: Northbeam Cloud today announced an exciting new chapter for Northbeam Sync"
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-TONE-06",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-MSG-01",
+      "found": 0,
+      "expected": 1,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [
+        "messaging: Northbeam Sync uses AES-256 encryption at rest and is backed by a 99.9% monthly uptime SLA."
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-MSG-02",
+      "found": 1,
+      "expected": 2,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [
+        "messaging: Northbeam Vault starts at INR 499 per month. Northbeam Sync is used by teams in 14 countries, has a 99.9% monthly uptime backed by our SLA, and encrypts files at rest with AES-256."
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-MSG-03",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-MSG-04",
+      "found": 0,
+      "expected": 2,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [
+        "messaging: Northbeam Cloud has engineered a powerful sync platform with advanced infrastructure, AES-256 encryption at rest and a 99.9% monthly uptime SLA.",
+        "claim: the service is 100% reliable for every customer."
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-MSG-05",
+      "found": 1,
+      "expected": 2,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [
+        "messaging: Northbeam Cloud today announced new platform capabilities across its product portfolio, including expanded planning for Northbeam Sync and future mobile experiences."
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-MSG-06",
+      "found": 6,
+      "expected": 3,
+      "hit": 2,
+      "truePos": 5,
+      "extra": [
+        "claim/medium: seamless"
+      ],
+      "missed": [
+        "messaging: Introducing the next evolution of intelligent file orchestration for modern work. Northbeam Sync combines AES-256 encryption at rest, a 99.9% monthly uptime SLA and a cloud drive experience built for distributed teams."
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-VIS-01",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-VIS-02",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-VIS-03",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-VIS-04",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-VIS-05",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-VIS-06",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-ACC-01",
+      "found": 1,
+      "expected": 2,
+      "hit": 2,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-ACC-02",
+      "found": 1,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [
+        "tone/medium: meaningful"
+      ],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-ACC-03",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-ACC-04",
+      "found": 0,
+      "expected": 1,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [
+        "accessibility: banner-low-contrast.png"
+      ],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-ACC-05",
+      "found": 1,
+      "expected": 1,
+      "hit": 1,
+      "truePos": 1,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    },
+    {
+      "id": "EV-ACC-06",
+      "found": 0,
+      "expected": 0,
+      "hit": 0,
+      "truePos": 0,
+      "extra": [],
+      "missed": [],
+      "aiMode": "skipped"
+    }
+  ]
+}
