@@ -2,7 +2,7 @@
 
 Brand-governance checkpoint: checks content against an organisation's approved guidelines, facts, terminology and assets before publication. Every finding cites its source; a human makes every decision. The AI never approves anything.
 
-Team **Specfix** · CodeNova India 2026 · Plan: [`PLAN.md`](PLAN.md) · Decisions: [`docs/decisions.md`](docs/decisions.md)
+Team **Specfix** · Plan: [`PLAN.md`](PLAN.md) · Decisions: [`docs/decisions.md`](docs/decisions.md)
 
 ## Try it (no sign-up)
 
@@ -18,7 +18,7 @@ The demo organisation is a fictional company, *Northbeam Cloud*, with its brand 
 5. Sign out, press **Try the demo → Reviewer**, open the post from **Content** and **Approve** it. Try approving a post that still has an open Critical finding: the database refuses it.
 6. As the owner, open **Brand Health** to see the most common mistakes, rules that reviewers often overrule (with an AI-suggested rewrite), and approved posts that rely on a fact that has since changed or expired.
 
-The demo accounts are shared, so you may see other judges' posts. The demo data is restored to its starting state every night at 01:00 IST.
+The demo accounts are shared, so you may see other visitors' posts. The demo data is restored to its starting state every night at 01:00 IST.
 
 ## What works
 
@@ -36,7 +36,7 @@ The demo accounts are shared, so you may see other judges' posts. The demo data 
 - Uploaded files are kept (private Storage bucket) and can be opened again from the post; after a fix only the text is audited again, not the file.
 - An internal fact reworded with neither its figure nor its name (and spelled-out numbers) is not caught; reworded figures are flagged as a hint to check.
 - Logos are stored for the team but not yet checked against content (no logo recognition).
-- Usability: so far one guided walkthrough by a person from outside the team, who completed the basic flow and the file tests; it led to the web page fix below. No timings or ratings yet; the five-person test in `docs/usability/kit.md` is planned for Round 3. Notes: [`docs/usability/results-round2.md`](docs/usability/results-round2.md).
+- Usability: so far one guided walkthrough by a person from outside the team, who completed the basic flow and the file tests; it led to the web page fix below. No timings or ratings yet; the five-person test in `docs/usability/kit.md` is planned for the next release. Notes: [`docs/usability/results-round2.md`](docs/usability/results-round2.md).
 - A web page is audited from its main content (`<main>`, or the page's only `<article>`); menus are skipped. A page with neither is read whole, so very busy pages (many images, long language lists) can still give noisy results.
 - If text tries to instruct the AI ("ignore all previous instructions…"), Azure's jailbreak filter refuses the request; the audit then returns the rule checks only, with a note that AI checks were skipped.
 
