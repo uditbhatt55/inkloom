@@ -26,7 +26,7 @@ Both: Structured Outputs ✔, image input ✔, context 1,050,000, **max input 92
 | gpt-6.1-sol | Global | Global Standard | **250K TPM** (0 used) |
 | gpt-6.1-sol | APAC Data Zone | Data Zone Standard | 100K TPM |
 
-= Tier 1 level. Enough for the hackathon (an audit is ~4K tokens → ~60 audits/minute).
+= Tier 1 level. Enough for the public demo (an audit is ~4K tokens → ~60 audits/minute).
 
 ## Deployment (13 Nov 2026)
 | Item | Value |

@@ -1,8 +1,8 @@
-# INKLOOM AI: build plan (Team Specfix, CodeNova India 2026)
+# INKLOOM AI: build plan (Team Specfix)
 
-Spec: `INKLOOM_AI_Round1_Proposal2.pdf` (v2). This file says how and in what order we build it.
+Spec: the project proposal (v2). This file says how and in what order we build it.
 
-Goal for Round 2: the core loop works end to end and is tested: **Knowledge Centre → audit → evidence-linked findings → revise → re-audit → approve**, with Confidential Guard and demo mode.
+Goal for the first release: the core loop works end to end and is tested: **Knowledge Centre → audit → evidence-linked findings → revise → re-audit → approve**, with Confidential Guard and demo mode.
 
 ## Rules (from proposal §11)
 - No product code before the official build window opened. The repo started fresh on day one.
@@ -42,7 +42,7 @@ Next.js App Router (Azure App Service, D29); all model calls are server-side
 | P5 Brand Health | 4 detectors, fact-impact list | **M5** on seeded history | Done: `/health` with the four detectors, AI rewrite and clause comparison, seeded history in `supabase/demo-history.sql`, Playwright test `tests/e2e/health.spec.ts` |
 | P6 Demo mode | simulated reviewer + "Simulated" labels | works with no API key | Done ("Simulated analysis" label); check again in the demo storyline |
 | P7 Test + polish | eval runner, accessibility, fixes | **M6**: accuracy numbers recorded | In progress: 48-case eval set labelled (`eval/cases`), runner not built |
-| P8 Docs + demo | README, demo video, Round 2 report | README + video | Not started |
+| P8 Docs + demo | README, demo video, project report | README + video | Not started |
 
 Gate (from proposal): nothing after M4 starts until the core-loop E2E test passes.
 
